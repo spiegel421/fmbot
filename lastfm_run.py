@@ -40,7 +40,10 @@ async def fm(ctx):
         await bot.say(username + " has never played any songs.")
         return
 
-    embed = discord.Embed(colour=0xFF0000, title=now_playing.artist.name, description=now_playing.title)
+    artist = now_playing.artist.name
+    print(artist)
+    track = now_playing.title
+    embed = discord.Embed(colour=0xFF0000, title=artist, description=track, url="https://rateyourmusic.com/search?bx=4b8d83f7a5e8ad2ae46b26f34fc65330&searchtype=a&searchterm=" + artist)
     embed.set_author(name=username, icon_url=ctx.message.author.avatar_url, url="https://www.last.fm/user/" + username)
     embed.set_thumbnail(url=now_playing.image)
     
