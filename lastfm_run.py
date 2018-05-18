@@ -39,10 +39,10 @@ async def fm(ctx):
         await bot.say(username + " has never played any songs.")
         return
 
-    embed = discord.Embed(colour=0xFF0000, title=now_playing.title, description=now_playing.artist.name)
+    embed = discord.Embed(colour=0xFF0000, title=now_playing.artist.name, description=now_playing.title, url="https://www.last.fm/music/" + now_playing.artist.name)
     embed.set_author(name=username, icon_url=ctx.message.author.avatar_url, url="https://www.last.fm/user/" + username)
     embed.set_thumbnail(url=now_playing.image)
-
+    
     await bot.say(embed=embed)
 
 @fm.error
