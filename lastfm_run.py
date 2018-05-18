@@ -11,7 +11,9 @@ def read_username_file(username_dict):
     for line in lines:
         author = line.split(",")[0]
         username = line.split(",")[1]
-        username_dict[author] = username
+        username = username.substring(0, len(username) - 1)
+        if lastfm.get_user(username) != None:
+            username_dict[author] = username
     reader.close()
 
 def rewrite_username_file(username_dict):
