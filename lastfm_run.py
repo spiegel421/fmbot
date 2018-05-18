@@ -43,7 +43,7 @@ async def fm(ctx):
     artist = now_playing.artist.name
     print(artist)
     track = now_playing.title
-    embed = discord.Embed(colour=0xFF0000, title=artist, description=track, url="https://rateyourmusic.com/search?searchtype=a&searchterm=" + artist)
+    embed = discord.Embed(colour=0xFF0000, title=artist, description=track)
     embed.set_author(name=username, icon_url=ctx.message.author.avatar_url, url="https://www.last.fm/user/" + username)
     embed.set_thumbnail(url=now_playing.image)
     
