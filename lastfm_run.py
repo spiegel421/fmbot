@@ -1,3 +1,5 @@
+# all code property of the chunk
+
 import discord
 from discord.ext import commands
 from lastfmwrapper import LastFmWrapper
@@ -26,7 +28,7 @@ username_dict = {}
 read_username_file(username_dict)
 
 @bot.command(pass_context=True)
-@commands.cooldown(1, 300, commands.BucketType.user)
+@commands.cooldown(1, 420, commands.BucketType.user)
 async def fm(ctx):
     author = str(ctx.message.author)
     if author not in username_dict:
