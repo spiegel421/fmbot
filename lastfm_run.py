@@ -68,7 +68,7 @@ async def embed_top_artists(ctx):
     
     await bot.say(embed=embed)
 
-@bot.command(pass_context=True)
+@bot.group(pass_context=True)
 async def fm(ctx):
     if ctx.invoked_subcommand is not None:
         return
