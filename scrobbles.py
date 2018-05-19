@@ -6,10 +6,10 @@ DB_NAME = 'scrobbles'
 TABLES = {}
 TABLES['scrobbles'] = (
     "CREATE TABLE `scrobbles` ("
-    "   `discord_user` varchar(100) NOT NULL,"
-    "   `lastfm_username` varchar(100) NOT NULL,"
-    "   `artist` varchar(100) NOT NULL,"
-    "   `track` varchar(200) NOT NULL,"
+    "   `discord_user` LONGTEXT NOT NULL,"
+    "   `lastfm_username` LONGTEXT NOT NULL,"
+    "   `artist` LONGTEXT NOT NULL,"
+    "   `track` LONGTEXT NOT NULL,"
     "   `timestamp` int(15) NOT NULL"
     ") ENGINE=InnoDB")
 
