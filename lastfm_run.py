@@ -1,5 +1,3 @@
-# all code property of the chunk
-
 import discord
 from discord.ext import commands
 from lastfmwrapper import LastFmWrapper
@@ -23,25 +21,28 @@ def rewrite_username_file(username_dict):
     for author, username in username_dict.items():
         writer.write(author + "," + username + "\n")
     writer.close()
+
+class UsernameNotSetError(Exception):
+    def __init__(self):
+        Exception.__init__(self)
+
+class NoHistoryError(Exception):
+    def __init__(self):
+        Exception.__init__(self)
+
+class UserNotFoundError(Exception):
+    def __init__(self):
+        Exception.__init__(self)
     
 username_dict = {}
 read_username_file(username_dict)
 
-@bot.command(pass_context=True)
+@commands.command(pass_context=True)
 @commands.cooldown(1, 420, commands.BucketType.user)
-async def fm(ctx):
+async def embed(ctx):
     author = str(ctx.message.author)
-    if author not in username_dict:
-        await bot.say("Set a username first using $fmset.")
-        return
-    else:
-        username = username_dict[author]
-    
-    now_playing = lastfm.get_now_playing(username)
-    if now_playing == None:
-        await bot.say(username + " has never played any songs.")
-        return
-
+    username = username_dict[author]
+    now_playing = lastfm.get_last_played(username)
     artist = now_playing.artist.name
     artist_search_url = "["+artist+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+artist+")").replace(" ","%20")
     track = now_playing.title
@@ -51,21 +52,37 @@ async def fm(ctx):
     
     await bot.say(embed=embed)
 
-@fm.error
-async def fm_error(error, ctx):
-    if isinstance(error, commands.CommandOnCooldown):
-        await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
-    else:
-        await bot.say("Unknown error occurred. You done fucked up big time.")
+@bot.command(pass_context=True)
+async def fm(ctx):
+    author = str(ctx.message.author)
+    if author not in username_dict:
+        await bot.say("Set a username first. Bitch.")
+        return
+    
+    username = username_dict[author]
+    last_played = lastfm.get_last_played(username)
+    if last_played == None:
+        await bot.say(username + " has never played any songs.")
+        return
+
+    await commands.Command.invoke(embed, ctx)
 
 @bot.command(pass_context=True)
 async def fmset(ctx, username):
     author = str(ctx.message.author)
-    if lastfm.get_user(username) != None:
-        username_dict[author] = username
-        await bot.say("Username set.")
-        rewrite_username_file(username_dict)
+    if lastfm.get_user(username) is None:
+        await bot.say("User not found. Try learning how to type.")
+        return
+    
+    username_dict[author] = username
+    rewrite_username_file(username_dict)
+    await bot.say("Username set. You should feel proud of yourself.")
+
+@embed.error
+async def embed_error(error, ctx):
+    if isinstance(error, commands.CommandOnCooldown):
+        await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
     else:
-        await bot.say("User not found.")
+        await bot.say("Unknown error occurred. You done fucked up big time.")
 
 bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')

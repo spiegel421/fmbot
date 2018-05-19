@@ -10,7 +10,7 @@ class LastFmWrapper:
         logging.info("Initializing Last.fm...")
         self.api = LastfmAPI()
 
-    def get_now_playing(self, user_name):
+    def get_last_played(self, user_name):
         try:
             recent_tracks = self.api.get_recent_tracks(user_name,limit=1)
             if len(recent_tracks) > 0:
