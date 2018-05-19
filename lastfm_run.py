@@ -112,6 +112,7 @@ async def embed_top_artists(ctx):
     for i in range(page * 10, (page + 1) * 10):
         description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
     embed = discord.Embed(colour=0xFF0000, description=description)
+    embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
     embed.set_footer(text="Page " + str(page+1))
     
     msg = await bot.say(embed=embed)
@@ -136,6 +137,7 @@ async def on_reaction_add(reaction, user):
         for i in range(page * 10, (page + 1) * 10):
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
         embed = discord.Embed(colour=0xFF0000, description=description)
+        embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
         embed.set_footer(text="Page " + str(page+1))
 
         topartist_msgs[reaction.message.id] = (author, page)
@@ -146,6 +148,7 @@ async def on_reaction_add(reaction, user):
         for i in range(page * 10, (page + 1) * 10):
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
         embed = discord.Embed(colour=0xFF0000, description=description)
+        embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
         embed.set_footer(text="Page " + str(page+1))
 
         topartist_msgs[reaction.message.id] = (author, page)
@@ -168,6 +171,7 @@ async def on_reaction_remove(reaction, user):
         for i in range(page * 10, (page + 1) * 10):
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
         embed = discord.Embed(colour=0xFF0000, description=description)
+        embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
         embed.set_footer(text="Page " + str(page+1))
 
         topartist_msgs[reaction.message.id] = (author, page)
@@ -178,6 +182,7 @@ async def on_reaction_remove(reaction, user):
         for i in range(page * 10, (page + 1) * 10):
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
         embed = discord.Embed(colour=0xFF0000, description=description)
+        embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
         embed.set_footer(text="Page " + str(page+1))
 
         topartist_msgs[reaction.message.id] = (author, page)
