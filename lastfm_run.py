@@ -87,7 +87,7 @@ async def fmset(ctx, username):
 
 @bot.command(pass_context=True)
 async def topartists(ctx, num_artists="10"):
-    if ctx.message.channel != bot.get_channel('245685218055290881'):
+    if ctx.message.channel != bot.get_channel('245685218055290881') or int(num_artists) > 20:
         return
     author = str(ctx.message.author)
     if author not in username_dict:
