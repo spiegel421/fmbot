@@ -6,14 +6,14 @@ DB_NAME = 'scrobbles'
 TABLES = {}
 TABLES['scrobbles'] = (
     "CREATE TABLE `scrobbles` ("
-    "   `discord_user` char(18) NOT NULL,"
+    "   `discord_user` char(100) NOT NULL,"
     "   `lastfm_username` varchar(100) NOT NULL,"
     "   `artist` varchar(100) NOT NULL,"
     "   `track` varchar(200) NOT NULL,"
     "   `timestamp` int(15) NOT NULL"
     ") ENGINE=InnoDB")
 
-cnx = mysql.connector.connect(user='root', database='scrobbles', password='Reverie42')
+cnx = mysql.connector.connect(user='root', database='scrobbles', password='Reverie42!')
 cursor = cnx.cursor()
 
 def create_database(cursor):
@@ -54,7 +54,7 @@ add_scrobble = ("INSERT INTO scrobbles "
               "VALUES (%(discord_user)s, %(lastfm_username)s, %(artist)s, %(track)s, %(timestamp)s)")
 
 def add_scrobble_data(scrobble_data):
-    cnx = mysql.connector.connect(user='root', database='scrobbles', password='Reverie42')
+    cnx = mysql.connector.connect(user='root', database='scrobbles', password='Reverie42!')
     cursor = cnx.cursor()
     
     cursor.execute(add_scrobble, scrobble_data)
