@@ -161,6 +161,7 @@ async def flip_page(reaction, msg, msg_id):
         for i in range(page * 10, (page + 1) * 10):
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
         embed = discord.Embed(colour=0xFF0000, description=description)
+        embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
         embed.set_footer(text="Page " + str(page+1))
 
     topartist_msgs[msg_id] = (author, page)
