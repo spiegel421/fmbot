@@ -343,7 +343,7 @@ class LastfmAPI:
                             image = artist['image'][i]["#text"]
 
 
-                    artist_inst = LastfmAPIArtist(name,playcount,url,image,0)
+                    artist_inst = LastfmAPIArtist(name,url,playcount,image,0)
                     artist_instances.append(artist_inst)
             return artist_instances
         except Exception as ex:
