@@ -70,6 +70,9 @@ async def embed_top_artists(ctx):
 
 @bot.command(pass_context=True)
 async def fm(ctx):
+    if ctx.invoked_subcommand is not None:
+        return
+    
     author = str(ctx.message.author)
     if author not in username_dict:
         await bot.say("Set a username first. Bitch.")
@@ -83,8 +86,8 @@ async def fm(ctx):
 
     await commands.Command.invoke(embed_now_playing, ctx)
 
-@bot.command(pass_context=True)
-async def fmset(ctx, username):
+@fm.command(pass_context=True)
+async def set(ctx, username):
     author = str(ctx.message.author)
     if lastfm.get_user(username) is None:
         await bot.say("User not found. Try learning how to type.")
@@ -94,7 +97,7 @@ async def fmset(ctx, username):
     rewrite_username_file(username_dict)
     await bot.say("Username set. You should feel proud of yourself.")
 
-@bot.command(pass_context=True)
+@fm.command(pass_context=True)
 async def topartists(ctx, num_artists="10"):
     if ctx.message.channel != bot.get_channel('245685218055290881') or int(num_artists) > 20:
         return
