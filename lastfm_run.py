@@ -1,4 +1,4 @@
-import discord
+import discord, scrobbles, time
 from discord.ext import commands
 from lastfmwrapper import LastFmWrapper
 
@@ -40,8 +40,17 @@ async def embed_now_playing(ctx):
     
     await bot.say(embed=embed)
 
+    scrobble_data = {
+        'discord_user': author,
+        'lastfm_username': username,
+        'artist': artist,
+        'track': track,
+        'timestamp': time.time(),
+    }
+    scrobbles.add_scrobble_data(scrobble_data)
+
 @commands.command(pass_context=True)
-@commands.cooldown(1, 120, commands.BucketType.user)
+@commands.cooldown(1, 420, commands.BucketType.user)
 async def embed_top_artists(ctx):
     author = str(ctx.message.author)
     num_artists = ctx.num_artists
@@ -109,6 +118,6 @@ async def embed_error(error, ctx):
     if isinstance(error, commands.CommandOnCooldown):
         await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
     else:
-        await bot.say("Unknown error occurred. You done fucked up big time.")
+        await bot.say(error)
 
 bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
