@@ -41,7 +41,7 @@ async def embed_now_playing(ctx):
     await bot.say(embed=embed)
 
 @commands.command(pass_context=True)
-@commands.cooldown(1, 420, commands.BucketType.user)
+@commands.cooldown(1, 120, commands.BucketType.user)
 async def embed_top_artists(ctx):
     author = str(ctx.message.author)
     num_artists = ctx.num_artists
