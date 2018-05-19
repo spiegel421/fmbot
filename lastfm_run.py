@@ -110,6 +110,8 @@ async def embed_top_artists(ctx):
     page = 0
     description = ""
     for i in range(page * 10, (page + 1) * 10):
+        if i >= wrapper.total_artists:
+            break
         description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
     embed = discord.Embed(colour=0xFF0000, description=description)
     embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
@@ -125,68 +127,44 @@ async def on_reaction_add(reaction, user):
     if reaction.message.id not in topartist_msgs or user is reaction.message.author:
         return
 
-    author = topartist_msgs[reaction.message.id][0]
-    page = topartist_msgs[reaction.message.id][1]
-    username = username_dict[author]
-    wrapper = lastfm.get_user_artists(username)
-    top_artists = wrapper.artists
-
-    if reaction.emoji == '➡':
-        page += 1
-        description = ""
-        for i in range(page * 10, (page + 1) * 10):
-            description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
-        embed = discord.Embed(colour=0xFF0000, description=description)
-        embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
-        embed.set_footer(text="Page " + str(page+1))
-
-        topartist_msgs[reaction.message.id] = (author, page)
-        await bot.edit_message(reaction.message, embed=embed)
-    elif reaction.emoji == '⬅' and page > 0:
-        page -= 1
-        description = ""
-        for i in range(page * 10, (page + 1) * 10):
-            description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
-        embed = discord.Embed(colour=0xFF0000, description=description)
-        embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
-        embed.set_footer(text="Page " + str(page+1))
-
-        topartist_msgs[reaction.message.id] = (author, page)
-        await bot.edit_message(reaction.message, embed=embed)
+    await flip_page(reaction, reaction.message, reaction.message.id)
 
 @bot.event
 async def on_reaction_remove(reaction, user):
     if reaction.message.id not in topartist_msgs or user is reaction.message.author:
         return
 
-    author = topartist_msgs[reaction.message.id][0]
-    page = topartist_msgs[reaction.message.id][1]
+    await flip_page(reaction, reaction.message, reaction.message.id)
+
+async def flip_page(reaction, msg, msg_id):
+    author = topartist_msgs[msg_id][0]
+    page = topartist_msgs[msg_id][1]
     username = username_dict[author]
     wrapper = lastfm.get_user_artists(username)
     top_artists = wrapper.artists
+    max_pages = wrapper.total_artists / 10 + 1
 
     if reaction.emoji == '➡':
-        page += 1
+        if page < max_pages - 1:
+            page += 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
+            if i >= wrapper.total_artists:
+                break
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
         embed = discord.Embed(colour=0xFF0000, description=description)
         embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
         embed.set_footer(text="Page " + str(page+1))
-
-        topartist_msgs[reaction.message.id] = (author, page)
-        await bot.edit_message(reaction.message, embed=embed)
     elif reaction.emoji == '⬅' and page > 0:
         page -= 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
         embed = discord.Embed(colour=0xFF0000, description=description)
-        embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
         embed.set_footer(text="Page " + str(page+1))
 
-        topartist_msgs[reaction.message.id] = (author, page)
-        await bot.edit_message(reaction.message, embed=embed)
+    topartist_msgs[msg_id] = (author, page)
+    await bot.edit_message(msg, embed=embed)
     
 @embed_now_playing.error
 @embed_top_artists.error
@@ -194,6 +172,6 @@ async def embed_error(error, ctx):
     if isinstance(error, commands.CommandOnCooldown):
         await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
     else:
-        await bot.say(error)
+        await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
 
 bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
