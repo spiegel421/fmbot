@@ -145,7 +145,7 @@ async def embed_top_artists(ctx):
     embed.set_footer(text="Page " + str(page+1))
     
     msg = await bot.say(embed=embed)
-    top_trending_artist_msgs[msg.id] = (author, page)
+    topartist_msgs[msg.id] = (author, page)
     await bot.add_reaction(msg, '⬅')
     await bot.add_reaction(msg, '➡')
 
@@ -158,7 +158,7 @@ async def on_reaction_add(reaction, user):
 
     if reaction.message.id in topartist_msgs:
         await flip_page_top(reaction, reaction.message, reaction.message.id)
-    else:
+    elif reaction.message.id in trendingartist_msgs:
         await flip_page_trending(reaction, reaction.message, reaction.message.id)
 
 @bot.event
@@ -170,7 +170,7 @@ async def on_reaction_remove(reaction, user):
 
     if reaction.message.id in topartist_msgs:
         await flip_page_top(reaction, reaction.message, reaction.message.id)
-    else:
+    elif reaction.message.id in trendingartist_msgs:
         await flip_page_trending(reaction, reaction.message, reaction.message.id)
 
 async def flip_page_top(reaction, msg, msg_id):
