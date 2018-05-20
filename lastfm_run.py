@@ -88,7 +88,7 @@ async def embed_trending_artists(ctx):
     for i in range(page * 10, (page + 1) * 10):
         if i >= len(ctx.trending_artists):
             break
-        description += "[**" + ctx.trending_artists[i][0] + "**](www.last.fm/music/" + ctx.trending_artists[i][0] + ") (" + str(ctx.trending_artists[i][1]) + ")\n"
+        description += "[**" + ctx.trending_artists[i][0] + "**](https://last.fm/music/" + ctx.trending_artists[i][0] + ")\n"
     embed = discord.Embed(colour=0x228B22, title="Server's trending artists", description=description)
     embed.set_footer(text="Page " + str(page+1))
 
