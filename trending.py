@@ -2,13 +2,14 @@ import mysql.connector
 import time
 from mysql.connector import errorcode
 
+
+def find_trending_artists(num_days):
 DB_NAME = 'scrobbles'
-NUM_DAYS = 1
 
 cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
 cursor = cnx.cursor()
 
-time_cap = str(time.time() - 86400 * NUM_DAYS)
+time_cap = str(time.time() - 86400 * num_days)
 
 select_artists = ("SELECT artist FROM scrobbles "
                   "WHERE timestamp > " + time_cap)

@@ -1,4 +1,4 @@
-import discord, scrobbles, time
+import discord, scrobbles, trending, time
 from discord.ext import commands
 from lastfmwrapper import LastFmWrapper
 
@@ -44,17 +44,6 @@ async def fm(ctx):
 
     await commands.Command.invoke(embed_now_playing, ctx)
 
-@fm.command(pass_context=True)
-async def set(ctx, username):
-    author = str(ctx.message.author)
-    if lastfm.get_user(username) is None:
-        await bot.say("User not found. Try learning how to type.")
-        return
-    
-    username_dict[author] = username
-    rewrite_username_file(username_dict)
-    await bot.say("Username set. You should feel proud of yourself.")
-
 @commands.command(pass_context=True)
 @commands.cooldown(1, 420, commands.BucketType.user)
 async def embed_now_playing(ctx):
@@ -78,6 +67,24 @@ async def embed_now_playing(ctx):
         'timestamp': time.time(),
     }
     scrobbles.add_scrobble_data(scrobble_data)
+
+
+@fm.command(pass_context=True)
+async def trendingartists(ctx, num_days):
+    trending_artist_dict = trending.find_trending_artists(num_days)
+    sorted_dict = sorted(trending_artist_dict.items(), key=lambda x: x[1], reverse=True)
+    await bot.say(sorted_dict[0])
+
+@fm.command(pass_context=True)
+async def set(ctx, username):
+    author = str(ctx.message.author)
+    if lastfm.get_user(username) is None:
+        await bot.say("User not found. Try learning how to type.")
+        return
+    
+    username_dict[author] = username
+    rewrite_username_file(username_dict)
+    await bot.say("Username set. You should feel proud of yourself.")
 
 @fm.command(pass_context=True)
 async def topartists(ctx):
