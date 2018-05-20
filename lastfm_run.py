@@ -81,14 +81,14 @@ async def trendingartists(ctx, num_days):
     await commands.Command.invoke(embed_trending_artists, ctx)
 
 @commands.command(pass_context=True)
-@commands.cooldown(1, 420, BucketType.channel)
+@commands.cooldown(1, 420, commands.BucketType.channel)
 async def embed_trending_artists(ctx):
     page = 0
     description = ""
     for i in range(page * 10, (page + 1) * 10):
         if i >= len(ctx.trending_artists):
             break
-        description += "[**" + trending_artists[i][0] + "**](www.last.fm/music/" + trending_artists[i][0] + ") (" + str(trending_artists[i][1]) + ")\n"
+        description += "[**" + ctx.trending_artists[i][0] + "**](www.last.fm/music/" + ctx.trending_artists[i][0] + ") (" + str(ctx.trending_artists[i][1]) + ")\n"
     embed = discord.Embed(colour=0x228B22, title="Server's trending artists", description=description)
     embed.set_footer(text="Page " + str(page+1))
 
