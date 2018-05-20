@@ -163,7 +163,9 @@ async def on_reaction_add(reaction, user):
 
 @bot.event
 async def on_reaction_remove(reaction, user):
-    if reaction.message.id not in top_trending_artist_msgs or user is reaction.message.author:
+    if (reaction.message.id not in topartist_msgs and reaction.message.id not in trendingartist_msgs):
+        return
+    elif user is reaction.message.author:
         return
 
     if reaction.message.id in topartist_msgs:
