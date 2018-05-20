@@ -33,7 +33,6 @@ for i in range(cursor.rowcount):
     else:
         row[0] = 1
 
-cnx.commit()
 cursor.close()
 cnx.close()
 
