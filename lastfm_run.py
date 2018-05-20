@@ -223,7 +223,7 @@ async def flip_page_trending(reaction, msg, msg_id):
         embed = discord.Embed(colour=0x000080, title="Server's trending artists", description=description)
         embed.set_footer(text="Page " + str(page+1))
 
-    trendingartist_msgs[msg_id] = (treding_artists, page)
+    trendingartist_msgs[msg_id] = (trending_artists, page)
     await bot.edit_message(msg, embed=embed)
     
 
