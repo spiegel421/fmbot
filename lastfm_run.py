@@ -113,7 +113,7 @@ async def embed_top_artists(ctx):
         if i >= wrapper.total_artists:
             break
         description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
-    embed = discord.Embed(colour=0xFF0000, description=description)
+    embed = discord.Embed(colour=0x228B22, description=description)
     embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
     embed.set_footer(text="Page " + str(page+1))
     
@@ -152,7 +152,7 @@ async def flip_page(reaction, msg, msg_id):
             if i >= wrapper.total_artists:
                 break
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
-        embed = discord.Embed(colour=0xFF0000, description=description)
+        embed = discord.Embed(colour=0x228B22, description=description)
         embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
         embed.set_footer(text="Page " + str(page+1))
     elif reaction.emoji == '⬅' and page > 0:
@@ -160,7 +160,7 @@ async def flip_page(reaction, msg, msg_id):
         description = ""
         for i in range(page * 10, (page + 1) * 10):
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
-        embed = discord.Embed(colour=0xFF0000, description=description)
+        embed = discord.Embed(colour=0x228B22, description=description)
         embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
         embed.set_footer(text="Page " + str(page+1))
 
