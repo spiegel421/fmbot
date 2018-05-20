@@ -181,7 +181,7 @@ async def flip_page_top(reaction, msg, msg_id):
     top_artists = wrapper.artists
     max_pages = wrapper.total_artists / 10 + 1
 
-    if reaction.emoji == '➡' and page <= max_pages - 1:
+    if reaction.emoji == '➡' and page < max_pages:
         page += 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
@@ -212,12 +212,12 @@ async def flip_page_trending(reaction, msg, msg_id):
     page = trendingartist_msgs[msg_id][1]
     max_pages = len(trending_artists) / 10 + 1
 
-    if reaction.emoji == '➡' and page <= max_pages - 1:
+    if reaction.emoji == '➡' and page < max_pages:
         page += 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
-            if page * 10 + i > len(trending_artists) - 1:
-                break
+ #           if page * 10 + i > len(trending_artists) - 1:
+ #               break
             artist_search_url = "["+trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+trending_artists[i][0]+")").replace(" ","%20")
             description += artist_search_url + "\n"
         embed = discord.Embed(colour=0x000080, title="Server's trending artists", description=description)
