@@ -3,8 +3,10 @@ from mysql.connector import errorcode
 
 DB_NAME = 'scrobbles'
 
-cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reveri42!')
+cnx = mysql.connector.connect(user='root', host='localhost', database=DB_NAME, password='Reveri42!')
 cursor = cnx.cursor()
+cursor.close()
+cnx.close()
 
 def trending_artists(num_days):
     time_cap = str(time.time() - 86400 * num_days)
