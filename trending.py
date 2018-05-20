@@ -24,7 +24,6 @@ select_artists = ("SELECT artist FROM scrobbles "
                   "WHERE timestamp > " + time_cap)
 
 cursor.execute(select_artists)
-cnx.commit()
 
 trending_artist_dict = {}
 for i in range(cursor.rowcount):
@@ -34,6 +33,7 @@ for i in range(cursor.rowcount):
     else:
         row[0] = 1
 
+cnx.commit()
 cursor.close()
 cnx.close()
 
