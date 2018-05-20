@@ -185,7 +185,7 @@ async def flip_page_top(reaction, msg, msg_id):
         page += 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
-            if page * 10 + i >= wrapper.total_artists - 1:
+            if i > wrapper.total_artists - 1:
                 break
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
         embed = discord.Embed(colour=0x228B22, description=description)
@@ -195,7 +195,7 @@ async def flip_page_top(reaction, msg, msg_id):
         page -= 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
-            if page * 10 + i >= wrapper.total_artists - 1:
+            if i > wrapper.total_artists - 1:
                 break
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
         embed = discord.Embed(colour=0x228B22, description=description)
@@ -216,8 +216,8 @@ async def flip_page_trending(reaction, msg, msg_id):
         page += 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
- #           if page * 10 + i > len(trending_artists) - 1:
- #               break
+            if i > len(trending_artists) - 1:
+                break
             artist_search_url = "["+trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+trending_artists[i][0]+")").replace(" ","%20")
             description += artist_search_url + "\n"
         embed = discord.Embed(colour=0x000080, title="Server's trending artists", description=description)
@@ -226,7 +226,7 @@ async def flip_page_trending(reaction, msg, msg_id):
         page -= 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
-            if page * 10 + i > len(trending_artists) - 1:
+            if i > len(trending_artists) - 1:
                 break
             artist_search_url = "["+trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+trending_artists[i][0]+")").replace(" ","%20")
             description += artist_search_url + "\n"
