@@ -88,7 +88,8 @@ async def embed_trending_artists(ctx):
     for i in range(page * 10, (page + 1) * 10):
         if i >= len(ctx.trending_artists):
             break
-        description += "[**" + ctx.trending_artists[i][0] + "**](https://last.fm/music/" + ctx.trending_artists[i][0] + ")\n"
+        artist_search_url = "["+ctx.trending_artists[0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+ctx.trending_artists[0]+")").replace(" ","%20")
+        description += artist_search_url + "\n"
     embed = discord.Embed(colour=0x228B22, title="Server's trending artists", description=description)
     embed.set_footer(text="Page " + str(page+1))
 
