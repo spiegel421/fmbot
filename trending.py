@@ -1,4 +1,5 @@
 import mysql.connector
+import time
 from mysql.connector import errorcode
 
 DB_NAME = 'scrobbles'
