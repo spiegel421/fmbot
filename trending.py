@@ -17,10 +17,10 @@ cursor.execute(select_artists)
 
 trending_artist_dict = {}
 for artist in cursor:
-    if artist in trending_artist_dict:
-        trending_artist_dict[artist] += 1
+    if artist[0] in trending_artist_dict:
+        trending_artist_dict[artist[0]] += 1
     else:
-        trending_artist_dict[artist] = 1
+        trending_artist_dict[artist[0]] = 1
 
 cnx.commit()
 cursor.close()
