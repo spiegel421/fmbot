@@ -186,6 +186,8 @@ async def flip_page_top(reaction, msg, msg_id):
             page += 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
+            if page * 10 + i >= wrapper.total_artists - 1:
+                break
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
         embed = discord.Embed(colour=0x228B22, description=description)
         embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
@@ -194,10 +196,14 @@ async def flip_page_top(reaction, msg, msg_id):
         page -= 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
+            if page * 10 + i >= wrapper.total_artists - 1:
+                break
             description += "[**" + top_artists[i].name + "**](" + top_artists[i].url + ") (" + str(top_artists[i].play_count) + ")\n"
         embed = discord.Embed(colour=0x228B22, description=description)
         embed.set_author(name=username + "'s top artists", url="https://www.last.fm/user/" + username)
         embed.set_footer(text="Page " + str(page+1))
+    else:
+        return
 
     topartist_msgs[msg_id] = (author, page)
     await bot.edit_message(msg, embed=embed)
@@ -212,6 +218,8 @@ async def flip_page_trending(reaction, msg, msg_id):
             page += 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
+            if page * 10 + i >= len(trending_artists) - 1:
+                break
             artist_search_url = "["+trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+trending_artists[i][0]+")").replace(" ","%20")
             description += artist_search_url + "\n"
         embed = discord.Embed(colour=0x000080, title="Server's trending artists", description=description)
@@ -220,10 +228,14 @@ async def flip_page_trending(reaction, msg, msg_id):
         page -= 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
+            if page * 10 + i >= len(trending_artists) - 1:
+                break
             artist_search_url = "["+trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+trending_artists[i][0]+")").replace(" ","%20")
             description += artist_search_url + "\n"
         embed = discord.Embed(colour=0x000080, title="Server's trending artists", description=description)
         embed.set_footer(text="Page " + str(page+1))
+    else:
+        return
 
     trendingartist_msgs[msg_id] = (trending_artists, page)
     await bot.edit_message(msg, embed=embed)
