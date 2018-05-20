@@ -13,7 +13,7 @@ TABLES['scrobbles'] = (
     "   `timestamp` int(15) NOT NULL"
     ") ENGINE=InnoDB")
 
-cnx = mysql.connector.connect(user='root', database='scrobbles', password='Reverie42!')
+cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
 cursor = cnx.cursor()
 
 def create_database(cursor):
