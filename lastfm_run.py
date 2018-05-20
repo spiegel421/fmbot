@@ -24,7 +24,7 @@ def rewrite_username_file(username_dict):
     
 username_dict = {}
 read_username_file(username_dict)
-topartist_msgs = {}
+top_trending_artist_msgs = {}
 
 @bot.group(pass_context=True)
 async def fm(ctx):
@@ -91,7 +91,10 @@ async def embed_trending_artists(ctx):
     embed = discord.Embed(colour=0x228B22, title="Server's trending artists", description=description)
     embed.set_footer(text="Page " + str(page+1))
 
-    await bot.say(embed=embed)
+    msg = await bot.say(embed=embed)
+    top_trending_artist_msgs[msg.id] = (author, page)
+    await bot.add_reaction(msg, '⬅')
+    await bot.add_reaction(msg, '➡')
 
 @fm.command(pass_context=True)
 async def set(ctx, username):
@@ -141,20 +144,20 @@ async def embed_top_artists(ctx):
     embed.set_footer(text="Page " + str(page+1))
     
     msg = await bot.say(embed=embed)
-    topartist_msgs[msg.id] = (author, page)
+    top_trending_artist_msgs[msg.id] = (author, page)
     await bot.add_reaction(msg, '⬅')
     await bot.add_reaction(msg, '➡')
 
 @bot.event
 async def on_reaction_add(reaction, user):
-    if reaction.message.id not in topartist_msgs or user is reaction.message.author:
+    if reaction.message.id not in top_trending_artist_msgs or user is reaction.message.author:
         return
 
     await flip_page(reaction, reaction.message, reaction.message.id)
 
 @bot.event
 async def on_reaction_remove(reaction, user):
-    if reaction.message.id not in topartist_msgs or user is reaction.message.author:
+    if reaction.message.id not in top_trending_artist_msgs or user is reaction.message.author:
         return
 
     await flip_page(reaction, reaction.message, reaction.message.id)
@@ -195,7 +198,6 @@ async def embed_error(error, ctx):
     if isinstance(error, commands.CommandOnCooldown):
         await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
     else:
-#        await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
-        await bot.say(error)
-        
+ #       await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
+        await bot.say(error)       
 bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
