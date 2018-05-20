@@ -24,7 +24,8 @@ def rewrite_username_file(username_dict):
     
 username_dict = {}
 read_username_file(username_dict)
-top_trending_artist_msgs = {}
+topartist_msgs = {}
+trendingartist_msgs = {}
 
 @bot.group(pass_context=True)
 async def fm(ctx):
@@ -83,18 +84,16 @@ async def trendingartists(ctx, num_days):
 @commands.command(pass_context=True)
 @commands.cooldown(1, 420, commands.BucketType.channel)
 async def embed_trending_artists(ctx):
-    author = str(ctx.message.author)
-    
     page = 0
     description = ""
     for i in range(page * 10, (page + 1) * 10):
         artist_search_url = "["+ctx.trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+ctx.trending_artists[i][0]+")").replace(" ","%20")
         description += artist_search_url + "\n"
-    embed = discord.Embed(colour=0x228B22, title="Server's trending artists", description=description)
+    embed = discord.Embed(colour=0x000080, title="Server's trending artists", description=description)
     embed.set_footer(text="Page " + str(page+1))
 
     msg = await bot.say(embed=embed)
-    top_trending_artist_msgs[msg.id] = (author, page)
+    trendingartist_msgs[msg.id] = (ctx.trending_artists, page)
     await bot.add_reaction(msg, '⬅')
     await bot.add_reaction(msg, '➡')
 
@@ -152,19 +151,27 @@ async def embed_top_artists(ctx):
 
 @bot.event
 async def on_reaction_add(reaction, user):
-    if reaction.message.id not in top_trending_artist_msgs or user is reaction.message.author:
+    if (reaction.message.id not in topartist_msgs and reaction.message.id not in trendingartist_msgs):
+        return
+    elif user is reaction.message.author:
         return
 
-    await flip_page(reaction, reaction.message, reaction.message.id)
+    if reaction.message.id in topartist_msgs:
+        await flip_page_top(reaction, reaction.message, reaction.message.id)
+    else:
+        await flip_page_trending(reaction, reaction.message, reaction.message.id)
 
 @bot.event
 async def on_reaction_remove(reaction, user):
     if reaction.message.id not in top_trending_artist_msgs or user is reaction.message.author:
         return
 
-    await flip_page(reaction, reaction.message, reaction.message.id)
+    if reaction.message.id in topartist_msgs:
+        await flip_page_top(reaction, reaction.message, reaction.message.id)
+    else:
+        await flip_page_trending(reaction, reaction.message, reaction.message.id)
 
-async def flip_page(reaction, msg, msg_id):
+async def flip_page_top(reaction, msg, msg_id):
     author = topartist_msgs[msg_id][0]
     page = topartist_msgs[msg_id][1]
     username = username_dict[author]
@@ -192,7 +199,34 @@ async def flip_page(reaction, msg, msg_id):
 
     topartist_msgs[msg_id] = (author, page)
     await bot.edit_message(msg, embed=embed)
+
+async def flip_page_trending(reaction, msg, msg_id):
+    trending_artists = topartist_msgs[msg_id][0]
+    page = topartist_msgs[msg_id][1]
+    max_pages = len(trending_artists) / 10 + 1
+
+    if reaction.emoji == '➡':
+        if page < max_pages - 1:
+            page += 1
+        description = ""
+        for i in range(page * 10, (page + 1) * 10):
+            artist_search_url = "["+ctx.trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+ctx.trending_artists[i][0]+")").replace(" ","%20")
+            description += artist_search_url + "\n"
+        embed = discord.Embed(colour=0x000080, title="Server's trending artists", description=description)
+        embed.set_footer(text="Page " + str(page+1))
+    elif reaction.emoji == '⬅' and page > 0:
+        page -= 1
+        description = ""
+        for i in range(page * 10, (page + 1) * 10):
+            artist_search_url = "["+ctx.trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+ctx.trending_artists[i][0]+")").replace(" ","%20")
+            description += artist_search_url + "\n"
+        embed = discord.Embed(colour=0x000080, title="Server's trending artists", description=description)
+        embed.set_footer(text="Page " + str(page+1))
+
+    trendingartist_msgs[msg_id] = (treding_artists, page)
+    await bot.edit_message(msg, embed=embed)
     
+
 @embed_now_playing.error
 @embed_top_artists.error
 @embed_trending_artists.error
