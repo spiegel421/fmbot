@@ -210,7 +210,7 @@ async def flip_page_trending(reaction, msg, msg_id):
             page += 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
-            artist_search_url = "["+ctx.trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+ctx.trending_artists[i][0]+")").replace(" ","%20")
+            artist_search_url = "["+trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+trending_artists[i][0]+")").replace(" ","%20")
             description += artist_search_url + "\n"
         embed = discord.Embed(colour=0x000080, title="Server's trending artists", description=description)
         embed.set_footer(text="Page " + str(page+1))
@@ -218,7 +218,7 @@ async def flip_page_trending(reaction, msg, msg_id):
         page -= 1
         description = ""
         for i in range(page * 10, (page + 1) * 10):
-            artist_search_url = "["+ctx.trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+ctx.trending_artists[i][0]+")").replace(" ","%20")
+            artist_search_url = "["+trending_artists[i][0]+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+trending_artists[i][0]+")").replace(" ","%20")
             description += artist_search_url + "\n"
         embed = discord.Embed(colour=0x000080, title="Server's trending artists", description=description)
         embed.set_footer(text="Page " + str(page+1))
