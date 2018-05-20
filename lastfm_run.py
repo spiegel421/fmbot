@@ -83,7 +83,7 @@ async def trendingartists(ctx, num_days):
 @commands.command(pass_context=True)
 @commands.cooldown(1, 420, commands.BucketType.channel)
 async def embed_trending_artists(ctx):
-    author = str(context.message.author)
+    author = str(ctx.message.author)
     
     page = 0
     description = ""
