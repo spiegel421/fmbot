@@ -71,9 +71,26 @@ async def embed_now_playing(ctx):
 
 @fm.command(pass_context=True)
 async def trendingartists(ctx, num_days):
+    if ctx.message.channel != bot.get_channel('245685218055290881'):
+        return
+    
     trending_artist_dict = trending.find_trending_artists(int(num_days))
     sorted_dict = sorted(trending_artist_dict.items(), key=lambda x: x[1], reverse=True)
-    await bot.say(sorted_dict[0])
+
+    ctx.trending_artists = sorted_dict
+    await commands.Command.invoke(embed_trending_artists, ctx)
+
+@commands.command(pass_context=True)
+@commands.cooldown(1, 420, BucketType.channel)
+async def embed_trending_artists(ctx):
+    page = 0
+    description = ""
+    for i in range(page * 10, (page + 1) * 10):
+        if i >= len(ctx.trending_artists):
+            break
+        description += "[**" + trending_artists[i][0] + "**](www.last.fm/music/" + trending_artists[i][0] + ") (" + str(trending_artists[i][1]) + ")\n"
+    embed = discord.Embed(colour=0x228B22, title="Server's trending artists", description=description)
+    embed.set_footer(text="Page " + str(page+1))
 
 @fm.command(pass_context=True)
 async def set(ctx, username):
@@ -176,6 +193,7 @@ async def flip_page(reaction, msg, msg_id):
     
 @embed_now_playing.error
 @embed_top_artists.error
+@embed_trending_artists.error
 async def embed_error(error, ctx):
     if isinstance(error, commands.CommandOnCooldown):
         await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
