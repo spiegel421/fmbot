@@ -201,8 +201,8 @@ async def flip_page_top(reaction, msg, msg_id):
     await bot.edit_message(msg, embed=embed)
 
 async def flip_page_trending(reaction, msg, msg_id):
-    trending_artists = topartist_msgs[msg_id][0]
-    page = topartist_msgs[msg_id][1]
+    trending_artists = trendingartist_msgs[msg_id][0]
+    page = trendingartist_msgs[msg_id][1]
     max_pages = len(trending_artists) / 10 + 1
 
     if reaction.emoji == '➡':
