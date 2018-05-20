@@ -4,8 +4,18 @@ from mysql.connector import errorcode
 DB_NAME = 'scrobbles'
 NUM_DAYS = 1
 
-cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reveri42!')
+cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
 cursor = cnx.cursor()
+
+try:
+    cnx.database = DB_NAME  
+except mysql.connector.Error as err:
+    if err.errno == errorcode.ER_BAD_DB_ERROR:
+        create_database(cursor)
+        cnx.database = DB_NAME
+    else:
+        print(err)
+        exit(1)
 
 time_cap = str(time.time() - 86400 * NUM_DAYS)
 
