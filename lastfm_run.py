@@ -92,6 +92,8 @@ async def embed_trending_artists(ctx):
     embed = discord.Embed(colour=0x228B22, title="Server's trending artists", description=description)
     embed.set_footer(text="Page " + str(page+1))
 
+    await bot.say(embed=embed)
+
 @fm.command(pass_context=True)
 async def set(ctx, username):
     author = str(ctx.message.author)
