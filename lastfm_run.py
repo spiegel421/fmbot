@@ -71,7 +71,7 @@ async def embed_now_playing(ctx):
 
 @fm.command(pass_context=True)
 async def trendingartists(ctx, num_days):
-    trending_artist_dict = trending.find_trending_artists(num_days)
+    trending_artist_dict = trending.find_trending_artists(int(num_days))
     sorted_dict = sorted(trending_artist_dict.items(), key=lambda x: x[1], reverse=True)
     await bot.say(sorted_dict[0])
 
