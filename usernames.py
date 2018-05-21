@@ -34,6 +34,7 @@ bot = commands.Bot(command_prefix='$')
 
 @bot.command()
 async def load_usernames():
+    print('started')
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
