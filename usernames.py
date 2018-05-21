@@ -42,11 +42,10 @@ async def load_usernames():
                     "VALUES (%(discord_id)s, %(lastfm_username)s)")
 
     reader = open("usernames.txt", 'r')
-    for line in reader.readlines():
-        print('loop entered')
-        lastfm_username = line[1]
+    for line in reader.readlines()
+        lastfm_username = line.split(',')[1]
         try:
-            discord_id = bot.users.get('name', line[0]).id
+            discord_id = bot.users.get('name', line.split(',')[0]).id
         except:
             continue
         username_data = {
