@@ -34,7 +34,6 @@ bot = commands.Bot(command_prefix='$')
 
 @bot.command()
 async def load_usernames():
-    print('started')
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
@@ -44,6 +43,7 @@ async def load_usernames():
 
     reader = open("usernames.txt", 'r')
     for line in reader.readlines():
+        print('loop entered')
         lastfm_username = line[1]
         try:
             discord_id = bot.users.get('name', line[0]).id
