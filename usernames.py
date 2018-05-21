@@ -31,7 +31,7 @@ cursor.close()
 cnx.close()
     
 def load_usernames():
-    name_to_id_converter = discord.Client()
+    client = discord.Client()
     client.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
     
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
