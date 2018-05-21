@@ -43,11 +43,11 @@ async def load_usernames():
 
     reader = open("usernames.txt", 'r')
     for line in reader.readlines():
-        lastfm_username = line.split(',')[1]
-        try:
-            discord_id = bot.users.get('name', line.split(',')[0]).id
-        except:
-            continue
+        lastfm_username = line.split(',')[1][:-1]
+#        try:
+        discord_id = bot.users.get('name', line.split(',')[0]).id
+ #       except:
+#            continue
         username_data = {
             'discord_id': discord_id,
             'lastfm_username': lastfm_username,
