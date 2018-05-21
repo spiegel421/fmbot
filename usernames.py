@@ -17,7 +17,7 @@ cursor = cnx.cursor()
 
 for name, ddl in TABLES.items():
     try:
-        print("Creating table {}: ".format(name))
+        print("Creating table {}: ".format(name), end='')
         cursor.execute(ddl)
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
@@ -32,7 +32,6 @@ cnx.close()
     
 def load_usernames():
     client = discord.Client()
-    client.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
     
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
