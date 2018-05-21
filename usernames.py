@@ -30,7 +30,7 @@ for name, ddl in TABLES.items():
 cursor.close()
 cnx.close()
 
-bot = discord.commands.Bot(command_prefix='$')
+bot = commands.Bot(command_prefix='$')
 
 @bot.command()
 async def load_usernames():
