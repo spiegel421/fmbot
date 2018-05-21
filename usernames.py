@@ -17,7 +17,7 @@ cursor = cnx.cursor()
 
 for name, ddl in TABLES.items():
     try:
-        print("Creating table {}: ".format(name), end='')
+        print("Creating table {}: ".format(name))
         cursor.execute(ddl)
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
