@@ -211,7 +211,6 @@ async def flip_page_trending(reaction, msg, msg_id):
     trending_artists = trendingartist_msgs[msg_id][0]
     page = trendingartist_msgs[msg_id][1]
     max_pages = int(len(trending_artists) / 10 + 1)
-    print(max_pages)
 
     if reaction.emoji == '➡' and page < max_pages - 1:
         page += 1
@@ -247,6 +246,6 @@ async def embed_error(error, ctx):
     if isinstance(error, commands.CommandOnCooldown):
         await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
     else:
- #       await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
-        await bot.say(error)       
+        await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
+        
 bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
