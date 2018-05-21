@@ -210,7 +210,7 @@ async def flip_page_top(reaction, msg, msg_id):
 async def flip_page_trending(reaction, msg, msg_id):
     trending_artists = trendingartist_msgs[msg_id][0]
     page = trendingartist_msgs[msg_id][1]
-    max_pages = len(trending_artists) / 10 + 1
+    max_pages = int(len(trending_artists) / 10 + 1)
     print(max_pages)
 
     if reaction.emoji == '➡' and page < max_pages - 1:
