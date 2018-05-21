@@ -1,6 +1,6 @@
-import mysql.connector
-import time, discord
+import mysql.connector, time, discord
 from mysql.connector import errorcode
+from discord.ext import commands
 
 DB_NAME = 'scrobbles'
 
@@ -29,10 +29,11 @@ for name, ddl in TABLES.items():
 
 cursor.close()
 cnx.close()
-    
-def load_usernames():
-    client = discord.Client()
-    
+
+bot = discord.commands.Bot(command_prefix='$')
+
+@bot.command()
+async def load_usernames():
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
@@ -44,7 +45,7 @@ def load_usernames():
     for line in reader.readlines():
         lastfm_username = line[1]
         try:
-            discord_id = client.users.get('name', line[0]).id
+            discord_id = bot.users.get('name', line[0]).id
         except:
             continue
         username_data = {
@@ -57,6 +58,4 @@ def load_usernames():
     cursor.close()
     cnx.close()
 
-    client.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
-
-load_usernames()
+bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
