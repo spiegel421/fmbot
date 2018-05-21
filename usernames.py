@@ -57,4 +57,6 @@ def load_usernames():
     cursor.close()
     cnx.close()
 
+    client.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
+
 load_usernames()
