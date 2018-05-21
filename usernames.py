@@ -53,8 +53,8 @@ async def load_usernames():
             'lastfm_username': lastfm_username,
             }
         cursor.execute(add_username, username_data)
-        cnx.commit()
-
+        
+    cnx.commit()
     cursor.close()
     cnx.close()
 
