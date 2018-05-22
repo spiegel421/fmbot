@@ -26,7 +26,7 @@ class FmCog:
             await self.bot.say(username + " has never played any songs.")
             return
 
-        await commands.Command.invoke(embed_now_playing, ctx)
+        await commands.Command.invoke(self.embed_now_playing, ctx)
 
     @commands.command(pass_context=True)
     @commands.cooldown(1, 420, commands.BucketType.user)
@@ -108,7 +108,7 @@ class FmCog:
             await self.bot.say(username + " has not played any artists.")
             return
 
-        await commands.Command.invoke(embed_top_artists, ctx)
+        await commands.Command.invoke(self.embed_top_artists, ctx)
 
     @commands.command(pass_context=True)
     @commands.cooldown(1, 420, commands.BucketType.user)
