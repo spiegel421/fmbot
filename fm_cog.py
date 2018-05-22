@@ -139,9 +139,9 @@ class FmCog:
             return
 
         if reaction.message.id in self.topartist_msgs:
-            await flip_page_top(reaction, reaction.message, reaction.message.id)
+            await self.flip_page_top(reaction, reaction.message, reaction.message.id)
         elif reaction.message.id in self.trendingartist_msgs:
-            await flip_page_trending(reaction, reaction.message, reaction.message.id)
+            await self.flip_page_trending(reaction, reaction.message, reaction.message.id)
 
     async def on_reaction_remove(self, reaction, user):
         if (reaction.message.id not in self.topartist_msgs and reaction.message.id not in self.trendingartist_msgs):
@@ -150,9 +150,9 @@ class FmCog:
             return
 
         if reaction.message.id in self.topartist_msgs:
-            await flip_page_top(reaction, reaction.message, reaction.message.id)
+            await self.flip_page_top(reaction, reaction.message, reaction.message.id)
         elif reaction.message.id in self.trendingartist_msgs:
-            await flip_page_trending(reaction, reaction.message, reaction.message.id)
+            await self.flip_page_trending(reaction, reaction.message, reaction.message.id)
 
     async def flip_page_top(self, reaction, msg, msg_id):
         author = self.topartist_msgs[msg_id][0]
