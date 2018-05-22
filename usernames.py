@@ -53,7 +53,7 @@ def get_username(discord_id):
     cursor = cnx.cursor()
 
     get_username = ("SELECT lastfm_username FROM usernames "
-                    "WHERE discord_id = "+discord_id)
+                    "WHERE discord_id = '" + discord_id + "'")
     
     cursor.execute(get_username)
     try:
