@@ -50,7 +50,7 @@ def add_username(discord_id, lastfm_username):
 
 def get_username(discord_id):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
-    cursor = cnx.cursor()
+    cursor = cnx.cursor(buffered=True)
 
     get_username = ("SELECT lastfm_username FROM usernames "
                     "WHERE discord_id = '" + discord_id + "'")
