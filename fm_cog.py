@@ -11,7 +11,7 @@ class FmCog:
         self.trendingartist_msgs = {}
     
     @commands.group(pass_context=True)
-    async def fm(ctx):
+    async def fm(self, ctx):
         if ctx.invoked_subcommand is not None:
             return
         
@@ -29,7 +29,7 @@ class FmCog:
 
     @commands.command(pass_context=True)
     @commands.cooldown(1, 420, commands.BucketType.user)
-    async def embed_now_playing(ctx):
+    async def embed_now_playing(self, ctx):
         username = usernames.get_username(ctx.message.author.id)
         now_playing = lastfm.get_last_played(username)
         artist = now_playing.artist.name
@@ -52,7 +52,7 @@ class FmCog:
 
 
     @fm.command(pass_context=True)
-    async def trendingartists(ctx, num_days):
+    async def trendingartists(self, ctx, num_days):
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
             return
         
@@ -64,7 +64,7 @@ class FmCog:
 
     @commands.command(pass_context=True)
     @commands.cooldown(1, 420, commands.BucketType.channel)
-    async def embed_trending_artists(ctx):
+    async def embed_trending_artists(self, ctx):
         page = 0
         description = ""
         for i in range(page * 10, (page + 1) * 10):
@@ -81,7 +81,7 @@ class FmCog:
         await self.bot.add_reaction(msg, '➡')
 
     @fm.command(pass_context=True)
-    async def set(ctx, username):
+    async def set(self, ctx, username):
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
             return
         
@@ -93,7 +93,7 @@ class FmCog:
         await self.bot.say("Username set. You should feel proud of yourself.")
 
     @fm.command(pass_context=True)
-    async def topartists(ctx):
+    async def topartists(self, ctx):
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
             return
         
@@ -111,7 +111,7 @@ class FmCog:
 
     @commands.command(pass_context=True)
     @commands.cooldown(1, 420, commands.BucketType.user)
-    async def embed_top_artists(ctx):
+    async def embed_top_artists(self, ctx):
         username = usernames.get_username(ctx.message.author.id)
         wrapper = lastfm.get_user_artists(username)
         top_artists = wrapper.artists
@@ -131,7 +131,7 @@ class FmCog:
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
 
-    async def on_reaction_add(reaction, user):
+    async def on_reaction_add(self, reaction, user):
         if (reaction.message.id not in self.topartist_msgs and reaction.message.id not in self.trendingartist_msgs):
             return
         elif user is reaction.message.author:
@@ -142,7 +142,7 @@ class FmCog:
         elif reaction.message.id in self.trendingartist_msgs:
             await flip_page_trending(reaction, reaction.message, reaction.message.id)
 
-    async def on_reaction_remove(reaction, user):
+    async def on_reaction_remove(self, reaction, user):
         if (reaction.message.id not in self.topartist_msgs and reaction.message.id not in self.trendingartist_msgs):
             return
         elif user is reaction.message.author:
@@ -153,7 +153,7 @@ class FmCog:
         elif reaction.message.id in self.trendingartist_msgs:
             await flip_page_trending(reaction, reaction.message, reaction.message.id)
 
-    async def flip_page_top(reaction, msg, msg_id):
+    async def flip_page_top(self, reaction, msg, msg_id):
         author = self.topartist_msgs[msg_id][0]
         page = self.topartist_msgs[msg_id][1]
         username = usernames.get_username(author.id)
@@ -187,7 +187,7 @@ class FmCog:
         self.topartist_msgs[msg_id] = (author, page)
         await self.bot.edit_message(msg, embed=embed)
 
-    async def flip_page_trending(reaction, msg, msg_id):
+    async def flip_page_trending(self, reaction, msg, msg_id):
         trending_artists = self.trendingartist_msgs[msg_id][0]
         page = self.trendingartist_msgs[msg_id][1]
         max_pages = int(len(trending_artists) / 10 + 1)
@@ -221,7 +221,7 @@ class FmCog:
     @embed_now_playing.error
     @embed_top_artists.error
     @embed_trending_artists.error
-    async def embed_error(error, ctx):
+    async def embed_error(self, error, ctx):
         if isinstance(error, commands.CommandOnCooldown):
             await self.bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
         else:
