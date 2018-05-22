@@ -235,24 +235,24 @@ async def embed_error(error, ctx):
 async def genres(ctx, artist, album):
     genre_spider = genrecrawl.GenrecrawlSpider()
     genre_spider.start_urls = ['https://rateyourmusic.com/release/album/'+artist+'/'+album+'/']
-    print('1')
+
     process = CrawlerProcess()
     process.crawl(genre_spider)
     process.start()
-    print('2')
+    
     reader = open("genres.txt", 'r')
     pri_genres = reader.readline().split("\t")
     sec_genres = reader.readline().split("\t")
     msg = ""
     for i in range(len(pri_genres)):
         msg += pri_genres[i]
-        if i < len(pri_genres) - 1:
+        if i < len(pri_genres) - 2:
             msg += ", "
     for i in range(len(sec_genres)):
         msg += sec_genres[i]
-        if i < len(sec_genres) - 1:
+        if i < len(sec_genres) - 2:
             msg += ", "
-    print('3')
+
     await bot.say(msg)
     
 bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
