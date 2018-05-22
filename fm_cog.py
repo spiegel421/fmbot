@@ -131,7 +131,7 @@ class FmCog:
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
 
-    @discord.Client.event
+    @self.bot.event
     async def on_reaction_add(reaction, user):
         if (reaction.message.id not in self.topartist_msgs and reaction.message.id not in self.trendingartist_msgs):
             return
@@ -143,7 +143,7 @@ class FmCog:
         elif reaction.message.id in self.trendingartist_msgs:
             await flip_page_trending(reaction, reaction.message, reaction.message.id)
 
-    @discord.Client.event
+    @self.bot.event
     async def on_reaction_remove(reaction, user):
         if (reaction.message.id not in self.topartist_msgs and reaction.message.id not in self.trendingartist_msgs):
             return
