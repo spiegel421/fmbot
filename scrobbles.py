@@ -6,7 +6,7 @@ DB_NAME = 'scrobbles'
 TABLES = {}
 TABLES['scrobbles'] = (
     "CREATE TABLE `scrobbles` ("
-    "   `discord_user` LONGTEXT NOT NULL,"
+    "   `discord_id` LONGTEXT NOT NULL,"
     "   `lastfm_username` LONGTEXT NOT NULL,"
     "   `artist` LONGTEXT NOT NULL,"
     "   `track` LONGTEXT NOT NULL,"
@@ -32,8 +32,8 @@ cursor.close()
 cnx.close()
 
 add_scrobble = ("INSERT INTO scrobbles "
-              "(discord_user, lastfm_username, artist, track, timestamp) "
-              "VALUES (%(discord_user)s, %(lastfm_username)s, %(artist)s, %(track)s, %(timestamp)s)")
+              "(discord_id, lastfm_username, artist, track, timestamp) "
+              "VALUES (%(discord_id)s, %(lastfm_username)s, %(artist)s, %(track)s, %(timestamp)s)")
 
 def add_scrobble_data(scrobble_data):
     cnx = mysql.connector.connect(user='root', database='scrobbles', password='Reverie42!')

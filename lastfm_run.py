@@ -50,8 +50,7 @@ async def fm(ctx):
 @commands.command(pass_context=True)
 @commands.cooldown(1, 420, commands.BucketType.user)
 async def embed_now_playing(ctx):
-    author = str(ctx.message.author)
-    username = username_dict[author]
+    username = usernames.get_username(ctx.message.author.id)
     now_playing = lastfm.get_last_played(username)
     artist = now_playing.artist.name
     artist_search_url = "["+artist+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+artist+")").replace(" ","%20")
@@ -63,7 +62,7 @@ async def embed_now_playing(ctx):
     await bot.say(embed=embed)
 
     scrobble_data = {
-        'discord_user': author,
+        'discord_id': ctx.message.author.id,
         'lastfm_username': username,
         'artist': artist,
         'track': track,
