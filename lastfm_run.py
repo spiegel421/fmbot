@@ -223,15 +223,6 @@ async def flip_page_trending(reaction, msg, msg_id):
 
     trendingartist_msgs[msg_id] = (trending_artists, page)
     await bot.edit_message(msg, embed=embed)
-    
-@embed_now_playing.error
-@embed_top_artists.error
-@embed_trending_artists.error
-async def embed_error(error, ctx):
-    if isinstance(error, commands.CommandOnCooldown):
-        await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
-    else:
-        await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
 
 @bot.command()
 async def genres(artist, album):
@@ -256,5 +247,15 @@ async def genres(artist, album):
             msg += ", "
 
     await bot.say(msg)
+    
+@embed_now_playing.error
+@embed_top_artists.error
+@embed_trending_artists.error
+@genres.error
+async def embed_error(error, ctx):
+    if isinstance(error, commands.CommandOnCooldown):
+        await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
+    else:
+        await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
     
 bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
