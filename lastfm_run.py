@@ -11,6 +11,8 @@ bot = commands.Bot(command_prefix='$')
 lastfm = LastFmWrapper()
 topartist_msgs = {}
 trendingartist_msgs = {}
+process = CrawlerProcess()
+genre_spider = genrecrawl.GenrecrawlSpider()
 
 @bot.group(pass_context=True)
 async def fm(ctx):
@@ -231,12 +233,10 @@ async def embed_error(error, ctx):
     else:
         await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
 
-@bot.command(pass_context=True)
-async def genres(ctx, artist, album):
-    genre_spider = genrecrawl.GenrecrawlSpider()
+@bot.command()
+async def genres(artist, album):
     genre_spider.start_urls = ['https://rateyourmusic.com/release/album/'+artist+'/'+album+'/']
-
-    process = CrawlerProcess()
+    
     process.crawl(genre_spider)
     process.start()
     
