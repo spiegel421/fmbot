@@ -43,8 +43,8 @@ def add_username(discord_id, lastfm_username):
         }
     
     cursor.execute(add_username, username_data)
-        
     cnx.commit()
+    
     cursor.close()
     cnx.close()
 
@@ -55,12 +55,13 @@ def get_username(discord_id):
     get_username = ("SELECT lastfm_username FROM usernames "
                     "WHERE discord_id = '" + discord_id + "'")
     
-    cursor.execute(get_username)
+    cursor.execute(get_username)       
     try:
         lastfm_username = cursor[0][0]
     except:
         lastfm_username = None
-        
-    cnx.commit()
+
     cursor.close()
     cnx.close()
+
+    return lastfm_username
