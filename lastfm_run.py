@@ -9,7 +9,6 @@ from discord.ext import commands
 import fm_cog
 
 bot = commands.Bot(command_prefix='$')
-lastfm = LastFmWrapper() # communicates with lastfm API
 fm_cog.setup(bot)
 
 @bot.command()
