@@ -61,7 +61,7 @@ class FmCog:
         sorted_dict = sorted(trending_artist_dict.items(), key=lambda x: x[1], reverse=True)
 
         ctx.trending_artists = sorted_dict
-        await commands.Command.invoke(embed_trending_artists, ctx)
+        await commands.Command.invoke(self.embed_trending_artists, ctx)
 
     @commands.command(pass_context=True)
     @commands.cooldown(1, 420, commands.BucketType.channel)
