@@ -34,7 +34,7 @@ def add_username(discord_id, lastfm_username):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
-    add_username = ("INSERT INTO usernames"
+    add_username = ("REPLACE INTO usernames"
                     "(discord_id, lastfm_username) "
                     "VALUES (%(discord_id)s, %(lastfm_username)s)")
     username_data = {

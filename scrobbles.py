@@ -6,7 +6,7 @@ DB_NAME = 'scrobbles'
 TABLES = {}
 TABLES['scrobbles'] = (
     "CREATE TABLE `scrobbles` ("
-    "   `discord_id` LONGTEXT NOT NULL,"
+    "   `discord_id` char(18) NOT NULL,"
     "   `lastfm_username` LONGTEXT NOT NULL,"
     "   `artist` LONGTEXT NOT NULL,"
     "   `track` LONGTEXT NOT NULL,"

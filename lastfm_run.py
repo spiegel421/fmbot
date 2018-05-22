@@ -6,26 +6,6 @@ from lastfmwrapper import LastFmWrapper
 
 bot = commands.Bot(command_prefix='$')
 lastfm = LastFmWrapper()
-
-def read_username_file(username_dict):
-    reader = open("usernames.txt", 'r')
-    lines = reader.readlines()
-    for line in lines:
-        author = line.split(",")[0]
-        username = line.split(",")[1]
-        username = username[:-1]
-        if lastfm.get_user(username) != None:
-            username_dict[author] = username
-    reader.close()
-
-def rewrite_username_file(username_dict):
-    writer = open("usernames.txt", 'w')
-    for author, username in username_dict.items():
-        writer.write(author + "," + username + "\n")
-    writer.close()
-    
-username_dict = {}
-read_username_file(username_dict)
 topartist_msgs = {}
 trendingartist_msgs = {}
 
@@ -34,8 +14,7 @@ async def fm(ctx):
     if ctx.invoked_subcommand is not None:
         return
     
-    author = ctx.message.author
-    username = usernames.get_username(author.id)
+    username = usernames.get_username(ctx.message.author.id)
     if username == None:
         await bot.say("Set a username first. Bitch.")
         return
@@ -115,12 +94,11 @@ async def topartists(ctx):
     if ctx.message.channel != bot.get_channel('245685218055290881'):
         return
     
-    author = str(ctx.message.author)
-    if author not in username_dict:
+    username = usernames.get_username(ctx.message.author.id)
+    if username is None:
         await bot.say("Set a username first. Bitch.")
         return
 
-    username = username_dict[author]
     wrapper = lastfm.get_user_artists(username)
     if wrapper.total_artists == 0:
         await bot.say(username + " has not played any artists.")
@@ -131,8 +109,7 @@ async def topartists(ctx):
 @commands.command(pass_context=True)
 @commands.cooldown(1, 420, commands.BucketType.user)
 async def embed_top_artists(ctx):
-    author = str(ctx.message.author)
-    username = username_dict[author]
+    username = usernames.get_username(ctx.message.author.id)
     wrapper = lastfm.get_user_artists(username)
     top_artists = wrapper.artists
     if wrapper.total_artists > 10:
@@ -147,7 +124,7 @@ async def embed_top_artists(ctx):
     embed.set_footer(text="Page " + str(page+1))
     
     msg = await bot.say(embed=embed)
-    topartist_msgs[msg.id] = (author, page)
+    topartist_msgs[msg.id] = (ctx.message.author, page)
     await bot.add_reaction(msg, '⬅')
     await bot.add_reaction(msg, '➡')
 
@@ -178,7 +155,7 @@ async def on_reaction_remove(reaction, user):
 async def flip_page_top(reaction, msg, msg_id):
     author = topartist_msgs[msg_id][0]
     page = topartist_msgs[msg_id][1]
-    username = username_dict[author]
+    username = usernames.get_username(author.id)
     wrapper = lastfm.get_user_artists(username)
     top_artists = wrapper.artists
     max_pages = wrapper.total_artists / 10 + 1
