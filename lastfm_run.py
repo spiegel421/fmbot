@@ -229,6 +229,7 @@ async def embed_error(error, ctx):
     else:
         await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
 
+"""
 @bot.command()
 async def genres(artist, album):
     genrecrawl.edit_genre_file(artist, album)
@@ -253,5 +254,6 @@ async def genres(artist, album):
 @genres.error
 async def genre_error(error, ctx):
     await bot.say("Artist or album not found. Uh, make sure you're searching for music, I guess.")
-                  
+"""
+                 
 bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
