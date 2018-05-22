@@ -3,7 +3,7 @@ from discord.ext import commands
 import scrobbles, trending, usernames
 import scrapy
 from scrapy.crawler import CrawlerProcess
-import Genrecrawlspider
+import genrecrawl
 import time, random
 from lastfmwrapper import LastFmWrapper
 
@@ -233,7 +233,7 @@ async def embed_error(error, ctx):
 
 @bot.command(pass_context=True)
 async def genres(ctx, artist, album):
-    genre_spider = Genrecrawlspider(artist, album)
+    genre_spider = genrecrawl.Genrecrawlspider(artist, album)
     process = CrawlerProcess()
     process.crawl(genre_spider)
     process.start()
