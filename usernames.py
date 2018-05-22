@@ -57,7 +57,7 @@ def get_username(discord_id):
     
     cursor.execute(get_username)       
     try:
-        lastfm_username = cursor[0][0]
+        lastfm_username = cursor.fetchone()[0]
     except:
         lastfm_username = None
 
