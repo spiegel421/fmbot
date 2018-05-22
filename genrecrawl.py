@@ -2,7 +2,7 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from twisted.internet import reactor
-
+from multiprocessing import Process
 
 class GenrecrawlSpider(scrapy.Spider):
     name = 'genrecrawl'
@@ -32,9 +32,13 @@ class GenrecrawlSpider(scrapy.Spider):
         writer.close()
 
 def edit_genre_file(artist, album):
-    genre_spider = GenrecrawlSpider()
-    runner = CrawlerRunner()
-    d = runner.crawl(genre_spider, artist=artist, album=album)
-    d.addBoth(lambda _: reactor.stop())
-    reactor.stop()
-    reactor.run()
+    def f():
+        genre_spider = GenrecrawlSpider()
+        runner = CrawlerRunner()
+        d = runner.crawl(genre_spider, artist=artist, album=album)
+        d.addBoth(lambda _: reactor.stop())
+        reactor.run()
+
+    p = Process(target=f)
+    p.start()
+    p.join()
