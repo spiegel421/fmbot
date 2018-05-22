@@ -228,4 +228,4 @@ class FmCog:
             await self.bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
 
 def setup(bot):
-    bot.add(FmCog(bot))
+    bot.add_cog(FmCog(bot))
