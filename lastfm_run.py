@@ -243,6 +243,8 @@ async def genres(ctx, artist, album):
     reader = open("genres.txt", 'r')
     pri_genres = reader.readline().split("\t")
     sec_genres = reader.readline().split("\t")
+    reader.close()
+    
     msg = ""
     for i in range(len(pri_genres)):
         msg += pri_genres[i]
