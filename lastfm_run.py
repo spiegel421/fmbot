@@ -233,7 +233,9 @@ async def embed_error(error, ctx):
 
 @bot.command(pass_context=True)
 async def genres(ctx, artist, album):
-    genre_spider = genrecrawl.GenrecrawlSpider(artist, album)
+    genre_spider = genrecrawl.GenrecrawlSpider()
+    genre_spider.start_urls = ['https://rateyourmusic.com/release/album/'+artist+'/'+album+'/']
+  
     process = CrawlerProcess()
     process.crawl(genre_spider)
     process.start()
