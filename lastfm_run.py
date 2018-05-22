@@ -9,11 +9,6 @@ lastfm = LastFmWrapper()
 topartist_msgs = {}
 trendingartist_msgs = {}
 
-@bot.event
-async def wait_for_message(message):
-    if message.author.id == '359613794843885569':
-        await bot.send_message(message.channel, 'Shut the fuck up, <@359613794843885569>.')
-
 @bot.group(pass_context=True)
 async def fm(ctx):
     if ctx.invoked_subcommand is not None:
@@ -232,5 +227,10 @@ async def embed_error(error, ctx):
         await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
     else:
         await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
+
+@bot.event
+async def on_message(message):
+    if message.author.id == '359613794843885569':
+        await bot.send_message(message.channel, 'Shut the fuck up, <@359613794843885569>.')
         
 bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
