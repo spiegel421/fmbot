@@ -232,7 +232,7 @@ async def embed_error(error, ctx):
 
 @bot.command(pass_context=True)
 async def genres(ctx, artist, album):
-    genre_spider = spiders.Genrecrawlspider(artist, album)
+    genre_spider = Genrecrawlspider(artist, album)
     process = CrawlerProcess()
     process.crawl(genre_spider)
     process.start()
