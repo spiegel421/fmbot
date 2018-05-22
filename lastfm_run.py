@@ -10,9 +10,9 @@ topartist_msgs = {}
 trendingartist_msgs = {}
 
 @bot.event
-async def on_message(message):
-    if message.author.id == '206277069678575616':
-        await bot.send_message(message.channel, 'Shut the fuck up, <@206277069678575616>.')
+async def wait_for_message(message):
+    if message.author.id == '359613794843885569':
+        await bot.send_message(message.channel, 'Shut the fuck up, <@359613794843885569>.')
 
 @bot.group(pass_context=True)
 async def fm(ctx):
