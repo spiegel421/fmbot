@@ -245,11 +245,11 @@ async def genres(ctx, artist, album):
     sec_genres = reader.readline().split("\t")
     msg = ""
     for i in range(len(pri_genres)):
-        msg += genre
+        msg += pri_genres[i]
         if i < len(pri_genres) - 1:
             msg += ", "
     for i in range(len(sec_genres)):
-        msg += genre
+        msg += sec_genres[i]
         if i < len(sec_genres) - 1:
             msg += ", "
     print('3')
