@@ -1,4 +1,6 @@
-import discord, scrobbles, trending, time
+import discord
+import scrobbles, trending, usernames
+import time
 from discord.ext import commands
 from lastfmwrapper import LastFmWrapper
 
@@ -32,12 +34,12 @@ async def fm(ctx):
     if ctx.invoked_subcommand is not None:
         return
     
-    author = str(ctx.message.author)
-    if author not in username_dict:
+    author = ctx.message.author
+    username = usernames.get_username(author.id)
+    if username == None:
         await bot.say("Set a username first. Bitch.")
         return
     
-    username = username_dict[author]
     last_played = lastfm.get_last_played(username)
     if last_played == None:
         await bot.say(username + " has never played any songs.")
@@ -99,13 +101,14 @@ async def embed_trending_artists(ctx):
 
 @fm.command(pass_context=True)
 async def set(ctx, username):
-    author = str(ctx.message.author)
+    if ctx.message.channel != bot.get_channel('245685218055290881'):
+        return
+    
     if lastfm.get_user(username) is None:
         await bot.say("User not found. Try learning how to type.")
         return
-    
-    username_dict[author] = username
-    rewrite_username_file(username_dict)
+
+    usernames.add_username(ctx.message.author.id, username)
     await bot.say("Username set. You should feel proud of yourself.")
 
 @fm.command(pass_context=True)

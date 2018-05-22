@@ -30,32 +30,37 @@ for name, ddl in TABLES.items():
 cursor.close()
 cnx.close()
 
-bot = discord.Client(command_prefix='$')
-
-@bot.command()
-async def load_usernames():
+def add_username(discord_id, lastfm_username):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
     add_username = ("INSERT INTO usernames"
                     "(discord_id, lastfm_username) "
                     "VALUES (%(discord_id)s, %(lastfm_username)s)")
-
-    reader = open("usernames.txt", 'r')
-    for line in reader.readlines():
-        lastfm_username = line.split(',')[1][:-1]
-#        try:
-        discord_id = bot.users.get('name', line.split(',')[0]).id
- #       except:
-#            continue
-        username_data = {
-            'discord_id': discord_id,
-            'lastfm_username': lastfm_username,
-            }
-        cursor.execute(add_username, username_data)
+    username_data = {
+        'discord_id': discord_id,
+        'lastfm_username': lastfm_username,
+        }
+    
+    cursor.execute(add_username, username_data)
         
     cnx.commit()
     cursor.close()
     cnx.close()
 
-bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
+def get_username(discord_id):
+    cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
+    cursor = cnx.cursor()
+
+    get_username = ("SELECT lastfm_username FROM usernames"
+                    "WHERE discord_id = "+discord_id)
+    
+    cursor.execute(get_username)
+    try:
+        lastfm_username = cursor[0][0]
+    except:
+        lastfm_username = None
+        
+    cnx.commit()
+    cursor.close()
+    cnx.close()
