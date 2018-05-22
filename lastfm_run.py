@@ -12,7 +12,7 @@ trendingartist_msgs = {}
 @bot.event
 async def on_message(message):
     if message.author.id == '206277069678575616':
-        await bot.say('Shut the fuck up, <@206277069678575616>.')
+        await bot.send_message(message.channel, 'Shut the fuck up, <@206277069678575616>.')
 
 @bot.group(pass_context=True)
 async def fm(ctx):
