@@ -246,7 +246,7 @@ async def genres(artist, album):
         if i < len(sec_genres) - 2:
             msg += ", "
 
-    await bot.say(msg)
+ #   await bot.say(msg)
     
 @embed_now_playing.error
 @embed_top_artists.error
