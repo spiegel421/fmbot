@@ -9,6 +9,7 @@ class FmCog:
         self.bot = bot
         self.topartist_msgs = {}
         self.trendingartist_msgs = {}
+        self.lastfm = LastFmWrapper()
     
     @commands.group(pass_context=True)
     async def fm(self, ctx):
@@ -20,7 +21,7 @@ class FmCog:
             await self.bot.say("Set a username first. Bitch.")
             return
         
-        last_played = lastfm.get_last_played(username)
+        last_played = self.lastfm.get_last_played(username)
         if last_played == None:
             await self.bot.say(username + " has never played any songs.")
             return
@@ -31,7 +32,7 @@ class FmCog:
     @commands.cooldown(1, 420, commands.BucketType.user)
     async def embed_now_playing(self, ctx):
         username = usernames.get_username(ctx.message.author.id)
-        now_playing = lastfm.get_last_played(username)
+        now_playing = self.lastfm.get_last_played(username)
         artist = now_playing.artist.name
         artist_search_url = "["+artist+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+artist+")").replace(" ","%20")
         track = now_playing.title
@@ -85,7 +86,7 @@ class FmCog:
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
             return
         
-        if lastfm.get_user(username) is None:
+        if self.lastfm.get_user(username) is None:
             await self.bot.say("User not found. Try learning how to type.")
             return
 
@@ -102,7 +103,7 @@ class FmCog:
             await self.bot.say("Set a username first. Bitch.")
             return
 
-        wrapper = lastfm.get_user_artists(username)
+        wrapper = self.lastfm.get_user_artists(username)
         if wrapper.total_artists == 0:
             await self.bot.say(username + " has not played any artists.")
             return
@@ -113,7 +114,7 @@ class FmCog:
     @commands.cooldown(1, 420, commands.BucketType.user)
     async def embed_top_artists(self, ctx):
         username = usernames.get_username(ctx.message.author.id)
-        wrapper = lastfm.get_user_artists(username)
+        wrapper = self.lastfm.get_user_artists(username)
         top_artists = wrapper.artists
         if wrapper.total_artists > 10:
             top_artists = top_artists[:10]
@@ -157,7 +158,7 @@ class FmCog:
         author = self.topartist_msgs[msg_id][0]
         page = self.topartist_msgs[msg_id][1]
         username = usernames.get_username(author.id)
-        wrapper = lastfm.get_user_artists(username)
+        wrapper = self.lastfm.get_user_artists(username)
         top_artists = wrapper.artists
         max_pages = wrapper.total_artists / 10 + 1
 
