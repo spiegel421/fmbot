@@ -1,7 +1,10 @@
 import discord
-import scrobbles, trending, usernames
-import time, random
 from discord.ext import commands
+import scrobbles, trending, usernames
+import scrapy
+from scrapy.crawler import CrawlerProcess
+from genres.genres import spiders
+import time, random
 from lastfmwrapper import LastFmWrapper
 
 bot = commands.Bot(command_prefix='$')
@@ -227,5 +230,25 @@ async def embed_error(error, ctx):
         await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
     else:
         await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
-        
+
+@commands.command()
+async def genres(ctx, artist, album):
+    genre_spider = spiders.Genrecrawlspider(artist, album)
+    process = CrawlerProcess()
+    process.crawl(genre_spider)
+    process.start()
+
+    reader = open("genres.txt", 'r')
+    pri_genres = reader.readline().split("\t")
+    sec_genres = reader.readline().split("\t")
+    msg = ""
+    for i in range(len(pri_genres)):
+        msg += genre
+        if i < len(pri_genres) - 1:
+            msg += ", "
+    for i in range(len(sec_genres)):
+        msg += genre
+        if i < len(sec_genres) - 1:
+            msg += ", "
+    
 bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
