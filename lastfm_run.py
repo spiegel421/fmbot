@@ -11,7 +11,7 @@ bot = commands.Bot(command_prefix='$')
 lastfm = LastFmWrapper()
 topartist_msgs = {}
 trendingartist_msgs = {}
-
+process = CrawlerProcess()
 
 @bot.group(pass_context=True)
 async def fm(ctx):
@@ -227,7 +227,6 @@ async def flip_page_trending(reaction, msg, msg_id):
 async def genres(artist, album):
     genre_spider = genrecrawl.GenrecrawlSpider()
     
-    process = CrawlerProcess()
     process.crawl(genre_spider, artist=artist, album=album)
     process.start()
     
@@ -246,7 +245,7 @@ async def genres(artist, album):
         if i < len(sec_genres) - 2:
             msg += ", "
 
- #   await bot.say(msg)
+    await bot.say(msg)
     
 @embed_now_playing.error
 @embed_top_artists.error
