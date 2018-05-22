@@ -224,7 +224,7 @@ async def flip_page_trending(reaction, msg, msg_id):
 
 @bot.command()
 async def genres(artist, album):
-    genrecrawl.edit_genre_file()
+    genrecrawl.edit_genre_file(artist, album)
     
     reader = open("genres.txt", 'r')
     pri_genres = reader.readline().split("\t")
@@ -251,6 +251,7 @@ async def embed_error(error, ctx):
     if isinstance(error, commands.CommandOnCooldown):
         await bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
     else:
+        await bot.say(error)
         await bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
     
 bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
