@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands
 import scrobbles, trending, usernames
-import scrapy
-from scrapy.crawler import CrawlerProcess
 import genrecrawl
 import time, random
 from lastfmwrapper import LastFmWrapper
