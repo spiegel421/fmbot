@@ -30,7 +30,8 @@ class GenrecrawlSpider(scrapy.Spider):
             writer.write(genre+"\t")
         writer.close()
 
-#genre_spider = GenrecrawlSpider()
-#process = CrawlerProcess()
-#process.crawl(genre_spider, artist='yes', album='fragile')
-#process.start()
+def edit_genre_file(artist, album)
+    genre_spider = GenrecrawlSpider()
+    process = CrawlerProcess()
+    process.crawl(genre_spider, artist=artist, album=album)
+    process.start()
