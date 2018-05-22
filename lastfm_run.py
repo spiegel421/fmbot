@@ -11,8 +11,7 @@ bot = commands.Bot(command_prefix='$')
 lastfm = LastFmWrapper()
 topartist_msgs = {}
 trendingartist_msgs = {}
-process = CrawlerProcess()
-genre_spider = genrecrawl.GenrecrawlSpider()
+
 
 @bot.group(pass_context=True)
 async def fm(ctx):
@@ -226,9 +225,10 @@ async def flip_page_trending(reaction, msg, msg_id):
 
 @bot.command()
 async def genres(artist, album):
-    genre_spider.start_urls = ['https://rateyourmusic.com/release/album/'+artist+'/'+album+'/']
+    genre_spider = genrecrawl.GenrecrawlSpider()
     
-    process.crawl(genre_spider)
+    process = CrawlerProcess()
+    process.crawl(genre_spider, artist=artist, album=album)
     process.start()
     
     reader = open("genres.txt", 'r')

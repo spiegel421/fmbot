@@ -13,6 +13,10 @@ class GenrecrawlSpider(scrapy.Spider):
         'REDIRECT_ENABLED': True,
         'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
         }
+
+    def __init__(self, artist='', album='', **kwargs):
+        self.start_urls = ['https://rateyourmusic.com/release/album/'+artist+'/'+album+'/']
+        super().__init__(**kwargs)
  
     def parse(self, response):
         writer = open("genres.txt", 'w')
@@ -25,3 +29,8 @@ class GenrecrawlSpider(scrapy.Spider):
         for genre in sec_genre_table:
             writer.write(genre+"\t")
         writer.close()
+
+#genre_spider = GenrecrawlSpider()
+#process = CrawlerProcess()
+#process.crawl(genre_spider, artist='yes', album='fragile')
+#process.start()
