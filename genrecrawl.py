@@ -36,5 +36,5 @@ def edit_genre_file(artist, album):
     runner = CrawlerRunner()
     d = runner.crawl(genre_spider, artist=artist, album=album)
     d.addBoth(lambda _: reactor.stop())
-    reactor.run()
     reactor.stop()
+    reactor.run()
