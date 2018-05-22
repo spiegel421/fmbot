@@ -4,8 +4,6 @@ from scrapy.crawler import CrawlerProcess
 
 
 class GenrecrawlSpider(scrapy.Spider):
-    artist = 'taylor-swift'
-    album = 'reputation'
     name = 'genrecrawl'
     allowed_domains = ['rateyourmusic.com/']
     custom_settings = {
@@ -15,8 +13,7 @@ class GenrecrawlSpider(scrapy.Spider):
         'REDIRECT_ENABLED': True,
         'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
         }
-    start_urls = ['https://rateyourmusic.com/release/album/'+artist+'/'+album+'/']
-  
+ 
     def parse(self, response):
         writer = open("genres.txt", 'w')
         genre_table = response.css("tr.release_genres")
