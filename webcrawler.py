@@ -33,7 +33,7 @@ def check_valid_username(username):
     d.addBoth(lambda _: reactor.stop())
     reactor.run()
 
-  """      
+"""
     p = Process(target=f)
     p.start()
     p.join()
