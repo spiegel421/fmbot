@@ -6,6 +6,7 @@ from multiprocessing import Process
 
 class UsernameSpider(scrapy.Spider):
     name = 'checkvalidusername'
+    handle_httpstatus_list = [404] 
     allowed_domains = ['rateyourmusic.com/']
     custom_settings = {
         'DOWNLOAD_DELAY': 10,
@@ -20,7 +21,6 @@ class UsernameSpider(scrapy.Spider):
         super().__init__(**kwargs)
  
     def parse(self, response):
-        print('hi')
         writer = open("valid.txt", 'w')
         writer.write(response.status)
         writer.close()
