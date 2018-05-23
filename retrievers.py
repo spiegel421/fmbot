@@ -5,9 +5,9 @@ from scrapy.crawler import CrawlerProcess
 from webcrawler.webcrawler.spiders import username_spider, top_ratings_spider
 from multiprocessing import Process
 
-sys.path.append(dirname("/Users/justin/Documents/lastfm/webcrawler/webcrawler"))
+sys.path.append(dirname("/Users/justin/Documents/lastfm/webcrawler"))
 s = settings.Settings()
-s.setmodule("webcrawler.settings")
+s.setmodule("webcrawler.webcrawler.settings")
 
 def check_valid_username(username):
     def f():
