@@ -22,7 +22,7 @@ class UsernameSpider(scrapy.Spider):
 
 def check_valid_username(username):
     def f():
-        u_s = username_spider.UsernameSpider()
+        u_s = UsernameSpider()
         process = CrawlerProcess(get_project_settings())
         process.crawl(u_s, username=username)
         process.start()
@@ -53,7 +53,7 @@ class TopRatingsSpider(scrapy.Spider):
 
 def get_top_ratings(username, genre):    
     def f():
-        t_r_s = top_ratings_spider.TopRatingsSpider()
+        t_r_s = TopRatingsSpider()
         process = CrawlerProcess(get_project_settings())
         process.crawl(t_r_s, username=username)
         process.start()
