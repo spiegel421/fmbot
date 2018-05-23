@@ -30,7 +30,7 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def get(self, ctx, query):
-        member = discord.utils.find(lambda m: m.name == query, ctx.message.channel.server.members)
+        member = discord.utils.find(lambda m: m.nick == query, ctx.message.channel.server.members)
 
         username = rym_data.get_username(member.id)
         if username is None:
