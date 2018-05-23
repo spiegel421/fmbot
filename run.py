@@ -6,11 +6,12 @@ the RateYourMusic scrapy webcrawler.
 """
 import discord
 from discord.ext import commands
-import fm_cog, rym_cog
+import fm_cog, rym_cog, help_cog
 
 bot = commands.Bot(command_prefix='$')
 fm_cog.setup(bot)
 rym_cog.setup(bot)
+help_cog.setup(bot)
 
 @bot.command()
 async def genres(artist, album):
