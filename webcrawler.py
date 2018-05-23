@@ -1,9 +1,23 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from scrapy.exporters import PprintItemExporter
+from scrapy.exporters import CsvItemExporter
 from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from twisted.internet import reactor
 from multiprocessing import Process
+
+class CsvPipeline:
+    def __init__(self):
+        self.file = open("temp.csv", 'wb')
+        self.exporter = CsvItemExporter(self.file, unicode)
+        self.exporter.start_exporting()
+ 
+    def close_spider(self, spider):
+        self.exporter.finish_exporting()
+        self.file.close()
+ 
+    def process_item(self, item, spider):
+        self.exporter.export_item(item)
+        return item
 
 class UsernameSpider(scrapy.Spider):
     name = 'checkvalidusername'
@@ -51,6 +65,9 @@ class TopRatingsSpider(scrapy.Spider):
         'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
         'LOG_STDOUT': True,
         'LOG_FILE': 'temp.txt',
+        'ITEM_PIPELINES': {
+            'gettopratings.pipelines.CsvPipeline': 500,
+            }
         }
 
     def __init__(self, username='', genre='', **kwargs):
@@ -77,5 +94,5 @@ def get_top_ratings(username, genre):
     p.start()
     p.join()
 
-    with open("temp.txt", 'r') as reader:
+    with open("temp.csv", 'r') as reader:
         return reader.read()
