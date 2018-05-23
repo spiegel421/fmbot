@@ -25,6 +25,7 @@ class UsernameSpider(scrapy.Spider):
             writer.write("False")
         else:
             writer.write("True")
+        writer.close()
 
 def check_valid_username(username):
     def f():
