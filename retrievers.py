@@ -5,7 +5,7 @@ from scrapy.crawler import CrawlerProcess
 from webcrawler.webcrawler.spiders import username_spider, top_ratings_spider
 from multiprocessing import Process
 
-sys.path.append(dirname("/home/ec2-user/lastfm_test/webcrawler"))
+sys.path.append(dirname("/home/ec2-user/lastfm_test/webcrawler/webcrawler"))
 s = settings.Settings()
 s.setmodule("webcrawler.settings")
 
