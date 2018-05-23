@@ -22,8 +22,8 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def set(self, ctx, username):
-        if ctx.message.channel != self.bot.get_channel('245685218055290881'):
-            return
+ #       if ctx.message.channel != self.bot.get_channel('245685218055290881'):
+ #           return
 
         webcrawler.check_valid_username(username)
         with open("valid.txt", 'r') as reader:
