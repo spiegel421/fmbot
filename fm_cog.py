@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import scrobbles, trending, usernames
+import fm_data
 import time
 from lastfmwrapper import LastFmWrapper
 
@@ -16,7 +16,7 @@ class FmCog:
         if ctx.invoked_subcommand is not None:
             return
         
-        username = usernames.get_username(ctx.message.author.id)
+        username = fm_data.get_username(ctx.message.author.id)
         if username == None:
             await self.bot.say("Set a username first. It's ok, bud, we all make mistakes sometimes.")
             return
@@ -31,7 +31,7 @@ class FmCog:
     @commands.command(pass_context=True)
     @commands.cooldown(1, 420, commands.BucketType.user)
     async def embed_now_playing(self, ctx):
-        username = usernames.get_username(ctx.message.author.id)
+        username = fm_data.get_username(ctx.message.author.id)
         now_playing = self.lastfm.get_last_played(username)
         artist = now_playing.artist.name
         artist_search_url = "["+artist+("](https://rateyourmusic.com/search?&searchtype=a&searchterm="+artist+")").replace(" ","%20")
@@ -49,7 +49,7 @@ class FmCog:
             'track': track,
             'timestamp': time.time(),
         }
-        scrobbles.add_scrobble_data(scrobble_data)
+        fm_data.add_scrobble_data(scrobble_data)
 
 
     @fm.command(pass_context=True)
@@ -57,7 +57,7 @@ class FmCog:
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
             return
         
-        trending_artist_dict = trending.find_trending_artists(int(num_days))
+        trending_artist_dict = fm_data.find_trending_artists(int(num_days))
         sorted_dict = sorted(trending_artist_dict.items(), key=lambda x: x[1], reverse=True)
 
         ctx.trending_artists = sorted_dict
@@ -90,7 +90,7 @@ class FmCog:
             await self.bot.say("User not found. I'm sure you'll get it right eventually. <3")
             return
 
-        usernames.add_username(ctx.message.author.id, username)
+        fm_data.add_username(ctx.message.author.id, username)
         await self.bot.say("I love you.")
 
     @fm.command(pass_context=True)
@@ -98,7 +98,7 @@ class FmCog:
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
             return
         
-        username = usernames.get_username(ctx.message.author.id)
+        username = fm_data.get_username(ctx.message.author.id)
         if username is None:
             await self.bot.say("Set a username first. It's ok, bud, we all make mistakes sometimes.")
             return
@@ -113,7 +113,7 @@ class FmCog:
     @commands.command(pass_context=True)
     @commands.cooldown(1, 420, commands.BucketType.user)
     async def embed_top_artists(self, ctx):
-        username = usernames.get_username(ctx.message.author.id)
+        username = fm_data.get_username(ctx.message.author.id)
         wrapper = self.lastfm.get_user_artists(username)
         top_artists = wrapper.artists
         if wrapper.total_artists > 10:
@@ -157,7 +157,7 @@ class FmCog:
     async def flip_page_top(self, reaction, msg, msg_id):
         author = self.topartist_msgs[msg_id][0]
         page = self.topartist_msgs[msg_id][1]
-        username = usernames.get_username(author.id)
+        username = fm_data.get_username(author.id)
         wrapper = self.lastfm.get_user_artists(username)
         top_artists = wrapper.artists
         max_pages = wrapper.total_artists / 10 + 1
