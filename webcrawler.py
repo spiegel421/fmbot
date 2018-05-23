@@ -21,10 +21,7 @@ class UsernameSpider(scrapy.Spider):
  
     def parse(self, response):
         writer = open("valid.txt", 'w')
-        if response.status == 404:
-            writer.write("False")
-        else:
-            writer.write("True")
+        writer.write(response.status)
         writer.close()
 
 def check_valid_username(username):
