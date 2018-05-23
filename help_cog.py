@@ -19,7 +19,7 @@ class HelpCog:
         line4 = "`$fm topartists: displays your top artists on last.fm.\n`"
         line5 = "`$fm trendingartists <num_days>: displays server's top artists in past num_days.`"
 
-        await bot.say(line1 + line2 + line3 + line4 + line5)
+        await self.bot.say(line1 + line2 + line3 + line4 + line5)
 
 def setup(bot):
     bot.add_cog(HelpCog(bot))
