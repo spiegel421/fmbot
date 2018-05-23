@@ -22,7 +22,7 @@ class UsernameSpider(scrapy.Spider):
         super().__init__(**kwargs)
  
     def parse(self, response):
-        writer = open(username+".txt", 'w')
+        writer = open("temp.txt", 'w')
         writer.write(str(response.status))
         writer.close()
 
@@ -37,7 +37,7 @@ def check_valid_username(username):
     p.start()
     p.join()
 
-    with open(username+".txt", 'r') as reader:
+    with open("temp.txt", 'r') as reader:
         return reader.read()
 
 class TopRatingsSpider(scrapy.Spider):
