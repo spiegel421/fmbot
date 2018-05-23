@@ -5,7 +5,7 @@ from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from twisted.internet import reactor
 from multiprocessing import Process
 
-class CsvPipeline:
+class CsvPipeline(object):
     def __init__(self):
         self.file = open("temp.csv", 'wb')
         self.exporter = CsvItemExporter(self.file, unicode)
