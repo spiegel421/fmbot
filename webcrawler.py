@@ -26,15 +26,16 @@ class UsernameSpider(scrapy.Spider):
         writer.close()
 
 def check_valid_username(username):
-    def f():
-        username_spider = UsernameSpider()
-        runner = CrawlerRunner()
-        d = runner.crawl(username_spider, username=username)
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
-        
+ #   def f():
+    username_spider = UsernameSpider()
+    runner = CrawlerRunner()
+    d = runner.crawl(username_spider, username=username)
+    d.addBoth(lambda _: reactor.stop())
+    reactor.run()
+
+  """      
     p = Process(target=f)
     p.start()
     p.join()
     print('success!')
-
+"""
