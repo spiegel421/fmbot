@@ -1,24 +1,21 @@
-import scrapy, sys
+import scrapy, sys, os
 from os.path import dirname
 from scrapy import settings
+from scrapy.utils.project import get_project_settings
 from scrapy.crawler import CrawlerProcess
-from webcrawler.webcrawler.spiders import username_spider, top_ratings_spider
+from webcrawler.spiders import username_spider, top_ratings_spider
 from multiprocessing import Process
 
-#sys.path.append("/home/ec2-user/lastfm_test/webcrawler/")
-s = settings.Settings()
-s.setmodule("webcrawler.webcrawler.settings")
-
 def check_valid_username(username):
-    def f():
-        u_s = username_spider.UsernameSpider()
-        process = CrawlerProcess()
-        process.crawl(u_s, username=username)
-        process.start()
+ #   def f():
+    u_s = username_spider.UsernameSpider()
+    process = CrawlerProcess(get_project_settings())
+    process.crawl(u_s, username=username)
+    process.start()
 
-    p = Process(target=f)
-    p.start()
-    p.join()
+ #   p = Process(target=f)
+#    p.start()
+#    p.join()
 
     with open("temp.txt", 'r') as reader:
         return reader.read()
@@ -26,7 +23,7 @@ def check_valid_username(username):
 def get_top_ratings(username, genre):    
     def f():
         t_r_s = top_ratings_spider.TopRatingsSpider()
-        process = CrawlerProcess(s)
+        process = CrawlerProcess(get_project_settings())
         process.crawl(t_r_s, username=username)
         process.start()
 
@@ -36,3 +33,5 @@ def get_top_ratings(username, genre):
 
     with open("temp.csv", 'r') as reader:
         return reader.read()
+
+check_valid_username("appellation1")
