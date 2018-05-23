@@ -29,8 +29,8 @@ async def on_message(message):
         for command,description in commands.items():
             embed.add_field(name=command, value=description, inline=False)
         await bot.say(embed=embed)
-
-    await bot.process_commands(message)
+    else:
+        await bot.process_commands(message)
 
 with open('token.txt', 'r') as reader:
     bot.run(reader.read()[:-1])
