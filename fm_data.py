@@ -44,7 +44,7 @@ Functions for tracking and storing scrobbles.
 """
 
 def add_scrobble_data(scrobble_data):
-    cnx = mysql.connector.connect(user='root', database='scrobbles', password='Reverie42!')
+    cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
     add_scrobble = ("INSERT INTO scrobbles "
