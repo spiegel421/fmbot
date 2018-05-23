@@ -66,7 +66,7 @@ class TopRatingsSpider(scrapy.Spider):
         'LOG_STDOUT': True,
         'LOG_FILE': 'temp.txt',
         'ITEM_PIPELINES': {
-            'lastfm.pipelines.CsvPipeline': 500,
+            'pipelines.CsvPipeline': 500,
             }
         }
 
