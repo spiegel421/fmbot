@@ -18,7 +18,7 @@ class FmCog:
         
         username = usernames.get_username(ctx.message.author.id)
         if username == None:
-            await self.bot.say("Set a username first. Bitch.")
+            await self.bot.say("Set a username first. It's ok, bud, we all make mistakes sometimes.")
             return
         
         last_played = self.lastfm.get_last_played(username)
@@ -87,11 +87,11 @@ class FmCog:
             return
         
         if self.lastfm.get_user(username) is None:
-            await self.bot.say("User not found. Try learning how to type.")
+            await self.bot.say("User not found. I'm sure you'll get it right eventually. <3")
             return
 
         usernames.add_username(ctx.message.author.id, username)
-        await self.bot.say("Username set. You should feel proud of yourself.")
+        await self.bot.say("I love you.")
 
     @fm.command(pass_context=True)
     async def topartists(self, ctx):
@@ -100,7 +100,7 @@ class FmCog:
         
         username = usernames.get_username(ctx.message.author.id)
         if username is None:
-            await self.bot.say("Set a username first. Bitch.")
+            await self.bot.say("Set a username first. It's ok, bud, we all make mistakes sometimes.")
             return
 
         wrapper = self.lastfm.get_user_artists(username)
@@ -224,7 +224,7 @@ class FmCog:
     @embed_trending_artists.error
     async def embed_error(self, error, ctx):
         if isinstance(error, commands.CommandOnCooldown):
-            await self.bot.say("Wait {}m, {}s for the cooldown, you neanderthal.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
+            await self.bot.say("Wait {}m, {}s for the cooldown, love.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
         else:
             await self.bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
 
