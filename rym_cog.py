@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import webcrawler
+from webcrawler import retrievers
 import rym_data
 
 class RYMCog:
@@ -25,7 +25,7 @@ class RYMCog:
  #       if ctx.message.channel != self.bot.get_channel('245685218055290881'):
  #           return
 
-        status = webcrawler.check_valid_username(username)
+        status = retrievers.check_valid_username(username)
         if "404" in status:
             await self.bot.say("That is not a valid username.")
             return
@@ -58,7 +58,7 @@ class RYMCog:
             await self.bot.say("Looks like you don't have a username set!")
             return
 
-        await self.bot.say(webcrawler.get_top_ratings(username, genre))
+        await self.bot.say(retrievers.get_top_ratings(username, genre))
         
 def setup(bot):
     bot.add_cog(RYMCog(bot))
