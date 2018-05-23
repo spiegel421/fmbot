@@ -224,9 +224,12 @@ class FmCog:
     @embed_trending_artists.error
     async def embed_error(self, error, ctx):
         if isinstance(error, commands.CommandOnCooldown):
-            await self.bot.say("Wait {}m, {}s for the cooldown, love.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
+            if ctx.message.author.id == '387046431262769153':
+                await bot.say('Frawg, more like, mug lite')
+            else:
+                await self.bot.say("Wait {}m, {}s for the cooldown, love.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
         else:
-            await self.bot.say("Unknown error occurred. <@359613794843885569>, get your shit straight.")
+            await self.bot.say("Unknown error occurred. <@359613794843885569>, darling, get your shit straight.")
 
 def setup(bot):
     bot.add_cog(FmCog(bot))
