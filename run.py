@@ -9,6 +9,7 @@ from discord.ext import commands
 import fm_cog, rym_cog
 
 bot = commands.Bot(command_prefix='$')
+bot.remove_command('help')
 fm_cog.setup(bot)
 rym_cog.setup(bot)
 
@@ -28,7 +29,6 @@ async def on_message(message):
         for command,description in commands.items():
             embed.add_field(name=command, value=description, inline=False)
         await bot.say(embed=embed)
-        return
 
     await bot.process_commands(message)
 
