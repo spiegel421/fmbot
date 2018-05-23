@@ -28,10 +28,9 @@ class UsernameSpider(scrapy.Spider):
 def check_valid_username(username):
  #   def f():
     username_spider = UsernameSpider()
-    runner = CrawlerRunner()
-    d = runner.crawl(username_spider, username=username)
-    d.addBoth(lambda _: reactor.stop())
-    reactor.run()
+    process = CrawlerProcess()
+    process.crawl(username_spider, username=username)
+    process.start()
 
 """
     p = Process(target=f)
