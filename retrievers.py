@@ -11,9 +11,9 @@ s.setmodule("webcrawler.webcrawler.settings")
 
 def check_valid_username(username):
     def f():
-        username_spider = username_spider.UsernameSpider()
+        u_s = username_spider.UsernameSpider()
         process = CrawlerProcess()
-        process.crawl(username_spider, username=username)
+        process.crawl(u_s, username=username)
         process.start()
 
     p = Process(target=f)
@@ -25,9 +25,9 @@ def check_valid_username(username):
 
 def get_top_ratings(username, genre):    
     def f():
-        top_ratings_spider = top_ratings_spider.TopRatingsSpider()
+        t_r_s = top_ratings_spider.TopRatingsSpider()
         process = CrawlerProcess(s)
-        process.crawl(top_ratings_spider, username=username)
+        process.crawl(t_r_s, username=username)
         process.start()
 
     p = Process(target=f)
