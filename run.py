@@ -12,7 +12,6 @@ bot = commands.Bot(command_prefix='$')
 fm_cog.setup(bot)
 rym_cog.setup(bot)
 
-@discord.Client.event
 async def on_message(message):
     if message.content.lower().startswith('&help'):
         commands={}
