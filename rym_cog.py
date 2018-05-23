@@ -17,7 +17,7 @@ class RYMCog:
             await self.bot.say("Looks like you don't have a username set!")
             return
         
-        await self.bot.say("["+ctx.message.author+"'s RYM profile](https://www.rateyourmusic.com/~"+username+")")      
+        await self.bot.say("["+str(ctx.message.author)+"'s RYM profile](https://www.rateyourmusic.com/~"+username+")")      
 
 
     @rym.command(pass_context=True)
