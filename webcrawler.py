@@ -4,7 +4,7 @@ from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from twisted.internet import reactor
 from multiprocessing import Process
 
-class GenrecrawlSpider(scrapy.Spider):
+class GenreSpider(scrapy.Spider):
     name = 'genrecrawl'
     allowed_domains = ['rateyourmusic.com/']
     custom_settings = {
@@ -33,7 +33,7 @@ class GenrecrawlSpider(scrapy.Spider):
 
 def edit_genre_file(artist, album):
     def f():
-        genre_spider = GenrecrawlSpider()
+        genre_spider = GenreSpider()
         runner = CrawlerRunner()
         d = runner.crawl(genre_spider, artist=artist, album=album)
         d.addBoth(lambda _: reactor.stop())
