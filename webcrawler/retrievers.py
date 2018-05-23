@@ -7,15 +7,15 @@ from webcrawler.spiders import username_spider, top_ratings_spider
 from multiprocessing import Process
 
 def check_valid_username(username):
- #   def f():
-    u_s = username_spider.UsernameSpider()
-    process = CrawlerProcess(get_project_settings())
-    process.crawl(u_s, username=username)
-    process.start()
+    def f():
+        u_s = username_spider.UsernameSpider()
+        process = CrawlerProcess(get_project_settings())
+        process.crawl(u_s, username=username)
+        process.start()
 
- #   p = Process(target=f)
-#    p.start()
-#    p.join()
+    p = Process(target=f)
+    p.start()
+    p.join()
 
     with open("temp.txt", 'r') as reader:
         return reader.read()
