@@ -5,6 +5,9 @@ from scrapy.utils.project import get_project_settings
 from scrapy.crawler import CrawlerProcess
 from multiprocessing import Process
 
+settings_file_path = 'webcrawler.webcrawler.settings' # The path seen from root, ie. from main.py
+os.environ.setdefault('SCRAPY_SETTINGS_MODULE', settings_file_path)
+
 class UsernameSpider(scrapy.Spider):
     name = 'checkvalidusername'
     handle_httpstatus_list = [404] 
