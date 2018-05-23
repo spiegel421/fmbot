@@ -25,6 +25,11 @@ class RYMCog:
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
             return
 
+        status = webcrawler.check_valid_username(username)
+        if "404" in status:
+            await self.bot.say("That is not a valid username.")
+            return
+
         rym_data.add_username(ctx.message.author.id, username)
         await self.bot.say("I love you.")
 

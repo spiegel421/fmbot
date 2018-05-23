@@ -4,8 +4,9 @@ from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from twisted.internet import reactor
 from multiprocessing import Process
 
-class GenreSpider(scrapy.Spider):
-    name = 'genrecrawl'
+class UsernameSpider(scrapy.Spider):
+    name = 'checkvalidusername'
+    handle_httpstatus_list = [404] 
     allowed_domains = ['rateyourmusic.com/']
     custom_settings = {
         'DOWNLOAD_DELAY': 10,
@@ -15,30 +16,25 @@ class GenreSpider(scrapy.Spider):
         'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
         }
 
-    def __init__(self, artist='', album='', **kwargs):
-        self.start_urls = ['https://rateyourmusic.com/release/album/'+artist+'/'+album+'/']
+    def __init__(self, username='', **kwargs):
+        self.start_urls = ["https://rateyourmusic.com/~"+username]
         super().__init__(**kwargs)
  
     def parse(self, response):
-        writer = open("genres.txt", 'w')
-        genre_table = response.css("tr.release_genres")
-        pri_genre_table = genre_table.css("span.release_pri_genres a.genre::text").extract()
-        sec_genre_table = genre_table.css("span.release_sec_genres a.genre::text").extract()
-        for genre in pri_genre_table:
-            writer.write(genre+"\t")
-        writer.write("\n")
-        for genre in sec_genre_table:
-            writer.write(genre+"\t")
+        writer = open("valid.txt", 'w')
+        writer.write(str(response.status))
         writer.close()
 
-def edit_genre_file(artist, album):
+def check_valid_username(username):
     def f():
-        genre_spider = GenreSpider()
-        runner = CrawlerRunner()
-        d = runner.crawl(genre_spider, artist=artist, album=album)
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        username_spider = UsernameSpider()
+        process = CrawlerProcess()
+        process.crawl(username_spider, username=username)
+        process.start()
 
     p = Process(target=f)
     p.start()
     p.join()
+
+    with open("valid.txt", 'r') as reader:
+        return reader.read()
