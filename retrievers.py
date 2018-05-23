@@ -2,7 +2,7 @@ import scrapy, sys
 from os.path import dirname
 from scrapy import settings
 from scrapy.crawler import CrawlerProcess
-from spiders import username_spider, top_ratings_spider
+from webcrawler.webcrawler.spiders import username_spider, top_ratings_spider
 from multiprocessing import Process
 
 sys.path.append(dirname("/Users/justin/Documents/lastfm/webcrawler/"))
