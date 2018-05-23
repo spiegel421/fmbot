@@ -37,5 +37,5 @@ async def genres(artist, album):
 async def genre_error(error, ctx):
     await bot.say("Artist or album not found. Uh, make sure you're searching for music, I guess.")
 
-                 
-bot.run('NDQ2Mzk4NzE2MzIwOTQwMDMz.DeAL-w.jl3yn0k2CppVQflCDe3jbAzwhJE')
+with open('token.txt', 'r') as reader:
+    bot.run(reader.read())
