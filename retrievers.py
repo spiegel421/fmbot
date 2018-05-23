@@ -7,7 +7,7 @@ from multiprocessing import Process
 
 sys.path.append(dirname("/Users/justin/Documents/lastfm/webcrawler"))
 s = settings.Settings()
-s.setmodule("webcrawler.webcrawler.settings")
+s.setmodule("webcrawler.settings")
 
 def check_valid_username(username):
     def f():
