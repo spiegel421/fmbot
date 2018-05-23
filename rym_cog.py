@@ -16,8 +16,9 @@ class RYMCog:
         if username is None:
             await self.bot.say("Looks like you don't have a username set!")
             return
-        
-        await self.bot.say("["+str(ctx.message.author)+"'s RYM profile](https://www.rateyourmusic.com/~"+username+")")      
+
+        embed = discord.Embed(colour=0x000080, title="<@"+str(ctx.message.author.id)+">'s RYM profile", description="https://www.rateyourmusic.com/~"+username)
+        await self.bot.say(embed=embed)
 
 
     @rym.command(pass_context=True)
