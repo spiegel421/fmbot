@@ -22,7 +22,7 @@ class UsernameSpider(scrapy.Spider):
  
     def parse(self, response):
         writer = open("valid.txt", 'w')
-        writer.write(response.status)
+        writer.write(str(response.status))
         writer.close()
 
 def check_valid_username(username):
