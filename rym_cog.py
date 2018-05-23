@@ -17,7 +17,7 @@ class RYMCog:
             await self.bot.say("Looks like you don't have a username set!")
             return
 
-        embed = discord.Embed(colour=0x000080, title="<@"+str(ctx.message.author.id)+">'s RYM profile", description="https://www.rateyourmusic.com/~"+username)
+        embed = discord.Embed(colour=0x000080, title=ctx.message.author.nick+"'s RYM profile", description="https://www.rateyourmusic.com/~"+username)
         await self.bot.say(embed=embed)
 
 
