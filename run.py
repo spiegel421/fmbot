@@ -37,4 +37,4 @@ async def genre_error(error, ctx):
     await bot.say("Artist or album not found. Uh, make sure you're searching for music, I guess.")
 
                  
-bot.run('NDQ1ODQzODMwODYwOTM5MjY1.DdzE-g.kffUonxFS9M-0OMCUcwnAYErGYQ')
+bot.run('NDQ2Mzk4NzE2MzIwOTQwMDMz.DeAL-w.jl3yn0k2CppVQflCDe3jbAzwhJE')
