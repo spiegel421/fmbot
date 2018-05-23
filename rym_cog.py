@@ -27,6 +27,17 @@ class RYMCog:
 
         rym_data.add_username(ctx.message.author.id, username)
         await self.bot.say("I love you.")
+
+    @rym.command(pass_context=True)
+    async def get(self, ctx, query):
+        member = discord.utils.find(lambda m: m.name == query, ctx.channel.server.members)
+
+        username = rym_data.get_username(member.id)
+        if username is None:
+            await self.bot.say(member.name + " doesn't seem to have a RYM profile established.")
+            return
+
+        await self.bot.say("https://www.rateyourmusic.com/~"+username)
         
 def setup(bot):
     bot.add_cog(RYMCog(bot))
