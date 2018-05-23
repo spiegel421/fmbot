@@ -12,30 +12,22 @@ bot = commands.Bot(command_prefix='$')
 fm_cog.setup(bot)
 rym_cog.setup(bot)
 
-@bot.command()
-async def genres(artist, album):
-    genrecrawl.edit_genre_file(artist, album)
-    
-    reader = open("genres.txt", 'r')
-    pri_genres = reader.readline().split("\t")
-    sec_genres = reader.readline().split("\t")
-    reader.close()
-    
-    msg = ""
-    for i in range(len(pri_genres)):
-        msg += pri_genres[i]
-        if i < len(pri_genres) - 2:
-            msg += ", "
-    for i in range(len(sec_genres)):
-        msg += sec_genres[i]
-        if i < len(sec_genres) - 2:
-            msg += ", "
-
-    await bot.say(msg)
-
-@genres.error
-async def genre_error(error, ctx):
-    await bot.say("Artist or album not found. Uh, make sure you're searching for music, I guess.")
+@bot.event
+async def on_message(message):
+    if message.content.lower().startswith('&help'):
+        commands={}
+        commands['&fm'] = 'Displays your most recently scrobbled track'
+        commands['&fm set <username>'] = 'Sets your lastfm username'
+        commands['&fm topartists'] = 'Displays your top artists on lastfm'
+        commands['&fm trendingartists <num_days>'] = 'Displays the most scrobbled artists on the server within the past num_days'
+        commands['&rym'] = 'Gives the link to your RYM account'
+        commands['&rym set <RYM username>'] = 'Sets the link to your RYM account'
+        commands['&rym get <Discord username>'] = 'Finds the RYM account of another user'
+        
+        embed = discord.Embed(title='Sean', description="Written by Justin S",color=0x0000ff)
+        for command,description in commands.items():
+            embed.add_field(name=command, value=description, inline=False)
+        await bot.say(embed=embed)
 
 with open('token.txt', 'r') as reader:
     bot.run(reader.read()[:-1])
