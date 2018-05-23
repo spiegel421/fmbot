@@ -35,3 +35,6 @@ def check_valid_username(username):
     p = Process(target=f)
     p.start()
     p.join()
+
+    with open("valid.txt", 'r') as reader:
+        return reader.read()
