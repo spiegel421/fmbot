@@ -14,8 +14,6 @@ rym_cog.setup(bot)
 
 @bot.event
 async def on_message(message):
-    await bot.process_commands(message)
-    
     if message.content.lower().startswith('&help'):
         commands={}
         commands['&fm'] = 'Displays your most recently scrobbled track'
@@ -30,6 +28,9 @@ async def on_message(message):
         for command,description in commands.items():
             embed.add_field(name=command, value=description, inline=False)
         await bot.say(embed=embed)
+        return
+
+    await bot.process_commands(message)
 
 with open('token.txt', 'r') as reader:
     bot.run(reader.read()[:-1])
