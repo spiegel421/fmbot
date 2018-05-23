@@ -2,7 +2,7 @@ import mysql.connector
 from mysql.connector import errorcode
 import time
 
-DB_NAME = 'scrobbles'
+DB_NAME = 'fm_data'
 
 TABLES = {}
 TABLES['scrobbles'] = (
