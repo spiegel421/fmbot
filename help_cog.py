@@ -21,5 +21,14 @@ class HelpCog:
 
         await self.bot.say(line1 + line2 + line3 + line4 + line5)
 
+    @help.command()
+    async def rym(self):
+        line1 = "RYM commands.\n"
+        line2 = "$rym: displays a link to your RYM profile.\n"
+        line3 = "$rym set <RYM_username>: sets your RYM username.\n"
+        line4 = "$rym get <discord_username>: displays Discord user's RYM profile."
+
+        await self.bot.say(line1 + line2 + line3 + line4)
+
 def setup(bot):
     bot.add_cog(HelpCog(bot))
