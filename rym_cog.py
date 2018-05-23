@@ -22,8 +22,8 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def set(self, ctx, username):
- #       if ctx.message.channel != self.bot.get_channel('245685218055290881'):
- #           return
+        if ctx.message.channel != self.bot.get_channel('245685218055290881'):
+            return
 
         status = webcrawler.check_valid_username(username)
         if "404" in status:
