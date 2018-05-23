@@ -14,6 +14,8 @@ rym_cog.setup(bot)
 
 @bot.event
 async def on_message(message):
+    super.on_message(message)
+    
     if message.content.lower().startswith('&help'):
         commands={}
         commands['&fm'] = 'Displays your most recently scrobbled track'
