@@ -104,8 +104,6 @@ Functions for finding trending and top artists.
 """
 
 def find_trending_artists(num_days):
-    DB_NAME = 'scrobbles'
-
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
@@ -130,8 +128,6 @@ def find_trending_artists(num_days):
     return trending_artist_dict
 
 def find_top_artists(num_days):
-    DB_NAME = 'scrobbles'
-
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
