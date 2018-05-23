@@ -1,0 +1,7 @@
+.DS_Store
+__pycache__/
+database.py
+genres.txt
+lastfm.pem
+rym_crawler.py
+test.py
