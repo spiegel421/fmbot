@@ -5,6 +5,8 @@ from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from twisted.internet import reactor
 from multiprocessing import Process
 
+SCRAPY_SETTINGS_MODULE = settings
+
 class UsernameSpider(scrapy.Spider):
     name = 'checkvalidusername'
     handle_httpstatus_list = [404] 
