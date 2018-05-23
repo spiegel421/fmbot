@@ -30,7 +30,7 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def get(self, ctx, query):
-        member = discord.utils.find(lambda m: m.nick.lower() == query.lower(), ctx.message.channel.server.members)
+        member = discord.utils.find(lambda m: m.name.lower() == query.lower(), ctx.message.channel.server.members)
         if member is None:
             await self.bot.say("Sorry, this user was not found.")
             return
