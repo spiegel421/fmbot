@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from webcrawler import retrievers
+from webcrawler.webcrawler import retrievers
 import rym_data
 
 class RYMCog:
