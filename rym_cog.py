@@ -47,6 +47,18 @@ class RYMCog:
             return
 
         await self.bot.say("https://www.rateyourmusic.com/~"+username)
+
+    @rym.command(pass_context=True)
+    async def topratings(self, ctx, genre):
+ #       if ctx.message.channel != self.bot.get_channel('245685218055290881'):
+ #           return
+
+        username = rym_data.get_username(ctx.message.author.id)
+        if username is None:
+            await self.bot.say("Looks like you don't have a username set!")
+            return
+
+        await self.bot.say(webcrawler.get_top_ratings(username, genre))
         
 def setup(bot):
     bot.add_cog(RYMCog(bot))
