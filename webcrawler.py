@@ -20,11 +20,11 @@ class UsernameSpider(scrapy.Spider):
         super().__init__(**kwargs)
  
     def parse(self, response):
-        with open("valid.txt", 'w') as writer:
-            if response.status == 404:
-                writer.write("False")
-            else:
-                writer.write("True")
+        writer = open("valid.txt", 'w')
+        if response.status == 404:
+            writer.write("False")
+        else:
+            writer.write("True")
 
 def check_valid_username(username):
     def f():
