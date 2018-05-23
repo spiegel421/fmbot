@@ -28,7 +28,6 @@ class RYMCog:
         webcrawler.check_valid_username(username)
         with open("valid.txt", 'r') as reader:
             if "False" in reader.read():
-                print('success!')
                 await self.bot.say("That username is not valid.")
                 return
 

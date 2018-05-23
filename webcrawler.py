@@ -22,9 +22,9 @@ class UsernameSpider(scrapy.Spider):
     def parse(self, response):
         with open("valid.txt", 'w') as writer:
             if response.status == 404:
-                writer.write("True")
-            else:
                 writer.write("False")
+            else:
+                writer.write("True")
 
 def check_valid_username(username):
     def f():
@@ -37,3 +37,4 @@ def check_valid_username(username):
     p = Process(target=f)
     p.start()
     p.join()
+    print('success!')
