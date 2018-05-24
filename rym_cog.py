@@ -206,7 +206,7 @@ class RYMCog:
         else:
             return
 
-        self.topratings_msgs[msg_id] = (author, year, page, data)
+        self.aoty_msgs[msg_id] = (author, year, page, data)
         await self.bot.edit_message(msg, embed=embed)
 
     @embed_top_ratings.error
