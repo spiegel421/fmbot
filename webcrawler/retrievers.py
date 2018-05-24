@@ -27,7 +27,7 @@ def get_top_ratings(username, genre):
     def f():
         t_r_s = top_ratings_spider.TopRatingsSpider()
         process = CrawlerProcess(s)
-        process.crawl(t_r_s, username=username)
+        process.crawl(t_r_s, username=username, genre=genre)
         process.start()
 
     p = Process(target=f)
