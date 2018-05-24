@@ -52,8 +52,8 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def topratings(self, ctx, genre=''):
-        if ctx.message.channel != self.bot.get_channel('245685218055290881'):
-            return
+ #       if ctx.message.channel != self.bot.get_channel('245685218055290881'):
+ #           return
         
         username = rym_data.get_username(ctx.message.author.id)
         if username is None:
