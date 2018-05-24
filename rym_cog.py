@@ -8,6 +8,7 @@ class RYMCog:
     def __init__(self, bot):
         self.bot = bot
         self.topratings_msgs = {}
+        self.aoty_msgs = {}
 
     @commands.group(pass_context=True)
     async def rym(self, ctx):
@@ -85,23 +86,64 @@ class RYMCog:
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
 
+    @rym.command(pass_context=True)
+    async def aoty(self, ctx, year=''):
+ #       if ctx.message.channel != self.bot.get_channel('245685218055290881'):
+ #           return
+        
+        username = rym_data.get_username(ctx.message.author.id)
+        if username is None:
+            await self.bot.say("Looks like you don't have a username set!")
+            return
+
+        ctx.year = year
+        await commands.Command.invoke(self.embed_aoty, ctx)
+    
+    @commands.command(pass_context=True)
+    @commands.cooldown(1, 180, commands.BucketType.channel)
+    async def embed_aoty(self, ctx):
+        username = rym_data.get_username(ctx.message.author.id)
+        
+        page = 0
+        description = ""
+        data = retrievers.get_aoty(username, ctx.year, page)
+        if len(data) == 0:
+            await self.bot.say("Either that is not a year or you have rated no albums from it.")
+            return
+        for datum in data[:5]:
+            description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
+
+        embed = discord.Embed(title=username+"'s top-rated "+ctx.year+" albums", description=description)
+        embed.set_footer(text="Page " + str(page+1))
+        msg = await self.bot.say(embed=embed)
+
+        self.aoty_msgs[msg.id] = (ctx.message.author, ctx.year, page, data)
+        await self.bot.add_reaction(msg, '⬅')
+        await self.bot.add_reaction(msg, '➡')
+
     async def on_reaction_add(self, reaction, user):
-        if reaction.message.id not in self.topratings_msgs:
+        if reaction.message.id not in self.topratings_msgs and reaction.message.id not in self.aoty_msgs:
             return
         elif user is reaction.message.author:
             return
 
-        await self.flip_page(reaction, reaction.message, reaction.message.id)
+        if reaction.message.id in self.topratings_msgs:
+            await self.flip_page_topratings(reaction, reaction.message, reaction.message.id)
+        elif reaction.message.id in self.aoty_msgs:
+            await self.flip_page_aoty(reaction, reaction.message, reaction.message.id)
 
     async def on_reaction_remove(self, reaction, user):
-        if reaction.message.id not in self.topratings_msgs:
+        if reaction.message.id not in self.topratings_msgs and reaction.message.id not in self.aoty_msgs:
             return
         elif user is reaction.message.author:
             return
 
-        await self.flip_page(reaction, reaction.message, reaction.message.id)
+        if reaction.message.id in self.topratings_msgs:
+            await self.flip_page_topratings(reaction, reaction.message, reaction.message.id)
+        elif reaction.message.id in self.aoty_msgs:
+            await self.flip_page_aoty(reaction, reaction.message, reaction.message.id)
 
-    async def flip_page(self, reaction, msg, msg_id):
+    async def flip_page_topratings(self, reaction, msg, msg_id):
         author = self.topratings_msgs[msg_id][0]
         genre = self.topratings_msgs[msg_id][1]
         page = self.topratings_msgs[msg_id][2]
@@ -132,6 +174,39 @@ class RYMCog:
             return
 
         self.topratings_msgs[msg_id] = (author, genre, page, data)
+        await self.bot.edit_message(msg, embed=embed)
+
+    async def flip_page_aoty(self, reaction, msg, msg_id):
+        author = self.topratings_msgs[msg_id][0]
+        year = self.topratings_msgs[msg_id][1]
+        page = self.topratings_msgs[msg_id][2]
+        data = self.topratings_msgs[msg_id][3]
+        username = rym_data.get_username(author.id)
+
+        if reaction.emoji == '➡':
+            page += 1
+            n = page % 5
+            if n == 0:
+                data = retrievers.get_aoty(username, year, page)
+            description = ""
+            for datum in data[5 * n:5 * (n + 1)]:
+                description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
+            embed = discord.Embed(title=username+"'s top-rated "+year+" albums", description=description)
+            embed.set_footer(text="Page " + str(page+1))
+        elif reaction.emoji == '⬅' and page > 0:
+            page -= 1
+            n = page % 5
+            if n == 4:
+                data = retrievers.get_aoty(username, year, page)
+            description = ""
+            for datum in data[5 * n:5 * (n + 1)]:
+                description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
+            embed = discord.Embed(title=username+"'s top-rated "+year+" albums", description=description)
+            embed.set_footer(text="Page " + str(page+1))
+        else:
+            return
+
+        self.topratings_msgs[msg_id] = (author, year, page, data)
         await self.bot.edit_message(msg, embed=embed)
 
     @embed_top_ratings.error

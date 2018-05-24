@@ -43,3 +43,24 @@ def get_top_ratings(username, genre, page):
         data.append(datum)
 
     return data
+
+def get_aoty(username, year, page):
+    webpage = str(int(page / 5) + 1)
+    
+    def f():
+        t_r_s = top_ratings_spider.AotySpider()
+        process = CrawlerProcess(s)
+        process.crawl(t_r_s, username=username, year=year, webpage=webpage)
+        process.start()
+
+    p = Process(target=f)
+    p.start()
+    p.join()
+
+    data = []
+    reader = open("webcrawler/webcrawler/temp.csv", 'r')
+    for line in reader.readlines():
+        datum = ast.literal_eval(line[:-1])
+        data.append(datum)
+
+    return data
