@@ -11,10 +11,13 @@ class TopRatingsSpider(scrapy.Spider):
         super().__init__(**kwargs)
  
     def parse(self, response):
+        writer = open("webcrawler/webcrawler/temp.csv", 'w')
         body = response.css("table.mgen tbody")
         for rating in body.css("tr")[1:]:
-            yield {
+            dict_obj = {
                 'artist': rating.css("a.artist::text").extract_first(),
                 'album': rating.css("a.album::text").extract_first(),
                 'rating': rating.css("td.or_q_rating_date_s img::attr(title)").extract_first(),
                 }
+            writer.write(str(dict_obj)+"\n")
+        writer.close()
