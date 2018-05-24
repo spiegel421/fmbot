@@ -8,7 +8,7 @@ class TopRatingsSpider(scrapy.Spider):
 
     def __init__(self, username='', genre='', webpage='', **kwargs):
         if genre == '':
-            self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/recent,ss.rd/"+webpage]
+            self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/r0.5-5.0,ss.rd/"+webpage]
         else:
             self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/strm_h,ss.rd/"+genre+"/"+webpage]
         
