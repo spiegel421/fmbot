@@ -65,7 +65,7 @@ DOWNLOAD_DELAY = 10
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'webcrawler.webcrawler.pipelines.CsvPipeline': 300,
+    'webcrawler.webcrawler.pipelines.TopRatingsPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
