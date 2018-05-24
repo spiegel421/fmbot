@@ -20,7 +20,7 @@ def check_valid_username(username):
     p.start()
     p.join()
 
-    with open("webcrawler/spiders/temp.txt", 'r') as reader:
+    with open("webcrawler/webcrawler/spiders/temp.txt", 'r') as reader:
         return reader.read()
 
 def get_top_ratings(username, genre):    
@@ -34,5 +34,5 @@ def get_top_ratings(username, genre):
     p.start()
     p.join()
 
-    with open("webcrawler/temp.csv", 'r') as reader:
+    with open("webcrawler/webcrawler/temp.csv", 'r') as reader:
         return reader.read()
