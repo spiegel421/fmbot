@@ -8,7 +8,7 @@ class RYMCog:
         self.bot = bot
 
     @commands.group(pass_context=True)
-    async def rym(self, ctx, discord_user=''):
+    async def rym(self, ctx):
         if ctx.invoked_subcommand is not None:
             return
 
