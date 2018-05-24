@@ -3,7 +3,7 @@ from os.path import dirname
 from scrapy.settings import Settings
 from scrapy.utils.project import get_project_settings
 from scrapy.crawler import CrawlerProcess
-from webcrawler.webcrawler.spiders import username_spider, top_ratings_spider
+from webcrawler.webcrawler.spiders import username_spider, top_ratings_spider, aoty_spider
 from multiprocessing import Process
 
 s = Settings()
@@ -48,7 +48,7 @@ def get_aoty(username, year, page):
     webpage = str(int(page / 5) + 1)
     
     def f():
-        t_r_s = top_ratings_spider.AotySpider()
+        t_r_s = aoty_spider.AotySpider()
         process = CrawlerProcess(s)
         process.crawl(t_r_s, username=username, year=year, webpage=webpage)
         process.start()
