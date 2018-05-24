@@ -8,7 +8,7 @@ from scrapy.exporters import CsvItemExporter
 
 class CsvPipeline(object):
     def __init__(self):
-        self.file = open("temp.csv", 'wb')
+        self.file = open("webcrawler/webcrawler/temp.csv", 'wb')
         self.exporter = CsvItemExporter(self.file)
         self.exporter.start_exporting()
  

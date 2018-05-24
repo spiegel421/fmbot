@@ -20,7 +20,7 @@ def check_valid_username(username):
     p.start()
     p.join()
 
-    with open("webcrawler/webcrawler/spiders/temp.txt", 'r') as reader:
+    with open("webcrawler/webcrawler/temp.txt", 'r') as reader:
         return reader.read()
 
 def get_top_ratings(username, genre):    

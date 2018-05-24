@@ -10,6 +10,6 @@ class UsernameSpider(scrapy.Spider):
         super().__init__(**kwargs)
  
     def parse(self, response):
-        writer = open("temp.txt", 'w')
+        writer = open("webcrawler/webcrawler/temp.txt", 'w')
         writer.write(str(response.status))
         writer.close()
