@@ -58,13 +58,12 @@ class RYMCog:
             await self.bot.say("Looks like you don't have a username set!")
             return
 
-        description = ""
+        msg = ""
         data = retrievers.get_top_ratings(username, genre)
-        for datum in data:
-            description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
+        for datum in data[]:
+            msg += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
 
-        embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description, url="https://www.rateyourmusic.com/~"+username)           
-        await self.bot.say(embed=embed)
+        await self.bot.say(msg)
         
 def setup(bot):
     bot.add_cog(RYMCog(bot))
