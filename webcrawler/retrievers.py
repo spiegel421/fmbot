@@ -3,7 +3,7 @@ from os.path import dirname
 from scrapy import settings
 from scrapy.utils.project import get_project_settings
 from scrapy.crawler import CrawlerProcess
-from spiders import username_spider, top_ratings_spider
+from webcrawler.spiders import username_spider, top_ratings_spider
 from multiprocessing import Process
 
 def check_valid_username(username):
