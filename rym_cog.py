@@ -10,7 +10,7 @@ class RYMCog:
         self.topratings_msgs = {}
         self.aoty_msgs = {}
         self.time_last_crawled = 0
-        self.cooldown_time = 10
+        self.cooldown_time = 30
 
     def check_cooled_down(self):
         return time.time() - self.time_last_crawled < self.cooldown_time
@@ -33,6 +33,9 @@ class RYMCog:
             return
 
         if self.check_cooled_down():
+            for emoji in self.bot.get_all_emojis():
+                if x.id == '449250117833457680':
+                    await self.bot.add_reaction(ctx.message, str(x))
             return
         self.time_last_crawled = time.time()
 
@@ -70,6 +73,9 @@ class RYMCog:
             return
 
         if self.check_cooled_down():
+            for emoji in self.bot.get_all_emojis():
+                if x.id == '449250117833457680':
+                    await self.bot.add_reaction(ctx.message, str(x))
             return
         self.time_last_crawled = time.time()
 
@@ -77,7 +83,6 @@ class RYMCog:
         await commands.Command.invoke(self.embed_top_ratings, ctx)
     
     @commands.command(pass_context=True)
-    @commands.cooldown(1, 180, commands.BucketType.channel)
     async def embed_top_ratings(self, ctx):
         username = rym_data.get_username(ctx.message.author.id)
         
@@ -109,6 +114,9 @@ class RYMCog:
             return
 
         if self.check_cooled_down():
+            for emoji in self.bot.get_all_emojis():
+                if x.id == '449250117833457680':
+                    await self.bot.add_reaction(ctx.message, str(x))
             return
         self.time_last_crawled = time.time()
 
@@ -116,7 +124,6 @@ class RYMCog:
         await commands.Command.invoke(self.embed_aoty, ctx)
     
     @commands.command(pass_context=True)
-    @commands.cooldown(1, 180, commands.BucketType.channel)
     async def embed_aoty(self, ctx):
         username = rym_data.get_username(ctx.message.author.id)
         
@@ -170,6 +177,9 @@ class RYMCog:
             n = page % 5
             if n == 0:
                 if self.check_cooled_down():
+                    for emoji in self.bot.get_all_emojis():
+                        if x.id == '449250117833457680':
+                            await self.bot.add_reaction(ctx.message, str(x))
                     return
                 self.time_last_crawled = time.time()
                 data = retrievers.get_top_ratings(username, genre, page)
@@ -183,6 +193,9 @@ class RYMCog:
             n = page % 5
             if n == 4:
                 if self.check_cooled_down():
+                    for emoji in self.bot.get_all_emojis():
+                        if x.id == '449250117833457680':
+                            await self.bot.add_reaction(ctx.message, str(x))
                     return
                 self.time_last_crawled = time.time()
                 data = retrievers.get_top_ratings(username, genre, page)
@@ -208,6 +221,9 @@ class RYMCog:
             n = page % 5
             if n == 0:
                 if self.check_cooled_down():
+                    for emoji in self.bot.get_all_emojis():
+                        if x.id == '449250117833457680':
+                            await self.bot.add_reaction(ctx.message, str(x))
                     return
                 self.time_last_crawled = time.time()
                 data = retrievers.get_aoty(username, year, page)
@@ -221,6 +237,9 @@ class RYMCog:
             n = page % 5
             if n == 4:
                 if self.check_cooled_down():
+                    for emoji in self.bot.get_all_emojis():
+                        if x.id == '449250117833457680':
+                            await self.bot.add_reaction(ctx.message, str(x))
                     return
                 self.time_last_crawled = time.time()
                 data = retrievers.get_aoty(username, year, page)
