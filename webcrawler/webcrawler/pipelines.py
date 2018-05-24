@@ -14,5 +14,5 @@ class TopRatingsPipeline(object):
         self.file.close()
 
     def process_item(self, item, spider):
-        self.file.write(item)
+        self.file.write(str(item)+"\n")
         return item
