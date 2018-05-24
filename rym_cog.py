@@ -94,7 +94,7 @@ class RYMCog:
         embed.set_footer(text="Page " + str(page+1))
         msg = await self.bot.say(embed=embed)
 
-        self.topratings_msgs[msg.id] = (ctx.message.author, ctx.genre, page, data)
+        self.topratings_msgs[msg.id] = (username, ctx.genre, page, data)
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
 
@@ -133,7 +133,7 @@ class RYMCog:
         embed.set_footer(text="Page " + str(page+1))
         msg = await self.bot.say(embed=embed)
 
-        self.aoty_msgs[msg.id] = (ctx.message.author, ctx.year, page, data)
+        self.aoty_msgs[msg.id] = (username, ctx.year, page, data)
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
 
@@ -160,11 +160,10 @@ class RYMCog:
             await self.flip_page_aoty(reaction, reaction.message, reaction.message.id)
 
     async def flip_page_topratings(self, reaction, msg, msg_id):
-        author = self.topratings_msgs[msg_id][0]
+        username = self.topratings_msgs[msg_id][0]
         genre = self.topratings_msgs[msg_id][1]
         page = self.topratings_msgs[msg_id][2]
         data = self.topratings_msgs[msg_id][3]
-        username = rym_data.get_username(author.id)
 
         if reaction.emoji == '➡':
             page += 1
@@ -195,15 +194,14 @@ class RYMCog:
         else:
             return
 
-        self.topratings_msgs[msg_id] = (author, genre, page, data)
+        self.topratings_msgs[msg_id] = (username, genre, page, data)
         await self.bot.edit_message(msg, embed=embed)
 
     async def flip_page_aoty(self, reaction, msg, msg_id):
-        author = self.aoty_msgs[msg_id][0]
+        username = self.aoty_msgs[msg_id][0]
         year = self.aoty_msgs[msg_id][1]
         page = self.aoty_msgs[msg_id][2]
         data = self.aoty_msgs[msg_id][3]
-        username = rym_data.get_username(author.id)
 
         if reaction.emoji == '➡':
             page += 1
@@ -234,7 +232,7 @@ class RYMCog:
         else:
             return
 
-        self.aoty_msgs[msg_id] = (author, year, page, data)
+        self.aoty_msgs[msg_id] = (username, year, page, data)
         await self.bot.edit_message(msg, embed=embed)
 
     @embed_top_ratings.error
