@@ -17,7 +17,6 @@ class CsvPipeline(object):
     def close_spider(self, spider):
         self.exporter.finish_exporting()
         self.file.close()
- 
-    def process_item(self, item, spider):
-        self.exporter.export_item(item)
-        return item
+
+    def export_item(self, item):
+        self.file.write(item+"\n")
