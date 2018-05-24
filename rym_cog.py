@@ -60,7 +60,7 @@ class RYMCog:
 
         msg = ""
         data = retrievers.get_top_ratings(username, genre)
-        for datum in data[]:
+        for datum in data:
             msg += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
 
         await self.bot.say(msg)
