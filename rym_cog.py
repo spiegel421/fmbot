@@ -178,9 +178,9 @@ class RYMCog:
 
     async def flip_page_aoty(self, reaction, msg, msg_id):
         author = self.topratings_msgs[msg_id][0]
-        year = self.topratings_msgs[msg_id][1]
-        page = self.topratings_msgs[msg_id][2]
-        data = self.topratings_msgs[msg_id][3]
+        year = self.aoty_msgs[msg_id][1]
+        page = self.aoty_msgs[msg_id][2]
+        data = self.aoty_msgs[msg_id][3]
         username = rym_data.get_username(author.id)
 
         if reaction.emoji == '➡':
