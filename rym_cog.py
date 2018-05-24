@@ -68,7 +68,7 @@ class RYMCog:
         embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
         await self.bot.say(embed=embed)
 
-        self.topratings_msgs[msg.id] = (ctx.message.author, page)
+        self.topratings_msgs[ctx.message.id] = (ctx.message.author, page)
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
 
