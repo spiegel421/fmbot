@@ -51,7 +51,6 @@ class RYMCog:
         await self.bot.say("https://www.rateyourmusic.com/~"+username)
 
     @rym.command(pass_context=True)
-    @commands.cooldown(1, 180, commands.BucketType.channel)
     async def topratings(self, ctx, genre):
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
             return
@@ -61,20 +60,28 @@ class RYMCog:
             await self.bot.say("Looks like you don't have a username set!")
             return
 
+        ctx.genre = genre
+        await commands.Command.invoke(self.embed_top_ratings, ctx)
+    
+    @commands.command(pass_context=True)
+    @commands.cooldown(1, 180, commands.BucketType.channel)
+    async def embed_top_ratings(self, ctx):
+        username = rym_data.get_username(ctx.message.author.id)
+        
         page = 0
         description = ""
-        data = retrievers.get_top_ratings(username, genre, page)
+        data = retrievers.get_top_ratings(username, ctx.genre, page)
         if len(data) == 0:
             await self.bot.say("Either that is not a genre or you have rated no albums from it.")
             return
         for datum in data[:5]:
             description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
 
-        embed = discord.Embed(title=username+"'s top-rated "+genre.replace("+", " ")+" albums", description=description)
+        embed = discord.Embed(title=username+"'s top-rated "+ctx.genre.replace("+", " ")+" albums", description=description)
         embed.set_footer(text="Page " + str(page+1))
         msg = await self.bot.say(embed=embed)
 
-        self.topratings_msgs[msg.id] = (ctx.message.author, genre, page, data)
+        self.topratings_msgs[msg.id] = (ctx.message.author, ctx.genre, page, data)
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
 
@@ -109,7 +116,7 @@ class RYMCog:
             description = ""
             for datum in data[5 * n:5 * (n + 1)]:
                 description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
-            embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
+            embed = discord.Embed(title=username+"'s top-rated "+genre.replace("+", " ")+" albums", description=description)
             embed.set_footer(text="Page " + str(page+1))
         elif reaction.emoji == '⬅' and page > 0:
             page -= 1
@@ -119,7 +126,7 @@ class RYMCog:
             description = ""
             for datum in data[5 * n:5 * (n + 1)]:
                 description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
-            embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
+            embed = discord.Embed(title=username+"'s top-rated "+genre.replace("+", " ")+" albums", description=description)
             embed.set_footer(text="Page " + str(page+1))
         else:
             return
