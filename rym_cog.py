@@ -93,7 +93,7 @@ class RYMCog:
         page = self.topratings_msgs[msg_id][1]
         username = rym_data.get_username(author.id)
 
-        if reaction.emoji == '➡' and page < max_pages - 1:
+        if reaction.emoji == '➡':
             page += 1
             description = ""
             data = retrievers.get_top_ratings(username, genre, page)
