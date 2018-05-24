@@ -33,7 +33,7 @@ class RYMCog:
             return
 
         if self.check_cooled_down():
-            for emoji in self.bot.get_all_emojis():
+            for x in self.bot.get_all_emojis():
                 if x.id == '449250117833457680':
                     await self.bot.add_reaction(ctx.message, str(x))
             return
@@ -114,7 +114,7 @@ class RYMCog:
             return
 
         if self.check_cooled_down():
-            for emoji in self.bot.get_all_emojis():
+            for x in self.bot.get_all_emojis():
                 if x.id == '449250117833457680':
                     await self.bot.add_reaction(ctx.message, str(x))
             return
@@ -177,7 +177,7 @@ class RYMCog:
             n = page % 5
             if n == 0:
                 if self.check_cooled_down():
-                    for emoji in self.bot.get_all_emojis():
+                    for x in self.bot.get_all_emojis():
                         if x.id == '449250117833457680':
                             await self.bot.add_reaction(ctx.message, str(x))
                     return
@@ -193,7 +193,7 @@ class RYMCog:
             n = page % 5
             if n == 4:
                 if self.check_cooled_down():
-                    for emoji in self.bot.get_all_emojis():
+                    for x in self.bot.get_all_emojis():
                         if x.id == '449250117833457680':
                             await self.bot.add_reaction(ctx.message, str(x))
                     return
@@ -221,7 +221,7 @@ class RYMCog:
             n = page % 5
             if n == 0:
                 if self.check_cooled_down():
-                    for emoji in self.bot.get_all_emojis():
+                    for x in self.bot.get_all_emojis():
                         if x.id == '449250117833457680':
                             await self.bot.add_reaction(ctx.message, str(x))
                     return
@@ -237,7 +237,7 @@ class RYMCog:
             n = page % 5
             if n == 4:
                 if self.check_cooled_down():
-                    for emoji in self.bot.get_all_emojis():
+                    for x in self.bot.get_all_emojis():
                         if x.id == '449250117833457680':
                             await self.bot.add_reaction(ctx.message, str(x))
                     return
