@@ -15,6 +15,8 @@ class TopRatingsSpider(scrapy.Spider):
         for rating in body[1:]:
             yield {
                 'artist': rating.css("a.artist::text").extract_first(),
+                'artist_link': rating.css("a.artist::attr(href)").extract_first(),
                 'album': rating.css("a.album::text").extract_first(),
+                'album_link': rating.css("a.album::attr(href)").extract_first(),
                 'rating': rating.css("td.or_q_rating_date_s img::attr(title)").extract_first(),
                 }

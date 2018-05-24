@@ -58,7 +58,13 @@ class RYMCog:
             await self.bot.say("Looks like you don't have a username set!")
             return
 
-        await self.bot.say(retrievers.get_top_ratings(username, genre))
+        embed = discord.Embed(title=username+"'s top-rated "+genre+" albums")
+
+        data = retrievers.get_top_ratings(username, genre)
+        for datum in data:
+            embed.add_field(name=datum['artist'], value="["+datum['album']+"]("+datum['album_link']+")")
+            
+        await self.bot.say(embed=embed)
         
 def setup(bot):
     bot.add_cog(RYMCog(bot))

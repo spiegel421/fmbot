@@ -1,4 +1,4 @@
-import scrapy, sys, os
+import scrapy, sys, os, ast
 from os.path import dirname
 from scrapy.settings import Settings
 from scrapy.utils.project import get_project_settings
@@ -34,5 +34,10 @@ def get_top_ratings(username, genre):
     p.start()
     p.join()
 
-    with open("webcrawler/webcrawler/temp.csv", 'r') as reader:
-        return reader.read()
+    data = []
+    reader = open("webcrawler/webcrawler/temp.csv", 'r')
+    for line in reader.readlines():
+        datum = ast.literal_eval(line[:-1])
+        data.append(datum)
+        
+    return data
