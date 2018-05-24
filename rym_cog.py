@@ -65,7 +65,7 @@ class RYMCog:
             description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
 
         embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
-        await self.bot.send_message(msg, destination=ctx.message.channel)
+        await self.bot.say(embed=embed)
 
         self.topratings_msgs[msg.id] = (ctx.message.author, page)
         await self.bot.add_reaction(msg, '⬅')
