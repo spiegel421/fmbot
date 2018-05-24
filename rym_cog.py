@@ -66,11 +66,11 @@ class RYMCog:
             description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
 
         embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
-        await self.bot.say(embed=embed)
+        msg = await self.bot.say(embed=embed)
 
-        self.topratings_msgs[ctx.message.id] = (ctx.message.author, page)
-        await self.bot.add_reaction(ctx.message, '⬅')
-        await self.bot.add_reaction(ctx.message, '➡')
+        self.topratings_msgs[msg.id] = (ctx.message.author, page)
+        await self.bot.add_reaction(msg, '⬅')
+        await self.bot.add_reaction(msg, '➡')
 
     async def on_reaction_add(self, reaction, user):
         if reaction.message.id not in self.topratings_msgs:
@@ -92,8 +92,6 @@ class RYMCog:
         author = self.topratings_msgs[msg_id][0]
         page = self.topratings_msgs[msg_id][1]
         username = rym_data.get_username(author.id)
-        top_artists = wrapper.artists
-        max_pages = wrapper.total_artists / 10 + 1
 
         if reaction.emoji == '➡' and page < max_pages - 1:
             page += 1
