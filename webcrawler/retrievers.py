@@ -41,5 +41,6 @@ def get_top_ratings(username, genre, page):
     for line in reader.readlines():
         datum = ast.literal_eval(line[:-1])
         data.append(datum)
-        
-    return data[5 * page:5 * (page + 1)]
+
+    n = page % 5
+    return data[5 * n:5 * (n + 1)]
