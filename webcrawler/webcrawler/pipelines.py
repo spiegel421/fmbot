@@ -8,7 +8,7 @@ from scrapy.exporters import CsvItemExporter
 
 class TopRatingsPipeline(object):
     def open_spider(self, spider):
-        self.file = open("webcrawler/webcrawler/temp.csv", 'wb')
+        self.file = open("webcrawler/webcrawler/temp.csv", 'w')
 
     def close_spider(self, spider):
         self.file.close()
