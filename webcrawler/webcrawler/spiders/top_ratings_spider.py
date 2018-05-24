@@ -13,7 +13,7 @@ class TopRatingsSpider(scrapy.Spider):
     def parse(self, response):
         writer = open("webcrawler/webcrawler/temp.csv", 'w')
         body = response.css("table.mgen tbody")
-        print(len(body))
+        print(len(body.extract()))
         for rating in body.css("tr").extract()[1:]:
             dict_obj = {
                 'artist': rating.css("a.artist::text").extract_first(),
