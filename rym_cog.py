@@ -51,7 +51,7 @@ class RYMCog:
         await self.bot.say("https://www.rateyourmusic.com/~"+username)
 
     @rym.command(pass_context=True)
-    @rym.cooldown(1, 180, commands.BucketType.channel)
+    @commands.cooldown(1, 180, commands.BucketType.channel)
     async def topratings(self, ctx, genre):
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
             return
