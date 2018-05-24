@@ -69,8 +69,8 @@ class RYMCog:
         await self.bot.say(embed=embed)
 
         self.topratings_msgs[ctx.message.id] = (ctx.message.author, page)
-        await self.bot.add_reaction(msg, '⬅')
-        await self.bot.add_reaction(msg, '➡')
+        await self.bot.add_reaction(ctx.message, '⬅')
+        await self.bot.add_reaction(ctx.message, '➡')
 
     async def on_reaction_add(self, reaction, user):
         if reaction.message.id not in self.topratings_msgs:
