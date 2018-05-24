@@ -8,7 +8,7 @@ class AotySpider(scrapy.Spider):
 
     def __init__(self, username='', year='', webpage='', **kwargs):
         if year == '':
-            self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/strm_relyear,ss.rd/2018"+webpage]
+            self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/strm_relyear,ss.rd/2018/"+webpage]
         else:
             self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/strm_relyear,ss.rd/"+year+"/"+webpage]
         

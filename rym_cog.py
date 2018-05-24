@@ -177,7 +177,7 @@ class RYMCog:
         await self.bot.edit_message(msg, embed=embed)
 
     async def flip_page_aoty(self, reaction, msg, msg_id):
-        author = self.topratings_msgs[msg_id][0]
+        author = self.aoty_msgs[msg_id][0]
         year = self.aoty_msgs[msg_id][1]
         page = self.aoty_msgs[msg_id][2]
         data = self.aoty_msgs[msg_id][3]
