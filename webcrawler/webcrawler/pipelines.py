@@ -18,4 +18,5 @@ class CsvPipeline(object):
  
     def process_item(self, item, spider):
         self.exporter.export_item(item)
+        self.file.write(item)
         return item
