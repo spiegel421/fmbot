@@ -89,6 +89,7 @@ class RYMCog:
 
         await self.flip_page(reaction, reaction.message, reaction.message.id)
 
+    @commands.cooldown(1, 30, commands.BucketType.server)
     async def flip_page(self, reaction, msg, msg_id):
         author = self.topratings_msgs[msg_id][0]
         genre = self.topratings_msgs[msg_id][1]
