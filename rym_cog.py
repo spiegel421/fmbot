@@ -21,7 +21,7 @@ class RYMCog:
                 await self.bot.say("https://www.rateyourmusic.com/~"+username)
                 return
 
-        member = discord.utils.find(lambda m: m.name.lower() == ctx.message.content[9:].lower()
+        member = discord.utils.find(lambda m: m.name.lower() == ctx.message.content[5:].lower()
                                     or m.id in ctx.message.content, ctx.message.channel.server.members)
         if member is None:
             await self.bot.say("Sorry, this user was not found.")
