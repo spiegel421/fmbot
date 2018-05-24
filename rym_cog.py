@@ -8,11 +8,11 @@ class RYMCog:
         self.bot = bot
 
     @commands.group(pass_context=True)
-    async def rym(self, ctx, discord_user):
+    async def rym(self, ctx, discord_user=''):
         if ctx.invoked_subcommand is not None:
             return
 
-        if discord_user is None:
+        if discord_user == '':
             username = rym_data.get_username(ctx.message.author.id)
             if username is None:
                 await self.bot.say("Looks like you don't have a username set!")

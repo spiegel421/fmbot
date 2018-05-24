@@ -36,5 +36,3 @@ def get_top_ratings(username, genre):
 
     with open("webcrawler/webcrawler/temp.csv", 'r') as reader:
         return reader.read()
-
-get_top_ratings("appellation1", "metal")
