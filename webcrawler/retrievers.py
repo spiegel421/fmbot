@@ -24,7 +24,7 @@ def check_valid_username(username):
         return reader.read()
 
 def get_top_ratings(username, genre, page):
-    webpage = str(page / 5 + 1)
+    webpage = str(int(page / 5) + 1)
     
     def f():
         t_r_s = top_ratings_spider.TopRatingsSpider()
