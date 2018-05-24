@@ -60,7 +60,7 @@ class RYMCog:
 
         description = ""
         data = retrievers.get_top_ratings(username, genre)
-        for datum in data:
+        for datum in data[:5]:
             description += "["+datum['artist']+"]("+datum['artist_link']+") - ["+datum['album']+"]("+datum['album_link']+") ("+datum['rating']+")\n"
 
         embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)           
