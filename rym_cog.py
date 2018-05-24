@@ -127,7 +127,7 @@ class RYMCog:
         self.topratings_msgs[msg_id] = (author, genre, page, data)
         await self.bot.edit_message(msg, embed=embed)
 
-    @topartists.error
+    @topratings.error
     async def embed_error(self, error, ctx):
         if isinstance(error, commands.CommandOnCooldown):
             if ctx.message.author.id == '387046431262769153':
