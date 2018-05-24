@@ -70,7 +70,7 @@ class RYMCog:
         embed.set_footer(text="Page " + str(page+1))
         msg = await self.bot.say(embed=embed)
 
-        self.topratings_msgs[msg.id] = (ctx.message.author, genre, page, time.time())
+        self.topratings_msgs[msg.id] = (ctx.message.author, genre, page, data)
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
 
@@ -94,16 +94,14 @@ class RYMCog:
         author = self.topratings_msgs[msg_id][0]
         genre = self.topratings_msgs[msg_id][1]
         page = self.topratings_msgs[msg_id][2]
+        data = self.topratings_msgs[msg_id][3]
         username = rym_data.get_username(author.id)
-        
-        t = self.topratings_msgs[msg_id][3]
-        if time.time() - t < 30.0:
-            return
 
         if reaction.emoji == '➡':
             page += 1
+            if page % 5 == 0:
+                data = retrievers.get_top_ratings(username, genre, page)
             description = ""
-            data = retrievers.get_top_ratings(username, genre, page)
             for datum in data:
                 description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
             embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
@@ -111,8 +109,8 @@ class RYMCog:
         elif reaction.emoji == '⬅' and page > 0:
             page -= 1
             description = ""
-            description = ""
-            data = retrievers.get_top_ratings(username, genre, page)
+            if page % 5 == 4:
+                data = retrievers.get_top_ratings(username, genre, page)
             for datum in data:
                 description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
             embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
@@ -120,7 +118,7 @@ class RYMCog:
         else:
             return
 
-        self.topratings_msgs[msg_id] = (author, genre, page, time.time())
+        self.topratings_msgs[msg_id] = (author, genre, page, data)
         await self.bot.edit_message(msg, embed=embed)
         
 def setup(bot):
