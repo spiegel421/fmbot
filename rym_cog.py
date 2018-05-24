@@ -17,6 +17,9 @@ class RYMCog:
             if username is None:
                 await self.bot.say("Looks like you don't have a username set!")
                 return
+            else:
+                await self.bot.say("https://www.rateyourmusic.com/~"+username)
+                return
 
         member = discord.utils.find(lambda m: m.name.lower() == ctx.message.content[9:].lower()
                                     or m.id in ctx.message.content, ctx.message.channel.server.members)
