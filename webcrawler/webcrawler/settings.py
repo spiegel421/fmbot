@@ -11,7 +11,7 @@
 
 BOT_NAME = 'webcrawler'
 
-SPIDER_MODULES = ['webcrawler.webcrawler.spiders']
+SPIDER_MODULES = ['webcrawler.spiders']
 NEWSPIDER_MODULE = 'webcrawler.spiders'
 
 
