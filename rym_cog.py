@@ -63,7 +63,7 @@ class RYMCog:
         page = 0
         description = ""
         data = retrievers.get_top_ratings(username, genre, page)
-        for datum in data:
+        for datum in data[:5]:
             description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
 
         embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
@@ -99,19 +99,21 @@ class RYMCog:
 
         if reaction.emoji == '➡':
             page += 1
-            if page % 5 == 0:
+            n = page % 5
+            if n == 0:
                 data = retrievers.get_top_ratings(username, genre, page)
             description = ""
-            for datum in data:
+            for datum in data[5 * n:5 * (n + 1)]:
                 description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
             embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
             embed.set_footer(text="Page " + str(page+1))
         elif reaction.emoji == '⬅' and page > 0:
             page -= 1
-            description = ""
-            if page % 5 == 4:
+            n = page % 5
+            if n == 4:
                 data = retrievers.get_top_ratings(username, genre, page)
-            for datum in data:
+            description = ""
+            for datum in data[5 * n:5 * (n + 1)]:
                 description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
             embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
             embed.set_footer(text="Page " + str(page+1))
