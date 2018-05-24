@@ -9,6 +9,11 @@ class RYMCog:
         self.bot = bot
         self.topratings_msgs = {}
         self.aoty_msgs = {}
+        self.time_last_crawled = 0
+        self.cooldown_time = 10
+
+    def check_cooled_down(self):
+        return time.time() - time_last_crawled < cooldown_time
 
     @commands.group(pass_context=True)
     async def rym(self, ctx):
@@ -22,15 +27,18 @@ class RYMCog:
         
         await self.bot.say("https://www.rateyourmusic.com/~"+username)
 
-
     @rym.command(pass_context=True)
     async def set(self, ctx, username):
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
             return
 
+        if self.check_cooled_down():
+            return
+        self.time_last_crawled = time.time()
+
         status = retrievers.check_valid_username(username)
         if "404" in status:
-            await self.bot.say("That is not a valid username.")
+            await self.bot.say("That is not a valid username. (Remember that usernames are case sensitive.)")
             return
 
         rym_data.add_username(ctx.message.author.id, username)
@@ -67,6 +75,10 @@ class RYMCog:
     @commands.command(pass_context=True)
     @commands.cooldown(1, 180, commands.BucketType.channel)
     async def embed_top_ratings(self, ctx):
+        if self.check_cooled_down():
+            return
+        self.time_last_crawled = time.time()
+        
         username = rym_data.get_username(ctx.message.author.id)
         
         page = 0
@@ -102,6 +114,10 @@ class RYMCog:
     @commands.command(pass_context=True)
     @commands.cooldown(1, 180, commands.BucketType.channel)
     async def embed_aoty(self, ctx):
+        if self.check_cooled_down():
+            return
+        self.time_last_crawled = time.time()
+        
         username = rym_data.get_username(ctx.message.author.id)
         
         page = 0
@@ -154,6 +170,9 @@ class RYMCog:
             page += 1
             n = page % 5
             if n == 0:
+                if self.check_cooled_down():
+                    return
+                self.time_last_crawled = time.time()
                 data = retrievers.get_top_ratings(username, genre, page)
             description = ""
             for datum in data[5 * n:5 * (n + 1)]:
@@ -164,6 +183,9 @@ class RYMCog:
             page -= 1
             n = page % 5
             if n == 4:
+                if self.check_cooled_down():
+                    return
+                self.time_last_crawled = time.time()
                 data = retrievers.get_top_ratings(username, genre, page)
             description = ""
             for datum in data[5 * n:5 * (n + 1)]:
@@ -187,6 +209,9 @@ class RYMCog:
             page += 1
             n = page % 5
             if n == 0:
+                if self.check_cooled_down():
+                    return
+                self.time_last_crawled = time.time()
                 data = retrievers.get_aoty(username, year, page)
             description = ""
             for datum in data[5 * n:5 * (n + 1)]:
@@ -197,6 +222,9 @@ class RYMCog:
             page -= 1
             n = page % 5
             if n == 4:
+                if self.check_cooled_down():
+                    return
+                self.time_last_crawled = time.time()
                 data = retrievers.get_aoty(username, year, page)
             description = ""
             for datum in data[5 * n:5 * (n + 1)]:
