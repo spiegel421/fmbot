@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from webcrawler import retrievers
 import rym_data
+import time
 
 class RYMCog:
     def __init__(self, bot):
@@ -69,7 +70,7 @@ class RYMCog:
         embed.set_footer(text="Page " + str(page+1))
         msg = await self.bot.say(embed=embed)
 
-        self.topratings_msgs[msg.id] = (ctx.message.author, genre, page)
+        self.topratings_msgs[msg.id] = (ctx.message.author, genre, page, time.time())
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
 
@@ -89,12 +90,15 @@ class RYMCog:
 
         await self.flip_page(reaction, reaction.message, reaction.message.id)
 
-    @commands.cooldown(1, 30, commands.BucketType.server)
     async def flip_page(self, reaction, msg, msg_id):
         author = self.topratings_msgs[msg_id][0]
         genre = self.topratings_msgs[msg_id][1]
         page = self.topratings_msgs[msg_id][2]
         username = rym_data.get_username(author.id)
+        
+        t = self.topratings_msgs[msg_id][3]
+        if time.time() - t < 30.0:
+            return
 
         if reaction.emoji == '➡':
             page += 1
@@ -116,7 +120,7 @@ class RYMCog:
         else:
             return
 
-        self.topratings_msgs[msg_id] = (author, genre, page)
+        self.topratings_msgs[msg_id] = (author, genre, page, time.time())
         await self.bot.edit_message(msg, embed=embed)
         
 def setup(bot):
