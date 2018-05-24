@@ -2,7 +2,7 @@ import scrapy
 
 class UsernameSpider(scrapy.Spider):
     name = 'checkvalidusername'
-    handle_httpstatus_list = [404] 
+    handle_httpstatus_list = [404, 302, 303] 
     allowed_domains = ['rateyourmusic.com/']
 
     def __init__(self, username='', **kwargs):

@@ -37,7 +37,7 @@ class RYMCog:
         self.time_last_crawled = time.time()
 
         status = retrievers.check_valid_username(username)
-        if "404" in status:
+        if "404" in status or "302" in status or "303" in status:
             await self.bot.say("That is not a valid username. (Remember that usernames are case sensitive.)")
             return
 
