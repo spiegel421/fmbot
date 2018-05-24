@@ -9,6 +9,8 @@ from scrapy.exporters import CsvItemExporter
 class CsvPipeline(object):
     def __init__(self):
         self.file = open("webcrawler/webcrawler/temp.csv", 'wb')
+
+    def open_spider(self, spider):
         self.exporter = CsvItemExporter(self.file)
         self.exporter.start_exporting()
  
@@ -18,5 +20,4 @@ class CsvPipeline(object):
  
     def process_item(self, item, spider):
         self.exporter.export_item(item)
-        self.file.write(item)
         return item
