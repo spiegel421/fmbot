@@ -210,6 +210,7 @@ class RYMCog:
         await self.bot.edit_message(msg, embed=embed)
 
     @embed_top_ratings.error
+    @embed_aoty.error
     async def embed_error(self, error, ctx):
         if isinstance(error, commands.CommandOnCooldown):
             if ctx.message.author.id == '387046431262769153':
