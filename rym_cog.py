@@ -191,7 +191,7 @@ class RYMCog:
             description = ""
             for datum in data[5 * n:5 * (n + 1)]:
                 description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
-            embed = discord.Embed(title=username+"'s top-rated "+year+" albums", description=description)
+            embed = discord.Embed(title=username+"'s top-rated "+(year if year != '' else '2018')+" albums", description=description)
             embed.set_footer(text="Page " + str(page+1))
         elif reaction.emoji == '⬅' and page > 0:
             page -= 1
@@ -201,7 +201,7 @@ class RYMCog:
             description = ""
             for datum in data[5 * n:5 * (n + 1)]:
                 description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
-            embed = discord.Embed(title=username+"'s top-rated "+year+" albums", description=description)
+            embed = discord.Embed(title=username+"'s top-rated "+(year if year != '' else '2018')+" albums", description=description)
             embed.set_footer(text="Page " + str(page+1))
         else:
             return
