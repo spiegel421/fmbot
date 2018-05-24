@@ -6,8 +6,8 @@ class TopRatingsSpider(scrapy.Spider):
     name = 'gettopratings'
     allowed_domains = ['rateyourmusic.com/']
 
-    def __init__(self, username='', genre='', **kwargs):
-        self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/strm_h,ss.rd/"+genre]
+    def __init__(self, username='', genre='', webpage='', **kwargs):
+        self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/strm_h,ss.rd/"+genre+"/"+webpage]
         super().__init__(**kwargs)
  
     def parse(self, response):

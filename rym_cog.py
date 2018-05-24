@@ -58,12 +58,64 @@ class RYMCog:
             await self.bot.say("Looks like you don't have a username set!")
             return
 
-        msg = ""
-        data = retrievers.get_top_ratings(username, genre)
+        page = 0
+        description = ""
+        data = retrievers.get_top_ratings(username, genre, page)
         for datum in data:
-            msg += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
+            description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
 
+        embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
         await self.bot.send_message(msg, destination=ctx.message.channel)
+
+        self.topratings_msgs[msg.id] = (ctx.message.author, page)
+        await self.bot.add_reaction(msg, '⬅')
+        await self.bot.add_reaction(msg, '➡')
+
+    async def on_reaction_add(self, reaction, user):
+        if reaction.message.id not in self.topratings_msgs:
+            return
+        elif user is reaction.message.author:
+            return
+
+        await self.flip_page(reaction, reaction.message, reaction.message.id)
+
+    async def on_reaction_remove(self, reaction, user):
+        if reaction.message.id not in self.topratings_msgs:
+            return
+        elif user is reaction.message.author:
+            return
+
+        await self.flip_page(reaction, reaction.message, reaction.message.id)
+
+    async def flip_page(self, reaction, msg, msg_id):
+        author = self.topratings_msgs[msg_id][0]
+        page = self.topratings_msgs[msg_id][1]
+        username = rym_data.get_username(author.id)
+        top_artists = wrapper.artists
+        max_pages = wrapper.total_artists / 10 + 1
+
+        if reaction.emoji == '➡' and page < max_pages - 1:
+            page += 1
+            description = ""
+            data = retrievers.get_top_ratings(username, genre, page)
+            for datum in data:
+                description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
+            embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
+            embed.set_footer(text="Page " + str(page+1))
+        elif reaction.emoji == '⬅' and page > 0:
+            page -= 1
+            description = ""
+            description = ""
+            data = retrievers.get_top_ratings(username, genre, page)
+            for datum in data:
+                description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
+            embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
+            embed.set_footer(text="Page " + str(page+1))
+        else:
+            return
+
+        self.topratings_msgs[msg_id] = (author, page)
+        await self.bot.edit_message(msg, embed=embed)
         
 def setup(bot):
     bot.add_cog(RYMCog(bot))

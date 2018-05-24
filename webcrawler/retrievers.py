@@ -23,11 +23,13 @@ def check_valid_username(username):
     with open("webcrawler/webcrawler/temp.txt", 'r') as reader:
         return reader.read()
 
-def get_top_ratings(username, genre):    
+def get_top_ratings(username, genre, page):
+    webpage = str(page / 5 + 1)
+    
     def f():
         t_r_s = top_ratings_spider.TopRatingsSpider()
         process = CrawlerProcess(s)
-        process.crawl(t_r_s, username=username, genre=genre)
+        process.crawl(t_r_s, username=username, genre=genre, webpage=webpage)
         process.start()
 
     p = Process(target=f)
@@ -40,4 +42,4 @@ def get_top_ratings(username, genre):
         datum = ast.literal_eval(line[:-1])
         data.append(datum)
         
-    return data
+    return data[5 * page:5 * (page + 1)]
