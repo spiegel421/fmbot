@@ -6,6 +6,7 @@ import rym_data
 class RYMCog:
     def __init__(self, bot):
         self.bot = bot
+        self.topratings_msgs = {}
 
     @commands.group(pass_context=True)
     async def rym(self, ctx):
