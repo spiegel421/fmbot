@@ -69,16 +69,16 @@ class RYMCog:
             await self.bot.say("Looks like you don't have a username set!")
             return
 
+        if self.check_cooled_down():
+            return
+        self.time_last_crawled = time.time()
+
         ctx.genre = genre
         await commands.Command.invoke(self.embed_top_ratings, ctx)
     
     @commands.command(pass_context=True)
     @commands.cooldown(1, 180, commands.BucketType.channel)
     async def embed_top_ratings(self, ctx):
-        if self.check_cooled_down():
-            return
-        self.time_last_crawled = time.time()
-        
         username = rym_data.get_username(ctx.message.author.id)
         
         page = 0
@@ -108,16 +108,16 @@ class RYMCog:
             await self.bot.say("Looks like you don't have a username set!")
             return
 
+        if self.check_cooled_down():
+            return
+        self.time_last_crawled = time.time()
+
         ctx.year = year
         await commands.Command.invoke(self.embed_aoty, ctx)
     
     @commands.command(pass_context=True)
     @commands.cooldown(1, 180, commands.BucketType.channel)
     async def embed_aoty(self, ctx):
-        if self.check_cooled_down():
-            return
-        self.time_last_crawled = time.time()
-        
         username = rym_data.get_username(ctx.message.author.id)
         
         page = 0
