@@ -68,7 +68,7 @@ class RYMCog:
         embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
         msg = await self.bot.say(embed=embed)
 
-        self.topratings_msgs[msg.id] = (ctx.message.author, page)
+        self.topratings_msgs[msg.id] = (ctx.message.author, genre, page)
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
 
@@ -90,7 +90,8 @@ class RYMCog:
 
     async def flip_page(self, reaction, msg, msg_id):
         author = self.topratings_msgs[msg_id][0]
-        page = self.topratings_msgs[msg_id][1]
+        genre = self.topratings_msgs[msg_id][1]
+        page = self.topratings_msgs[msg_id][2]
         username = rym_data.get_username(author.id)
 
         if reaction.emoji == '➡':
