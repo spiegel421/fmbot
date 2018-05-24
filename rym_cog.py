@@ -54,7 +54,7 @@ class RYMCog:
     async def topratings(self, ctx, genre):
  #       if ctx.message.channel != self.bot.get_channel('245685218055290881'):
  #           return
-
+        
         username = rym_data.get_username(ctx.message.author.id)
         if username is None:
             await self.bot.say("Looks like you don't have a username set!")
@@ -63,6 +63,9 @@ class RYMCog:
         page = 0
         description = ""
         data = retrievers.get_top_ratings(username, genre, page)
+        if len(data) == 0:
+            await self.bot.say("Either that is not a genre or you have rated no albums from it.")
+            return
         for datum in data[:5]:
             description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
 
