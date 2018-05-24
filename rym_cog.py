@@ -24,8 +24,8 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def set(self, ctx, username):
- #       if ctx.message.channel != self.bot.get_channel('245685218055290881'):
- #           return
+        if ctx.message.channel != self.bot.get_channel('245685218055290881'):
+            return
 
         status = retrievers.check_valid_username(username)
         if "404" in status:
@@ -126,6 +126,16 @@ class RYMCog:
 
         self.topratings_msgs[msg_id] = (author, genre, page, data)
         await self.bot.edit_message(msg, embed=embed)
+
+    @topartists.error
+    async def embed_error(self, error, ctx):
+        if isinstance(error, commands.CommandOnCooldown):
+            if ctx.message.author.id == '387046431262769153':
+                await self.bot.say('Frawg, more like, mug lite')
+            else:
+                await self.bot.say("Wait {}m, {}s for the cooldown, love.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
+        else:
+            await self.bot.say("Unknown error occurred. <@359613794843885569>, darling, get your shit straight.")
         
 def setup(bot):
     bot.add_cog(RYMCog(bot))
