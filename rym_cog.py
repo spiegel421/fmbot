@@ -8,13 +8,25 @@ class RYMCog:
         self.bot = bot
 
     @commands.group(pass_context=True)
-    async def rym(self, ctx):
+    async def rym(self, ctx, discord_user):
         if ctx.invoked_subcommand is not None:
             return
 
-        username = rym_data.get_username(ctx.message.author.id)
+        if discord_user is None:
+            username = rym_data.get_username(ctx.message.author.id)
+            if username is None:
+                await self.bot.say("Looks like you don't have a username set!")
+                return
+
+        member = discord.utils.find(lambda m: m.name.lower() == ctx.message.content[9:].lower()
+                                    or m.id in ctx.message.content, ctx.message.channel.server.members)
+        if member is None:
+            await self.bot.say("Sorry, this user was not found.")
+            return
+
+        username = rym_data.get_username(member.id)
         if username is None:
-            await self.bot.say("Looks like you don't have a username set!")
+            await self.bot.say(member.name + " doesn't seem to have a RYM profile established.")
             return
         
         await self.bot.say("https://www.rateyourmusic.com/~"+username)
