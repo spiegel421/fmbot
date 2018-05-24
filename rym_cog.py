@@ -61,7 +61,7 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def topratings(self, ctx, genre=''):
-        if ctx.message.channel != self.bot.get_channel('245685218055290881'):
+        if ctx.message.channel != self.bot.get_channel('245685218055290881') and ctx.message.channel != self.bot.get_channel('429979114531979284'):
             return
         
         username = rym_data.get_username(ctx.message.author.id)
@@ -100,7 +100,7 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def aoty(self, ctx, year=''):
-        if ctx.message.channel != self.bot.get_channel('245685218055290881'):
+        if ctx.message.channel != self.bot.get_channel('245685218055290881') and ctx.message.channel != self.bot.get_channel('429979114531979284'):
             return
         
         username = rym_data.get_username(ctx.message.author.id)
