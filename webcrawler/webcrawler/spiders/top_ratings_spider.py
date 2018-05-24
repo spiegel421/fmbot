@@ -10,7 +10,7 @@ class TopRatingsSpider(scrapy.Spider):
         if genre == '':
             self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/recent,ss.rd/"+webpage]
         else:
-            self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/strm_h,ss.rd/"genre+"/"+webpage]
+            self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/strm_h,ss.rd/"+genre+"/"+webpage]
         
         super().__init__(**kwargs)
  
