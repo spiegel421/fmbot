@@ -66,6 +66,7 @@ class RYMCog:
             description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
 
         embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
+        embed.set_footer(text="Page " + str(page+1))
         msg = await self.bot.say(embed=embed)
 
         self.topratings_msgs[msg.id] = (ctx.message.author, genre, page)
@@ -114,7 +115,7 @@ class RYMCog:
         else:
             return
 
-        self.topratings_msgs[msg_id] = (author, page)
+        self.topratings_msgs[msg_id] = (author, genre, page)
         await self.bot.edit_message(msg, embed=embed)
         
 def setup(bot):
