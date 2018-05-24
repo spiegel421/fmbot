@@ -13,7 +13,7 @@ class RYMCog:
         self.cooldown_time = 10
 
     def check_cooled_down(self):
-        return time.time() - time_last_crawled < cooldown_time
+        return time.time() - self.time_last_crawled < self.cooldown_time
 
     @commands.group(pass_context=True)
     async def rym(self, ctx):
