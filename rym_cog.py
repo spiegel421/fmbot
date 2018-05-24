@@ -63,7 +63,7 @@ class RYMCog:
         for datum in data:
             msg += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
 
-        await self.bot.send_message(msg, channel=ctx.message.channel)
+        await self.bot.send_message(msg, destination=ctx.message.channel)
         
 def setup(bot):
     bot.add_cog(RYMCog(bot))
