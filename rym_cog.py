@@ -51,9 +51,10 @@ class RYMCog:
         await self.bot.say("https://www.rateyourmusic.com/~"+username)
 
     @rym.command(pass_context=True)
+    @rym.cooldown(1, 180, commands.BucketType.channel)
     async def topratings(self, ctx, genre):
- #       if ctx.message.channel != self.bot.get_channel('245685218055290881'):
- #           return
+        if ctx.message.channel != self.bot.get_channel('245685218055290881'):
+            return
         
         username = rym_data.get_username(ctx.message.author.id)
         if username is None:
@@ -69,7 +70,7 @@ class RYMCog:
         for datum in data[:5]:
             description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
 
-        embed = discord.Embed(title=username+"'s top-rated "+genre+" albums", description=description)
+        embed = discord.Embed(title=username+"'s top-rated "+genre.replace("+", " ")+" albums", description=description)
         embed.set_footer(text="Page " + str(page+1))
         msg = await self.bot.say(embed=embed)
 
