@@ -17,6 +17,7 @@ class AWOLCog:
             async for message in self.bot.logs_from(channel, after=time):
                 if message.author in members:
                     members.remove(message.author)
+        print(len(members))
         for member in members:
             self.bot.add_roles(member, ['449558462154801162'])
 
