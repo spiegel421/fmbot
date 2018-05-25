@@ -9,6 +9,7 @@ class RYMCog:
         self.bot = bot
         self.topratings_msgs = {}
         self.aoty_msgs = {}
+        self.recent_msgs = {}
         self.time_last_crawled = 0
         self.cooldown_time = 30
 
@@ -114,9 +115,6 @@ class RYMCog:
             return
 
         if self.check_cooled_down():
-            for x in self.bot.get_all_emojis():
-                if x.id == '449250117833457680':
-                    await self.bot.add_reaction(ctx.message, str(x))
             return
         self.time_last_crawled = time.time()
 
@@ -141,6 +139,40 @@ class RYMCog:
         msg = await self.bot.say(embed=embed)
 
         self.aoty_msgs[msg.id] = (username, ctx.year, page, data)
+        await self.bot.add_reaction(msg, '⬅')
+        await self.bot.add_reaction(msg, '➡')
+
+    @rym.command(pass_context=True)
+    async def recent(self, ctx):
+        username = rym_data.get_username(ctx.message.author.id)
+        if username is None:
+            await self.bot.say("Looks like you don't have a username set!")
+            return
+
+        if self.check_cooled_down():
+            return
+        self.time_last_crawled = time.time()
+
+        await commands.Command.invoke(self.embed_recent, ctx)
+    
+    @commands.command(pass_context=True)
+    async def embed_recent(self, ctx):
+        username = rym_data.get_username(ctx.message.author.id)
+        
+        page = 0
+        description = ""
+        data = retrievers.get_recent(username, page)
+        if len(data) == 0:
+            await self.bot.say("Either that is not a year or you have rated no albums from it.")
+            return
+        for datum in data[:5]:
+            description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
+
+        embed = discord.Embed(title=username+"'s recently rated albums", description=description)
+        embed.set_footer(text="Page " + str(page+1))
+        msg = await self.bot.say(embed=embed)
+
+        self.recent_msgs[msg.id] = (username, page, data)
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
 
@@ -177,9 +209,6 @@ class RYMCog:
             n = page % 5
             if n == 0:
                 if self.check_cooled_down():
-                    for x in self.bot.get_all_emojis():
-                        if x.id == '449250117833457680':
-                            await self.bot.add_reaction(ctx.message, str(x))
                     return
                 self.time_last_crawled = time.time()
                 data = retrievers.get_top_ratings(username, genre, page)
@@ -193,9 +222,6 @@ class RYMCog:
             n = page % 5
             if n == 4:
                 if self.check_cooled_down():
-                    for x in self.bot.get_all_emojis():
-                        if x.id == '449250117833457680':
-                            await self.bot.add_reaction(ctx.message, str(x))
                     return
                 self.time_last_crawled = time.time()
                 data = retrievers.get_top_ratings(username, genre, page)
@@ -221,9 +247,6 @@ class RYMCog:
             n = page % 5
             if n == 0:
                 if self.check_cooled_down():
-                    for x in self.bot.get_all_emojis():
-                        if x.id == '449250117833457680':
-                            await self.bot.add_reaction(ctx.message, str(x))
                     return
                 self.time_last_crawled = time.time()
                 data = retrievers.get_aoty(username, year, page)
@@ -237,9 +260,6 @@ class RYMCog:
             n = page % 5
             if n == 4:
                 if self.check_cooled_down():
-                    for x in self.bot.get_all_emojis():
-                        if x.id == '449250117833457680':
-                            await self.bot.add_reaction(ctx.message, str(x))
                     return
                 self.time_last_crawled = time.time()
                 data = retrievers.get_aoty(username, year, page)
@@ -252,6 +272,43 @@ class RYMCog:
             return
 
         self.aoty_msgs[msg_id] = (username, year, page, data)
+        await self.bot.edit_message(msg, embed=embed)
+
+    async def flip_page_recent(self, reaction, msg, msg_id):
+        username = self.recent_msgs[msg_id][0]
+        page = self.recent_msgs[msg_id][1]
+        data = self.recent_msgs[msg_id][2]
+
+        if reaction.emoji == '➡':
+            page += 1
+            n = page % 5
+            if n == 0:
+                if self.check_cooled_down():
+                    return
+                self.time_last_crawled = time.time()
+                data = retrievers.get_recent(username, page)
+            description = ""
+            for datum in data[5 * n:5 * (n + 1)]:
+                description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
+            embed = discord.Embed(title=username+"'s recently rated albums", description=description)
+            embed.set_footer(text="Page " + str(page+1))
+        elif reaction.emoji == '⬅' and page > 0:
+            page -= 1
+            n = page % 5
+            if n == 4:
+                if self.check_cooled_down():
+                    return
+                self.time_last_crawled = time.time()
+                data = retrievers.get_recent(username, page)
+            description = ""
+            for datum in data[5 * n:5 * (n + 1)]:
+                description += "["+datum['artist']+"](https://www.rateyourmusic.com"+datum['artist_link']+") - ["+datum['album']+"](https://www.rateyourmusic.com"+datum['album_link']+") ("+datum['rating']+")\n"
+            embed = discord.Embed(title=username+"'s recently rated albums", description=description)
+            embed.set_footer(text="Page " + str(page+1))
+        else:
+            return
+
+        self.recent_msgs[msg_id] = (username, page, data)
         await self.bot.edit_message(msg, embed=embed)
 
     @embed_top_ratings.error

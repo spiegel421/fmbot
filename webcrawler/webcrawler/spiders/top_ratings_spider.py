@@ -1,5 +1,4 @@
-import scrapy, os, sys
-from os.path import dirname
+import scrapy
 from scrapy.crawler import CrawlerProcess
 
 class TopRatingsSpider(scrapy.Spider):

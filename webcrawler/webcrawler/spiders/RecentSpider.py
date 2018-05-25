@@ -1,16 +1,13 @@
-import scrapy
+import scrapy, os, sys
 from os.path import dirname
 from scrapy.crawler import CrawlerProcess
 
-class AotySpider(scrapy.Spider):
-    name = 'getaoty'
+class RecentSpider(scrapy.Spider):
+    name = 'recentspider'
     allowed_domains = ['rateyourmusic.com/']
 
-    def __init__(self, username='', year='', webpage='', **kwargs):
-        if year == '':
-            self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/strm_relyear,ss.rd/2018/"+webpage]
-        else:
-            self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/strm_relyear,ss.rd/"+year+"/"+webpage]
+    def __init__(self, username='', webpage='', **kwargs):
+        self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/r0.5-5.0,ss.dd"+webpage]
         
         super().__init__(**kwargs)
  
