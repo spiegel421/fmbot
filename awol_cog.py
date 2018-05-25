@@ -10,6 +10,7 @@ class AWOLCog:
  #   @commands.cooldown(1, 86400, commands.BucketType.server)
     async def awol(self, ctx):
         time = datetime.now() - timedelta(days=14)
+        print(time)
         members = []
         for member in self.bot.get_all_members():
             regular = discord.utils.get(member.server.roles, name="Regular")
