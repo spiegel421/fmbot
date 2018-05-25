@@ -24,7 +24,7 @@ class AWOLCog:
                         members.remove(message.author)
                 print(channel.name)
             except:
-                print(channel.name)
+                print(channel.name + " INACCESSIBLE")
 
         print(count)
         print(len(members))
