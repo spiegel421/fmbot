@@ -12,7 +12,7 @@ class AWOLCog:
         time = datetime.now() - timedelta(days=14)
         members = []
         for member in self.bot.get_all_members():
-            if member.roles.find("name", "Regular"):
+            if member.roles.has('449652864256835627'):
                 members.append(member)
         for channel in self.bot.get_all_channels():
             async for message in self.bot.logs_from(channel, after=time):
