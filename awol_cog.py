@@ -12,9 +12,9 @@ class AWOLCog:
         time = datetime.now() - timedelta(days=14)
         members = []
         for member in self.bot.get_all_members():
- #           regular = discord.utils.get(member.server.roles, name="Regular")
-#            if regular in member.roles:
-            members.append(member)
+            regular = discord.utils.get(member.server.roles, name="Regular")
+            if regular in member.roles:
+                members.append(member)
         for channel in self.bot.get_all_channels():
             async for message in self.bot.logs_from(channel, after=time):
                 if message.author in members:
