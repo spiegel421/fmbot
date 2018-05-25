@@ -1,33 +1,23 @@
 import discord
 from discord.ext import commands
-from datetime import datetime, timedelta
+import awol_data
 
 class AWOLCog:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(pass_context=True)
- #   @commands.cooldown(1, 86400, commands.BucketType.server)
-    async def awol(self, ctx):
-        time = datetime.now() - timedelta(days=14)
-        members = []
-        for member in self.bot.get_all_members():
-            regular = discord.utils.get(member.server.roles, name="Regular")
-            if regular in member.roles:
-                members.append(member)
-        count = 0
-        for channel in self.bot.get_all_channels():
-            count += 1
-            try:
-                async for message in self.bot.logs_from(channel, limit=100000, after=time):
-                    if message.author in members:
-                        members.remove(message.author)
-            except:
-                continue
-        for member in members:
-            awol = discord.utils.get(member.server.roles, name="AWOL")
-            await self.bot.add_roles(member, awol)
+    async def on_message(self, message):
+        awol_data.add_timestamp(message.author.id, message.timestamp)
+        await self.bot.process_commands(message)
 
+    @commands.command(pass_context=True)
+    async def awol(self, ctx):
+        awol_users = awol_data.get_awol_users()
+        for user_id in awol_users:
+            user = discord.utils.get(self.bot.get_all_members(), id=user_id)
+            awol = discord.utils.get(self.bot.server.roles, name="AWOL")
+            
+            await self.bot.add_roles(user, awol)
 
 def setup(bot):
     bot.add_cog(AWOLCog(bot))
