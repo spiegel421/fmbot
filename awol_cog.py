@@ -12,7 +12,7 @@ class AWOLCog:
         time = datetime.now() - timedelta(days=14)
         for member in self.bot.get_all_members():
             has_sent_message = False
-            sorted_messages = sorted(self.bot.messages, key=lambda m: m.timestamp, reverse=True)
+            sorted_messages = sorted(self.bot.messages, key=lambda m: m.timestamp, reverse=False)
             most_recent_message = discord.utils.get(sorted_messages, author=member)
             if most_recent_message is None:
                 pass
@@ -20,6 +20,7 @@ class AWOLCog:
                 has_sent_message = True
             if not has_sent_message:
                 awol_role = discord.utils.get(self.bot.get_server('396053907543162881').role_hierarchy, id='449558462154801162')
+                print(awol_role.id)
                 self.bot.add_roles(member, awol_role)
             print(has_sent_message)
 
