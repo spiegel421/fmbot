@@ -12,8 +12,7 @@ class AWOLCog:
         time = datetime.now() - timedelta(days=14)
         members = self.bot.get_all_members()
         for channel in self.bot.get_all_channels():
-            messages = await self.bot.logs_from(channel, after=time)
-            for message in messages:
+            async for message in self.bot.logs_from(channel, after=time)
                 if message.author in members:
                     members.remove(message.author)
         for member in members:
