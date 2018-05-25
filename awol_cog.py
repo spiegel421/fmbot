@@ -13,8 +13,9 @@ class AWOLCog:
         members = []
         for member in self.bot.get_all_members():
             regular = discord.utils.get(member.server.roles, name="Regular")
-            if regular in member.roles:
-                members.append(member)
+            if hasattr(member, roles):
+                if regular in member.roles:
+                    members.append(member)
         for channel in self.bot.get_all_channels():
             print(channel.permissions_for(self.bot.user).read_message_history)
             async for message in self.bot.logs_from(channel, after=time):
