@@ -18,7 +18,7 @@ class AWOLCog:
                 if message.author in members:
                     members.remove(message.author)
         for member in members:
-            self.bot.add_role(member, '449558462154801162')
+            self.bot.add_roles(member, ['449558462154801162'])
 
 
 def setup(bot):
