@@ -7,7 +7,7 @@ class AWOLCog:
         self.bot = bot
 
     @commands.command(pass_context=True)
-    @commands.cooldown(1, 86400, commands.BucketType.server)
+ #   @commands.cooldown(1, 86400, commands.BucketType.server)
     async def awol(self, ctx):
         time = datetime.now() - timedelta(days=14)
         for member in self.bot.get_all_members():
