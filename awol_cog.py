@@ -13,8 +13,10 @@ class AWOLCog:
     @commands.command(pass_context=True)
     async def awol(self, ctx):
         awol_users = awol_data.get_awol_users()
+        print(len(awol_users))
         for user_id in awol_users:
             user = discord.utils.get(self.bot.get_all_members(), id=user_id)
+            print(user.name)
             awol = discord.utils.get(user.server.roles, name="AWOL")
 
             await self.bot.add_roles(user, awol)
