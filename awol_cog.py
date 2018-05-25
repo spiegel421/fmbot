@@ -12,8 +12,11 @@ class AWOLCog:
         time = datetime.now() - timedelta(days=14)
         for member in self.bot.get_all_members():
             has_sent_message = False
-            message = discord.utils.get(self.bot.messages, author=member, timestamp>time)
-            if message is not None:
+            sorted_messages = sorted(self.bot.messages, key=timestamp, reverse=True)
+            most_recent_message = discord.utils.get(sorted_messages, author=member)
+            if most_recent_message is None:
+                pass
+            elif most_recent_message.timestamp > time:
                 has_sent_message = True
             if not has_sent_message:
                 awol_role = discord.utils.get(self.bot.get_server('243129311421399050').role_hierarchy, id='449549299681067010')
