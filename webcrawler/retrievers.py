@@ -3,7 +3,7 @@ from os.path import dirname
 from scrapy.settings import Settings
 from scrapy.utils.project import get_project_settings
 from scrapy.crawler import CrawlerProcess
-from webcrawler.webcrawler.spiders import username_spider, top_ratings_spider, aoty_spider
+from webcrawler.webcrawler.spiders import username_spider, top_ratings_spider, aoty_spider, recent_spider
 from multiprocessing import Process
 
 s = Settings()
