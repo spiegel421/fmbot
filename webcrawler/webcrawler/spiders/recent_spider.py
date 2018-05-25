@@ -7,7 +7,7 @@ class RecentSpider(scrapy.Spider):
     allowed_domains = ['rateyourmusic.com/']
 
     def __init__(self, username='', webpage='', **kwargs):
-        self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/r0.5-5.0,ss.dd"+webpage]
+        self.start_urls = ["https://rateyourmusic.com/collection/"+username+"/r0.5-5.0,ss.dd/"+webpage]
         
         super().__init__(**kwargs)
  
