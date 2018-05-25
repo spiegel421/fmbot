@@ -16,6 +16,7 @@ class AWOLCog:
             if regular in member.roles:
                 members.append(member)
         for channel in self.bot.get_all_channels():
+            print(channel.permissions_for(self.bot.user).read_message_history)
             async for message in self.bot.logs_from(channel, after=time):
                 if message.author in members:
                     members.remove(message.author)
