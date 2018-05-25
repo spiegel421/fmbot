@@ -21,7 +21,7 @@ class AWOLCog:
                     members.remove(message.author)
         print(len(members))
         for member in members:
-            awol = discord.utils.get(member.server.roles, name="awol")
+            awol = discord.utils.get(member.server.roles, name="AWOL")
             await self.bot.add_roles(member, awol)
 
 
