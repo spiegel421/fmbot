@@ -19,7 +19,7 @@ class AWOLCog:
             elif most_recent_message.timestamp > time:
                 has_sent_message = True
             if not has_sent_message:
-                awol_role = discord.utils.get(self.bot.get_server('243129311421399050').role_hierarchy, id='449549299681067010')
+                awol_role = discord.utils.get(self.bot.get_server('396053907543162881').role_hierarchy, id='449549299681067010')
                 self.bot.add_roles(member, awol_role)
 
 
