@@ -29,9 +29,9 @@ class AWOLCog:
 
         print(count)
         print(len(members))
- #       for member in members:
-#            awol = discord.utils.get(member.server.roles, name="AWOL")
-#            await self.bot.add_roles(member, awol)
+        for member in members:
+            awol = discord.utils.get(member.server.roles, name="AWOL")
+            await self.bot.add_roles(member, awol)
 
 
 def setup(bot):
