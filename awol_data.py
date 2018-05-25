@@ -54,7 +54,7 @@ def get_awol_users():
 
     time = datetime.now() - timedelta(seconds=30)
     get_awol_users = ("SELECT discord_id FROM timestamps "
-                    "WHERE timestamp < '" + timestamp + "'")
+                    "WHERE timestamp < '" + time + "'")
     
     cursor.execute(get_awol_users)
     awol_users = []
