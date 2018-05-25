@@ -10,9 +10,10 @@ class AWOLCog:
  #   @commands.cooldown(1, 86400, commands.BucketType.server)
     async def awol(self, ctx):
         time = datetime.now() - timedelta(days=14)
+        sorted_messages = sorted(self.bot.messages, key=lambda m: m.timestamp, reverse=False)
+        print([message.author.id for message in sorted_messages])
         for member in self.bot.get_all_members():
             has_sent_message = False
-            sorted_messages = sorted(self.bot.messages, key=lambda m: m.timestamp, reverse=False)
             most_recent_message = discord.utils.get(sorted_messages, author=member)
             if most_recent_message is None:
                 pass
