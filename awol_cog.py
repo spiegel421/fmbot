@@ -15,6 +15,7 @@ class AWOLCog:
             regular = discord.utils.get(member.server.roles, name="Regular")
             if regular in member.roles:
                 members.append(member)
+        print(len(members))
         count = 0
         for channel in self.bot.get_all_channels():
             count += 1
