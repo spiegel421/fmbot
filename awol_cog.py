@@ -12,7 +12,7 @@ class AWOLCog:
         time = datetime.now() - timedelta(days=14)
         for member in self.bot.get_all_members():
             has_sent_message = False
-            sorted_messages = sorted(self.bot.messages, key=timestamp, reverse=True)
+            sorted_messages = sorted(self.bot.messages, key=lambda m: m.timestamp, reverse=True)
             most_recent_message = discord.utils.get(sorted_messages, author=member)
             if most_recent_message is None:
                 pass
