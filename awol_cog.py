@@ -12,19 +12,13 @@ class AWOLCog:
         time = datetime.now() - timedelta(days=14)
         for member in self.bot.get_all_members():
             has_sent_message = False
-            messages = discord.utils.get(self.bot.messages, author=member)
-            try:
-                for message in messages:
-                    if message.timestamp < time:
-                        break
-                    elif member == message.author:
-                        has_sent_message = True
-                        break
-                if not has_sent_message:
-                    awol_role = discord.utils.get(self.bot.get_server('243129311421399050').role_hierarchy, id='449549299681067010')
-                    self.bot.add_roles(member, awol_role)
-            except:
-                continue
+            message = discord.utils.get(self.bot.messages, author=member, timestamp>time)
+            if message is not None:
+                has_sent_message = True
+            if not has_sent_message:
+                awol_role = discord.utils.get(self.bot.get_server('243129311421399050').role_hierarchy, id='449549299681067010')
+                self.bot.add_roles(member, awol_role)
+
 
 def setup(bot):
     bot.add_cog(AWOLCog(bot))
