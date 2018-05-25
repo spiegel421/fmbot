@@ -10,7 +10,9 @@ class AWOLCog:
  #   @commands.cooldown(1, 86400, commands.BucketType.server)
     async def awol(self, ctx):
         time = datetime.now() - timedelta(days=14)
-        members = self.bot.get_all_members()
+        members = []
+        async for member in self.bot.get_all_members():
+            members.append(member)
         for channel in self.bot.get_all_channels():
             async for message in self.bot.logs_from(channel, after=time):
                 if message.author in members:
