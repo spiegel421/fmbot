@@ -15,7 +15,7 @@ class AWOLCog:
             regular = discord.utils.get(member.server.roles, name="Regular")
             if not isinstance(member, discord.Member):
                 continue
-            elif regular in User(member).roles:
+            elif regular in member.roles:
                 members.append(member)
         for channel in self.bot.get_all_channels():
             print(channel.permissions_for(self.bot.user).read_message_history)
