@@ -13,7 +13,7 @@ class AWOLCog:
         members = []
         for member in self.bot.get_all_members():
             regular = discord.utils.get(member.server.roles, name="Regular")
-            if hasattr(member, roles):
+            if hasattr(member, "roles"):
                 if regular in member.roles:
                     members.append(member)
         for channel in self.bot.get_all_channels():
