@@ -19,7 +19,8 @@ class AWOLCog:
                     members.remove(message.author)
         print(len(members))
         for member in members:
-            self.bot.add_roles(member, ['449558462154801162'])
+            role = discord.utils.get(ctx.guild.roles, name="awol")
+            await member.add_roles(role)
 
 
 def setup(bot):
