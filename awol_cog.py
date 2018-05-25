@@ -13,15 +13,15 @@ class AWOLCog:
         members = []
         for member in self.bot.get_all_members():
             regular = discord.utils.get(member.server.roles, name="Regular")
-            if not isinstance(member, discord.Member):
-                continue
             if regular in member.roles:
                 members.append(member)
         for channel in self.bot.get_all_channels():
- #           print(channel.permissions_for(self.bot.user).read_message_history)
-            async for message in self.bot.logs_from(channel, after=time):
-                if message.author in members:
-                    members.remove(message.author)
+            try:
+                async for message in self.bot.logs_from(channel, after=time):
+                    if message.author in members:
+                        members.remove(message.author)
+            except:
+                continue
         print(len(members))
         for member in members:
             awol = discord.utils.get(member.server.roles, name="AWOL")
