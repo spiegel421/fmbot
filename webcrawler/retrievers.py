@@ -69,7 +69,7 @@ def get_recent(username, page):
     webpage = str(int(page / 5) + 1)
     
     def f():
-        t_r_s = aoty_spider.RecentSpider()
+        t_r_s = recent_spider.RecentSpider()
         process = CrawlerProcess(s)
         process.crawl(t_r_s, username=username, webpage=webpage)
         process.start()
