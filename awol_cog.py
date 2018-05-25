@@ -8,12 +8,12 @@ class AWOLCog:
 
     @commands.command(pass_context=True)
     @commands.cooldown(1, 86400, commands.BucketType.server)
-    async def awol(self):
+    async def awol(self, ctx):
         for member in self.bot.get_all_members():
             for channel in self.bot.get_all_channels():
                 has_sent_message = False
                 time = datetime.now() - timedelta(days=14)
-                for message in channel.history(after=time):
+                for message in ctx.history(after=time):
                     if member == message.author:
                         has_sent_message = True
                         break
