@@ -10,26 +10,20 @@ class AWOLCog:
  #   @commands.cooldown(1, 86400, commands.BucketType.server)
     async def awol(self, ctx):
         time = datetime.now() - timedelta(days=14)
-        print(time)
         members = []
         for member in self.bot.get_all_members():
             regular = discord.utils.get(member.server.roles, name="Regular")
             if regular in member.roles:
                 members.append(member)
-        print(len(members))
         count = 0
         for channel in self.bot.get_all_channels():
             count += 1
             try:
-                async for message in self.bot.logs_from(channel, after=time):
+                async for message in self.bot.logs_from(channel, limit=100000, after=time):
                     if message.author in members:
                         members.remove(message.author)
-                print(channel.name)
             except:
-                print(channel.name + " INACCESSIBLE")
-
-        print(count)
-        print(len(members))
+                continue
         for member in members:
             awol = discord.utils.get(member.server.roles, name="AWOL")
             await self.bot.add_roles(member, awol)
