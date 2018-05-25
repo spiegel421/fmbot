@@ -10,10 +10,9 @@ class AWOLCog:
  #   @commands.cooldown(1, 86400, commands.BucketType.server)
     async def awol(self, ctx):
         time = datetime.now() - timedelta(days=14)
-        regular = discord.utils.get(member.server.roles, name="Regular")
-        awol = discord.utils.get(member.server.roles, name="AWOL")
         members = []
         for member in self.bot.get_all_members():
+            regular = discord.utils.get(member.server.roles, name="Regular")
             if regular in member.roles:
                 members.append(member)
         for channel in self.bot.get_all_channels():
@@ -22,6 +21,7 @@ class AWOLCog:
                     members.remove(message.author)
         print(len(members))
         for member in members:
+            awol = discord.utils.get(member.server.roles, name="AWOL")
             await self.bot.add_roles(member, awol)
 
 
