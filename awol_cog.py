@@ -22,6 +22,7 @@ class AWOLCog:
                 async for message in self.bot.logs_from(channel, after=time):
                     if message.author in members:
                         members.remove(message.author)
+                print('good')
             except:
                 print('sorry')
 
