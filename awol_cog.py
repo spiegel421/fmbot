@@ -15,8 +15,8 @@ class AWOLCog:
         awol_users = awol_data.get_awol_users()
         for user_id in awol_users:
             user = discord.utils.get(self.bot.get_all_members(), id=user_id)
-            awol = discord.utils.get(self.bot.server.roles, name="AWOL")
-            
+            awol = discord.utils.get(user.server.roles, name="AWOL")
+
             await self.bot.add_roles(user, awol)
 
 def setup(bot):
