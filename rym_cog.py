@@ -177,7 +177,7 @@ class RYMCog:
         await self.bot.add_reaction(msg, '➡')
 
     async def on_reaction_add(self, reaction, user):
-        if reaction.message.id not in self.topratings_msgs and reaction.message.id not in self.aoty_msgs:
+        if reaction.message.id not in self.topratings_msgs and reaction.message.id not in self.aoty_msgs and reaction.message.id not in self.recent_msgs:
             return
         elif user is reaction.message.author:
             return
@@ -188,7 +188,7 @@ class RYMCog:
             await self.flip_page_aoty(reaction, reaction.message, reaction.message.id)
 
     async def on_reaction_remove(self, reaction, user):
-        if reaction.message.id not in self.topratings_msgs and reaction.message.id not in self.aoty_msgs:
+        if reaction.message.id not in self.topratings_msgs and reaction.message.id not in self.aoty_msgs and reaction.message.id not in self.recent_msgs:
             return
         elif user is reaction.message.author:
             return
