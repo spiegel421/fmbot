@@ -34,7 +34,7 @@ def add_timestamp(discord_id, timestamp):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
-    add_timestamp = ("REPLACE INTO usernames"
+    add_timestamp = ("REPLACE INTO timestamps"
                     "(discord_id, timestamp) "
                     "VALUES (%(discord_id)s, %(timestamp)s)")
     timestamp_data = {
