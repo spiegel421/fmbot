@@ -186,6 +186,8 @@ class RYMCog:
             await self.flip_page_topratings(reaction, reaction.message, reaction.message.id)
         elif reaction.message.id in self.aoty_msgs:
             await self.flip_page_aoty(reaction, reaction.message, reaction.message.id)
+        elif reaction.message.id in self.recent_msgs:
+            await self.flip_page_recent(reaction, reaction.message, reaction.message.id)
 
     async def on_reaction_remove(self, reaction, user):
         if reaction.message.id not in self.topratings_msgs and reaction.message.id not in self.aoty_msgs and reaction.message.id not in self.recent_msgs:
@@ -197,6 +199,8 @@ class RYMCog:
             await self.flip_page_topratings(reaction, reaction.message, reaction.message.id)
         elif reaction.message.id in self.aoty_msgs:
             await self.flip_page_aoty(reaction, reaction.message, reaction.message.id)
+        elif reaction.message.id in self.recent_msgs:
+            await self.flip_page_recent(reaction, reaction.message, reaction.message.id)
 
     async def flip_page_topratings(self, reaction, msg, msg_id):
         username = self.topratings_msgs[msg_id][0]
