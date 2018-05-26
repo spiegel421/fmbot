@@ -13,6 +13,9 @@ class AWOLCog:
         regular = discord.utils.get(message.server.roles, name='Regular')
  #       if regular in message.author.roles:
         awol_data.add_timestamp(message.author.id, message.timestamp)
+        
+        awol = discord.utils.get(message.author.roles, name="AWOL")
+        await self.bot.remove_roles(message.author, awol)
         await self.bot.process_commands(message)
 
     @commands.group(pass_context=True)
