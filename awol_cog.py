@@ -7,19 +7,29 @@ class AWOLCog:
         self.bot = bot
 
     async def on_message(self, message):
-        awol_data.add_timestamp(message.author.id, message.timestamp)
+        regular = discord.utils.get(message.server.roles, name='Regular')
+        if regular in message.author.roles:
+            awol_data.add_timestamp(message.author.id, message.timestamp)
         await self.bot.process_commands(message)
 
-    @commands.command(pass_context=True)
+    @commands.group(pass_context=True)
     async def awol(self, ctx):
+        if ctx.invoked_subcommand is not None:
+            return
+        
         awol_users = awol_data.get_awol_users()
-        print(len(awol_users))
-        for user_id in awol_users:
-            user = discord.utils.get(self.bot.get_all_members(), id=user_id)
-            print(user.name)
-            awol = discord.utils.get(user.server.roles, name="AWOL")
+        for member_id in awol_users:
+            member = discord.utils.get(self.bot.get_all_members(), id=member_id)
+            awol = discord.utils.get(member.server.roles, name="AWOL")
+            await self.bot.add_roles(member, awol)
 
-            await self.bot.add_roles(user, awol)
+    @awol.command()
+    @commands.is_owner()
+    async def set(self):
+        for member in self.bot.get_all_members():
+            regular = discord.utils.get(message.server.roles, name='Regular')
+            if regular in message.author.roles:
+                await self.bot.add_roles(member, role)
 
 def setup(bot):
     bot.add_cog(AWOLCog(bot))
