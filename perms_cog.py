@@ -16,11 +16,13 @@ class PermsCog:
             return
 
     @perms.command()
-    async def allow(self, channel, cog):
+    async def allow(self, channel_name, cog):
+        channel = discord.utils.get(self.bot.get_all_channels(), name=channel_name)
         perms_data.remove_disallow(channel.id, cog)
 
     @perms.command()
-    async def disallow(self, channel, cog):
+    async def disallow(self, channel_name, cog):
+        channel = discord.utils.get(self.bot.get_all_channels(), name=channel_name)
         perms_data.add_disallow(channel.id, cog)
 
 def setup(bot):
