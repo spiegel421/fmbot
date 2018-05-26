@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import fm_data
+import fm_data, perms_data
 import time
 from lastfmwrapper import LastFmWrapper
 
@@ -14,6 +14,8 @@ class FmCog:
     @commands.group(pass_context=True)
     async def fm(self, ctx):
         if ctx.invoked_subcommand is not None:
+            return
+        elif perms_data.get_disallowed(ctx.message.channel.id, "fm"):
             return
         
         username = fm_data.get_username(ctx.message.author.id)

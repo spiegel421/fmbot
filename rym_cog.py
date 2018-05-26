@@ -26,6 +26,8 @@ class RYMCog:
     async def rym(self, ctx):
         if ctx.invoked_subcommand is not None:
             return
+        elif perms_data.get_disallowed(ctx.message.channel.id, "rym"):
+            return
 
         username = rym_data.get_username(ctx.message.author.id)
         if username is None:
