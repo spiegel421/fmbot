@@ -6,12 +6,10 @@ class PermsCog:
     def __init__(self, bot):
         self.bot = bot
 
-#    def is_owner(self, ctx):
-#        return ctx.author.id == '359613794843885569'
-
     @commands.group(pass_context=True)
-#    @commands.is_owner()
     async def perms(self, ctx):
+        if ctx.message.author.id != '359613794843885569':
+            return
         if ctx.invoked_subcommand is None:
             return
 
