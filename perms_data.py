@@ -50,7 +50,7 @@ def remove_disallow(channel_id, cog):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
-    remove_disallow = ("DELETE FROM disallows"
+    remove_disallow = ("DELETE FROM disallows "
                        "WHERE channel_id = '"+channel_id+"' "
                        "AND `cog` = '"+cog+"'")
     
