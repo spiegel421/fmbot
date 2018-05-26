@@ -34,7 +34,7 @@ def add_disallow(channel_id, cog):
 
     add_disallow = ("REPLACE INTO disallows "
                     "(channel_id, cog) "
-                    "VALUES (%(channek_id)s, %(cog)s)")
+                    "VALUES (%(channel_id)s, %(cog)s)")
     disallow_data = {
         'channel_id': channel_id,
         'cog': cog,
