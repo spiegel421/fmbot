@@ -76,4 +76,4 @@ def get_disallowed(channel_id, cog):
     cursor.close()
     cnx.close()
 
-    return True if disallowed is not None else False
+    return disallowed
