@@ -17,7 +17,6 @@ class AWOLCog:
         awol = discord.utils.get(message.server.roles, name="AWOL")
         if awol in message.author.roles:
             await self.bot.remove_roles(message.author, awol)
-        await self.bot.process_commands(message)
 
     @commands.group(pass_context=True)
     async def awol(self, ctx):
