@@ -10,7 +10,7 @@ class PermsCog:
 #        return ctx.author.id == '359613794843885569'
 
     @commands.group(pass_context=True)
-    @commands.is_owner()
+#    @commands.is_owner()
     async def perms(self, ctx):
         if ctx.invoked_subcommand is None:
             return
