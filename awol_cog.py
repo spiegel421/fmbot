@@ -11,8 +11,8 @@ class AWOLCog:
 
     async def on_message(self, message):
         regular = discord.utils.get(message.server.roles, name='Regular')
-        if regular in message.author.roles:
-            awol_data.add_timestamp(message.author.id, message.timestamp)
+ #       if regular in message.author.roles:
+        awol_data.add_timestamp(message.author.id, message.timestamp)
         await self.bot.process_commands(message)
 
     @commands.group(pass_context=True)
@@ -30,9 +30,9 @@ class AWOLCog:
     @commands.check(is_owner)
     async def start(self, ctx):
         for member in self.bot.get_all_members():
-            regular = discord.utils.get(ctx.message.server.roles, name='Regular')
-            if regular in ctx.message.author.roles:
-                await self.bot.add_roles(member, role)
+ #           regular = discord.utils.get(ctx.message.server.roles, name='Regular')
+ #           if regular in ctx.message.author.roles:
+            await self.bot.add_roles(member, role)
 
 def setup(bot):
     bot.add_cog(AWOLCog(bot))
