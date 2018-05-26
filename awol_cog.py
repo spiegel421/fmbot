@@ -6,6 +6,9 @@ class AWOLCog:
     def __init__(self, bot):
         self.bot = bot
 
+    async def is_owner(ctx):
+        return ctx.author.id == '359613794843885569'
+
     async def on_message(self, message):
         regular = discord.utils.get(message.server.roles, name='Regular')
         if regular in message.author.roles:
@@ -24,8 +27,8 @@ class AWOLCog:
             await self.bot.add_roles(member, awol)
 
     @awol.command()
-    @commands.is_owner()
-    async def set(self):
+    @commands.check(is_owner)
+    async def start(self):
         for member in self.bot.get_all_members():
             regular = discord.utils.get(message.server.roles, name='Regular')
             if regular in message.author.roles:
