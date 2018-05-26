@@ -51,8 +51,8 @@ def remove_disallow(channel_id, cog):
     cursor = cnx.cursor()
 
     remove_disallow = ("DELETE FROM disallows"
-                       "WHERE channel_id = "+channel_id+" "
-                       "AND cog ="+cog)
+                       "WHERE channel_id = '"+channel_id+"' "
+                       "AND cog = '"+cog+"'")
     
     cursor.execute(remove_disallow)
     cnx.commit()
