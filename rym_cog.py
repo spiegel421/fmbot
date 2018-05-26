@@ -1,3 +1,7 @@
+"""
+The RYM cog; controls all RYM-related commands. Uses scrapy webcrawler to fetch data from RYM, and displays it in embeds.
+
+"""
 import discord
 from discord.ext import commands
 from webcrawler import retrievers
@@ -13,9 +17,11 @@ class RYMCog:
         self.time_last_crawled = 0
         self.cooldown_time = 30
 
+    # Check function for a hard 30-second throttle on all RYM commands that crawl the site.
     def check_cooled_down(self):
         return time.time() - self.time_last_crawled < self.cooldown_time
 
+    # If no subcommand was invoked, retrieves RYM username from database and displays it.
     @commands.group(pass_context=True)
     async def rym(self, ctx):
         if ctx.invoked_subcommand is not None:
@@ -28,6 +34,8 @@ class RYMCog:
         
         await self.bot.say("https://www.rateyourmusic.com/~"+username)
 
+    # Sets RYM username, first checking if the username is valid and case-sensitive
+    # (as case-insensitive redirects can be harmful to important queries later on).   
     @rym.command(pass_context=True)
     async def set(self, ctx, username):
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
@@ -48,6 +56,7 @@ class RYMCog:
         rym_data.add_username(ctx.message.author.id, username)
         await self.bot.say("I love you.")
 
+    # Gets the RYM username of another user, either by mention or by search.
     @rym.command(pass_context=True)
     async def get(self, ctx):
         member = discord.utils.find(lambda m: m.name.lower() == ctx.message.content[9:].lower()
@@ -65,8 +74,8 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def topratings(self, ctx, genre=''):
-        if ctx.message.channel != self.bot.get_channel('245685218055290881') and ctx.message.channel != self.bot.get_channel('429979114531979284'):
-            return
+ #       if ctx.message.channel != self.bot.get_channel('245685218055290881') and ctx.message.channel != self.bot.get_channel('429979114531979284'):
+ #           return
         
         username = rym_data.get_username(ctx.message.author.id)
         if username is None:
