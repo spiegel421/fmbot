@@ -4,10 +4,15 @@ from mysql.connector import errorcode
 DB_NAME = 'perms_data'
 
 TABLES = {}
-TABLES['disallows'] = (
-    "CREATE TABLE `disallows` ("
+TABLES['fm'] = (
+    "CREATE TABLE `fm` ("
     "`channel_id` char(18) NOT NULL,"
-    "`cog` LONGTEXT NOT NULL"
+    "PRIMARY KEY (channel_id)"
+    ") ENGINE=InnoDB")
+TABLES['rym'] = (
+    "CREATE TABLE `rym` ("
+    "`channel_id` char(18) NOT NULL"
+    "PRIMARY KEY (channel_id)"
     ") ENGINE=InnoDB")
 
 cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
@@ -32,12 +37,11 @@ def add_disallow(channel_id, cog):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
-    add_disallow = ("REPLACE INTO disallows "
-                    "(channel_id, cog) "
-                    "VALUES (%(channel_id)s, %(cog)s)")
+    add_disallow = ("REPLACE INTO "+cog+" "
+                    "(channel_id) "
+                    "VALUES (%(channel_id)s)")
     disallow_data = {
         'channel_id': channel_id,
-        'cog': cog,
         }
     
     cursor.execute(add_disallow, disallow_data)
@@ -50,9 +54,8 @@ def remove_disallow(channel_id, cog):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
-    remove_disallow = ("DELETE FROM disallows "
-                       "WHERE channel_id = '"+channel_id+"' "
-                       "AND `cog` = '"+cog+"'")
+    remove_disallow = ("DELETE FROM "+cog+" "
+                       "WHERE channel_id = '"+channel_id+"'")
     
     cursor.execute(remove_disallow)
     cnx.commit()
@@ -64,11 +67,10 @@ def get_disallowed(channel_id, cog):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor(buffered=True)
 
-    get_disallowed = ("SELECT channel_id FROM disallows "
-                      "WHERE cog = '"+cog+"'")
+    get_disallowed = ("SELECT channel_id FROM "+cog)
     
     cursor.execute(get_disallowed)       
-    if (channel_id) in cursor:
+    if channel_id in cursor:
         disallowed = True
     else:
         disallowed = False
