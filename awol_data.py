@@ -58,8 +58,8 @@ def get_awol_users():
     
     cursor.execute(get_awol_users)
     awol_users = []
-    for (discord_id) in cursor:
-        awol_users.append(discord_id)
+    for discord_id in cursor:
+        awol_users.append(discord_id[0])
 
     cursor.close()
     cnx.close()
