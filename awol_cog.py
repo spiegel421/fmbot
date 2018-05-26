@@ -32,6 +32,7 @@ class AWOLCog:
         for member in self.bot.get_all_members():
  #           regular = discord.utils.get(ctx.message.server.roles, name='Regular')
  #           if regular in ctx.message.author.roles:
+            awol = discord.utils.get(member.server.roles, name="AWOL")
             await self.bot.add_roles(member, role)
 
 def setup(bot):
