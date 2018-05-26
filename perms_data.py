@@ -32,7 +32,7 @@ def add_disallow(channel_id, cog):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
-    add_disallow = ("REPLACE INTO disallows"
+    add_disallow = ("REPLACE INTO disallows "
                     "(channel_id, cog) "
                     "VALUES (%(channek_id)s, %(cog)s)")
     disallow_data = {
