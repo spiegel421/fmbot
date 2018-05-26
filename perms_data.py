@@ -65,7 +65,7 @@ def get_disallowed(channel_id, cog):
     cursor = cnx.cursor(buffered=True)
 
     get_disallowed = ("SELECT channel_id FROM disallows "
-                      "WHERE cog= "+cog)
+                      "WHERE cog = '"+cog+"'")
     
     cursor.execute(get_disallowed)       
     if channel_id in cursor:
