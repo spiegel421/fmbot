@@ -11,11 +11,12 @@ class AWOLCog:
 
     async def on_message(self, message):
         regular = discord.utils.get(message.server.roles, name='Regular')
- #       if regular in message.author.roles:
-        awol_data.add_timestamp(message.author.id, message.timestamp)
+        if regular in message.author.roles:
+            awol_data.add_timestamp(message.author.id, message.timestamp)
         
-        awol = discord.utils.get(message.author.roles, name="AWOL")
-        await self.bot.remove_roles(message.author, awol)
+        awol = discord.utils.get(message.server.roles, name="AWOL")
+        if awol in message.author.roles:
+            await self.bot.remove_roles(message.author, awol)
         await self.bot.process_commands(message)
 
     @commands.group(pass_context=True)
@@ -33,10 +34,10 @@ class AWOLCog:
     @commands.check(is_owner)
     async def start(self, ctx):
         for member in self.bot.get_all_members():
- #           regular = discord.utils.get(member.server.roles, name='Regular')
- #           if regular in member.roles:
-            awol = discord.utils.get(member.server.roles, name="AWOL")
-            await self.bot.add_roles(member, awol)
+            regular = discord.utils.get(member.server.roles, name='Regular')
+            if regular in member.roles:
+                awol = discord.utils.get(member.server.roles, name="AWOL")
+                await self.bot.add_roles(member, awol)
 
 def setup(bot):
     bot.add_cog(AWOLCog(bot))
