@@ -64,15 +64,14 @@ def get_disallowed(channel_id, cog):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor(buffered=True)
 
-    get_disallowed = ("SELECT (channel_id, cog) FROM disallows "
-                      "WHERE channel_id = "+channel_id+" "
-                      "AND cog= "+cog)
+    get_disallowed = ("SELECT channel_id FROM disallows "
+                      "WHERE cog= "+cog)
     
     cursor.execute(get_disallowed)       
-    try:
-        disallowed = cursor.fetchone()[0]
-    except:
-        disallowed = None
+    if channel_id in cursor:
+        disallowed = True
+    else:
+        disallowed = False
 
     cursor.close()
     cnx.close()
