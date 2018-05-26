@@ -11,7 +11,7 @@ TABLES['fm'] = (
     ") ENGINE=InnoDB")
 TABLES['rym'] = (
     "CREATE TABLE `rym` ("
-    "`channel_id` char(18) NOT NULL"
+    "`channel_id` char(18) NOT NULL,"
     "PRIMARY KEY (channel_id)"
     ") ENGINE=InnoDB")
 
