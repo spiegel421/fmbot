@@ -64,4 +64,5 @@ def get_awol_users():
     cursor.close()
     cnx.close()
 
+    print(awol_users)
     return awol_users
