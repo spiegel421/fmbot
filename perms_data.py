@@ -70,7 +70,7 @@ def get_disallowed(channel_id, cog):
     get_disallowed = ("SELECT channel_id FROM "+cog)
     
     cursor.execute(get_disallowed)       
-    if channel_id in cursor:
+    if (channel_id,) in cursor:
         disallowed = True
     else:
         disallowed = False
