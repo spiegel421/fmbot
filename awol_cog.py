@@ -31,7 +31,7 @@ class AWOLCog:
     async def start(self, ctx):
         for member in self.bot.get_all_members():
             regular = discord.utils.get(ctx.message.server.roles, name='Regular')
-            if regular in message.author.roles:
+            if regular in ctx.message.author.roles:
                 await self.bot.add_roles(member, role)
 
 def setup(bot):
