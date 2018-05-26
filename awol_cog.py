@@ -30,10 +30,10 @@ class AWOLCog:
     @commands.check(is_owner)
     async def start(self, ctx):
         for member in self.bot.get_all_members():
- #           regular = discord.utils.get(ctx.message.server.roles, name='Regular')
- #           if regular in ctx.message.author.roles:
+ #           regular = discord.utils.get(member.server.roles, name='Regular')
+ #           if regular in member.roles:
             awol = discord.utils.get(member.server.roles, name="AWOL")
-            await self.bot.add_roles(member, role)
+            await self.bot.add_roles(member, awol)
 
 def setup(bot):
     bot.add_cog(AWOLCog(bot))
