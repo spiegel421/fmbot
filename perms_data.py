@@ -7,7 +7,7 @@ TABLES = {}
 TABLES['disallows'] = (
     "CREATE TABLE `disallows` ("
     "`channel_id` char(18) NOT NULL,"
-    "`cog` LONGTEXT NOT NULL,"
+    "`cog` LONGTEXT NOT NULL"
     ") ENGINE=InnoDB")
 
 cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
