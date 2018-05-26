@@ -6,7 +6,7 @@ class PermsCog:
     def __init__(self, bot):
         self.bot = bot
 
-    async def is_owner(self, ctx):
+    def is_owner(self, ctx):
         return ctx.author.id == '359613794843885569'
 
     @commands.group(pass_context=True)
