@@ -31,7 +31,7 @@ class LastFmWrapper:
     def get_user_numscrobbles(self, user_name, artist_name):
  #       try:
         top_artists = self.api.get_user_artists(user_name, limit=1)
-        artist_count = top_artists.artist_count
+        artist_count = top_artists.total_artists
         artists = self.api.get_user_artists(user_name, limit=artist_count)
         for artist in artists:
             if artist.name == artist_name:
