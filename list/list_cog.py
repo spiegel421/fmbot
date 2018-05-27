@@ -9,7 +9,7 @@ class ListCog:
         self.bot = bot
 
     @commands.group(pass_context=True)
-    async def list(self, ctx, *args):
+    async def list(self, ctx, *, args):
         if ctx.invoked_subcommand is not None:
             return
 
