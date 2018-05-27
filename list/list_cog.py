@@ -49,6 +49,16 @@ class ListCog:
                 embed.add_field(name=index+". ["+item+"]("+link+")", value=desc)
         await self.bot.say(embed=embed)
 
+    @list.command(pass_context=True)
+    async def create(self, ctx, args):
+        list_name = ""
+        for arg in args:
+            list_name += arg + "_"
+        list_name = list_name[:-1]
+
+        list_data.create_list(ctx.message.author.id, list_name)
+        await bot.say("List successfully created.")
+
 def setup(bot):
     bot.add_cog(ListCog(bot))
         
