@@ -32,7 +32,7 @@ class LastFmWrapper:
  #       try:
         top_artists = self.api.get_user_artists(user_name, limit=1)
         artist_count = top_artists.total_artists
-        artists = self.api.get_user_artists(user_name, limit=artist_count).artists
+        artists = self.api.get_user_artists(user_name, limit=1000).artists
         for artist in artists:
             if artist.name == artist_name:
                 return artist.play_count
