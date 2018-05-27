@@ -16,6 +16,9 @@ TABLES['current_lists'] = (
     "   PRIMARY KEY(`discord_id`)"
     ") ENGINE=InnoDB")
 
+cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
+cursor = cnx.cursor()
+
 for name, ddl in TABLES.items():
     try:
         print("Creating table {}: ".format(name), end='')
