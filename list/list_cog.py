@@ -39,8 +39,13 @@ class ListCog:
         await self.bot.say(embed=embed)
 
     @commands.command(pass_context=True)
-    async def createlist(self, ctx, *, args):
-        list_data.create_list(ctx.message.author.id, args)
+    async def createlist(self, ctx, *args):
+        list_name = ""
+        for arg in args:
+            list_name += arg + "_"
+        list_name = list_name[:-1]
+
+        list_data.create_list(ctx.message.author.id, list_name)
         await bot.say("List successfully created.")
 
 def setup(bot):
