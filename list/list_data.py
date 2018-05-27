@@ -39,7 +39,7 @@ def create_list(discord_id, list_name):
     cursor = cnx.cursor()
     
     name = discord_id + "_" + list_name
-    ddl = (
+    create = (
         "CREATE TABLE {} ("
         "   `index` INT NOT NULL,"
         "   `item` LONGTEXT NOT NULL,"
@@ -47,7 +47,7 @@ def create_list(discord_id, list_name):
         "   `description` LONGTEXT"
         ") ENGINE=InnoDB".format(name)
         )
-    cursor.execute(ddl)
+    cursor.execute(create)
 
     insert = "INSERT INTO `lists` VALUE({}, {})".format(discord_id, list_name)
     cursor.execute(insert)
@@ -96,7 +96,7 @@ def get_list(discord_id, list_name):
     cursor = cnx.cursor()
     
     name = discord_id + "_" + list_name
-    select = "SELECT (index, item, link, description) FROM {}".format(name)
+    select = "SELECT `index`, `item`, `link`, `description` FROM {}".format(name)
     cursor.execute(select)
 
     list_dict = {}
