@@ -61,7 +61,7 @@ class FmCog:
             return
 
         artist_name = ""
-        for index, value in args:
+        for value in args:
             artist_name += value + " "
         artist_name = artist_name[:-1]
 
