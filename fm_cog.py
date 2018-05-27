@@ -64,7 +64,6 @@ class FmCog:
         for value in args:
             artist_name += value + " "
         artist_name = artist_name[:-1]
-        print(artist_name)
 
         play_count = str(self.lastfm.get_user_numscrobbles(username, artist_name))
         await self.bot.say(ctx.message.author.name+" has scrobbled "+artist_name+" "+play_count+" times.")
