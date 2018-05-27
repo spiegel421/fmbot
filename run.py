@@ -6,7 +6,11 @@ the RateYourMusic scrapy webcrawler.
 """
 import discord
 from discord.ext import commands
-import fm_cog, rym_cog, help_cog, awol_cog, perms_cog
+from fm import fm_cog
+from rym import rym_cog
+from help import help_cog
+from awol import awol_cog
+from perms import perms_cog
 
 bot = commands.Bot(command_prefix='$')
 bot.remove_command('help')
