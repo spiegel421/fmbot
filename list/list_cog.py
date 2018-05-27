@@ -19,20 +19,12 @@ class ListCog:
             if len(args) == 1:
                 user_lists = list_data.get_user_lists(discord_id)
             else:
-                list_name = ""
-                for arg in args[1:]:
-                    list_name += arg + "_"
-                list_name = list_name[:-1]
                 list_dict = list_data.get_list(discord_id, list_name)
         elif len(ctx.message.mentions) == 0:
             discord_id = ctx.message.author.id
             if len(args) == 0:
                 user_lists = list_data.get_user_lists(discord_id)
             else:
-                list_name = ""
-                for arg in args:
-                    list_name += arg + "_"
-                list_name = list_name[:-1]
                 list_dict = list_data.get_list(discord_id, list_name)
 
         description = ""
