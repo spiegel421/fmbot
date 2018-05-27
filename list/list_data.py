@@ -13,7 +13,7 @@ TABLES['current_lists'] = (
     "CREATE TABLE `current_lists` ("
     "   `discord_id` char(18) NOT NULL,"
     "   `current_list` LONGTEXT NOT NULL,"
-    "   PRIMARY KEY(`discord_id`)
+    "   PRIMARY KEY(`discord_id`)"
     ") ENGINE=InnoDB")
 
 for name, ddl in TABLES.items():
