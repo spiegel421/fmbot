@@ -50,7 +50,6 @@ def create_list(discord_id, list_name):
     cursor.execute(create)
 
     insert = "INSERT INTO `lists` VALUES ('{}', '{}')".format(discord_id, list_name.replace(" ", "_"))
-    print(insert)
     cursor.execute(insert)
 
     cnx.commit()
@@ -67,8 +66,8 @@ def delete_list(discord_id, list_name):
 
     delete = (
         "DELETE FROM `lists` "
-        "WHERE `discord_id` = {} "
-        "AND `list_name` = {}".format(discord_id, list_name)
+        "WHERE `discord_id` = '{}' "
+        "AND `list_name` = '{}'".format(discord_id, list_name)
         )
     cursor.execute(delete)
 
@@ -80,7 +79,7 @@ def get_user_lists(discord_id):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
-    select = "SELECT `list_name` FROM `lists` WHERE `discord_id` = {}".format(discord_id)
+    select = "SELECT `list_name` FROM `lists` WHERE `discord_id` = '{}'".format(discord_id)
     cursor.execute(select)
 
     user_lists = []
@@ -97,7 +96,7 @@ def get_list(discord_id, list_name):
     cursor = cnx.cursor()
     
     name = discord_id + "_" + list_name
-    select = "SELECT `index`, `item`, `link`, `description` FROM {}".format(name)
+    select = "SELECT `index`, `item`, `link`, `description` FROM `{}`".format(name)
     cursor.execute(select)
 
     list_dict = {}
@@ -124,7 +123,7 @@ def add_to_list(discord_id, list_name, item, index=-1, link='', description=''):
 
     if not added_to_end:
         update = (
-            "UPDATE {} SET `index` = {} "
+            "UPDATE `{}` SET `index` = {} "
             "WHERE `index` >= {}".format(name, "`index` + 1", index)
             )
         cursor.execute(update)
@@ -138,7 +137,7 @@ def remove_from_list(discord_id, list_name, index):
     cursor = cnx.cursor()
     
     name = discord_id + "_" + list_name
-    select = "SELECT * FROM {}".format(name)
+    select = "SELECT * FROM `{}`".format(name)
     cursor.execute(select)
     removed_from_end = (index == len(cursor) - 1)
     
