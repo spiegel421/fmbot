@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import fm_data, perms_data
 import time
-from lastfmwrapper import LastFmWrapper
+from fm_wrapper import LastFmWrapper
 
 class FmCog:
     def __init__(self, bot):

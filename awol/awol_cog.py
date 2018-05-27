@@ -6,7 +6,7 @@ class AWOLCog:
     def __init__(self, bot):
         self.bot = bot
 
-    async def is_owner(ctx):
+    async def is_owner(self, ctx):
         return ctx.author.id == '359613794843885569'
 
     async def on_message(self, message):

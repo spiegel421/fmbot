@@ -2,7 +2,7 @@ import time
 import os
 import logging
 import json
-from lastfm_api import *
+from fm_api import *
 
 
 class LastFmWrapper:
