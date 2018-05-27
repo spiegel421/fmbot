@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import awol_data
+import awol.awol_data
 
 class AWOLCog:
     def __init__(self, bot):

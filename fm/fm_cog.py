@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import fm.fm_data, fm.perms_data
+import fm.fm_data, perms.perms_data
 import time
 import fm.fm_wrapper.LastFmWrapper
 
