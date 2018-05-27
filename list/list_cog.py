@@ -11,7 +11,6 @@ class ListCog:
     @commands.group(pass_context=True)
     async def list(self, ctx, *args):
         if ctx.invoked_subcommand is not None:
-            print('test')
             return
 
         user_lists = list_dict = None
@@ -51,7 +50,7 @@ class ListCog:
         await self.bot.say(embed=embed)
 
     @list.command(pass_context=True)
-    async def create(self, ctx, args):
+    async def create(self, ctx, *args):
         list_name = ""
         for arg in args:
             list_name += arg + "_"
