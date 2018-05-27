@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import perms.perms_data
+from perms import perms_data
 
 class PermsCog:
     def __init__(self, bot):

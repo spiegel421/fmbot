@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
-import fm.fm_data, perms.perms_data, fm.fm_wrapper
+from fm import fm_data, fm_wrapper
+from perms import perms_data
 import time
 
 class FmCog:
@@ -8,7 +9,7 @@ class FmCog:
         self.bot = bot
         self.topartist_msgs = {}
         self.trendingartist_msgs = {}
-        self.lastfm = fm.fm_wrapper.LastFmWrapper()
+        self.lastfm = fm_wrapper.LastFmWrapper()
     
     @commands.group(pass_context=True)
     async def fm(self, ctx):
