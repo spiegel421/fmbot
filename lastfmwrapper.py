@@ -29,16 +29,16 @@ class LastFmWrapper:
             return None
 
     def get_user_numscrobbles(self, user_name, artist_name):
- #       try:
-        top_artists = self.api.get_user_artists(user_name, limit=1)
-        artist_count = top_artists.total_artists
-        artists = self.api.get_user_artists(user_name, limit=1000).artists
-        for artist in artists:
-            if artist.name == artist_name:
-                return artist.play_count
-        return 0
- #       except:
- #           return 0
+        try:
+            top_artists = self.api.get_user_artists(user_name, limit=1)
+            artist_count = top_artists.total_artists
+            artists = self.api.get_user_artists(user_name, limit=1000).artists
+            for artist in artists:
+                if artist.name.lower() == artist_name.lower():
+                    return artist.play_count
+            return 0
+        except:
+            return 0
 
 
     def get_user(self, user_name):
