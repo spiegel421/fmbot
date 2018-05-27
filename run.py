@@ -11,6 +11,7 @@ from rym import rym_cog
 from help import help_cog
 from awol import awol_cog
 from perms import perms_cog
+from list import list_cog
 
 bot = commands.Bot(command_prefix='$')
 bot.remove_command('help')
@@ -19,6 +20,7 @@ rym_cog.setup(bot)
 help_cog.setup(bot)
 awol_cog.setup(bot)
 perms_cog.setup(bot)
+list_cog.setup(bot)
 
 with open('token.txt', 'r') as reader:
     bot.run(reader.read()[:-1])
