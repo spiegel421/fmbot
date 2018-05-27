@@ -46,7 +46,7 @@ class ListCog:
         list_name = list_name[:-1]
 
         list_data.create_list(ctx.message.author.id, list_name)
-        await bot.say("List successfully created.")
+        await self.bot.say("List successfully created.")
 
 def setup(bot):
     bot.add_cog(ListCog(bot))
