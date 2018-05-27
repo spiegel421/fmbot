@@ -72,7 +72,7 @@ class LastfmAPI:
     def __init__(self):
         test = 0
 
-    def get_num_scrobbles(self, user_name, artist_name):
+    def get_num_scrobbles(self, user_name, artist_name, limit):
         if limit == None:
             limit = 1000
         current_page = 1

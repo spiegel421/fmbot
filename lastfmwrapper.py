@@ -30,7 +30,7 @@ class LastFmWrapper:
 
     def get_user_numscrobbles(self, user_name, artist_name):
  #       try:
-        num_scrobbles = self.api.get_num_scrobbles(user_name, artist_name)
+        num_scrobbles = self.api.get_num_scrobbles(user_name, artist_name, limit=1)
         return num_scrobbles
  #       except:
  #           return 0
