@@ -25,9 +25,9 @@ class RYMCog:
     # If no subcommand was invoked, retrieves RYM username from database and displays it.
     @commands.group(pass_context=True)
     async def rym(self, ctx):
-        if ctx.invoked_subcommand is not None:
+        if perms_data.get_disallowed(ctx.message.channel.id, "rym"):
             return
-        elif perms_data.get_disallowed(ctx.message.channel.id, "rym"):
+        if ctx.invoked_subcommand is not None:
             return
 
         username = rym_data.get_username(ctx.message.author.id)
