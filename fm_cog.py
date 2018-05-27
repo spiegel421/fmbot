@@ -54,7 +54,7 @@ class FmCog:
         fm_data.add_scrobble_data(scrobble_data)
 
     @fm.command(pass_context=True)
-    async def scrobbles(ctx, *args):
+    async def scrobbles(self, ctx, *args):
         username = fm_data.get_username(ctx.message.author.id)
         if username == None:
             await self.bot.say("Set a username first. It's ok, bud, we all make mistakes sometimes.")
