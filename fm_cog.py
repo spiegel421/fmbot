@@ -65,7 +65,7 @@ class FmCog:
             artist_name += value + " "
         artist_name = artist_name[:-1]
 
-        play_count = self.lastfm.get_user_numscrobbles(username, artist_name)
+        play_count = str(self.lastfm.get_user_numscrobbles(username, artist_name))
         await self.bot.say("User has scrobbled "+artist_name+" "+play_count+" times.")
 
     @fm.command(pass_context=True)
