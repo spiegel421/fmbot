@@ -97,8 +97,7 @@ class LastfmAPI:
                 return None
             else:
                 artist_tracks= parsed_json['artisttracks']
-                attr = artist_tracks['@attr']
-                num_scrobbles = int(attr['items'])
+                num_scrobbles = len(artist_tracks)
 
             return num_scrobbles
 
