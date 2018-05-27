@@ -11,6 +11,10 @@ def get_page_endpoint(endpoint,user_name, limit_page, page):
     return "http://ws.audioscrobbler.com/2.0/?method={}&user={}&api_key={}&limit={}&page={}&format=json".format(endpoint,
         user_name, API_KEY, limit_page, page)
 
+def get_page_endpoint_alt(endpoint,user_name, artist_name, limit_page, page):
+    return "http://ws.audioscrobbler.com/2.0/?method={}&user={}&artist={}&api_key={}&limit={}&page={}&format=json".format(endpoint,
+        user_name, artist_name, API_KEY, limit_page, page)
+
 class LastfmAPIArtist:
     def __init__(self, name, url, play_count, image, listeners):
         self.name = name
@@ -69,7 +73,10 @@ class LastfmAPI:
         test = 0
 
     def get_num_scrobbles(self, user_name, artist_name):
+        if limit == None:
+            limit = 1000
         current_page = 1
+        
         api_method = "user.getArtistTracks"
         num_scrobbles = 0
 
