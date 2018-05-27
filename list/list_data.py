@@ -61,8 +61,8 @@ def delete_list(discord_id, list_name):
     cursor = cnx.cursor()
     
     name = discord_id + "_" + list_name
-    delete = "DELETE FROM `{}`".format(name)
-    cursor.execute(delete)
+    drop = "DROP TABLE `{}`".format(name)
+    cursor.execute(drop)
 
     delete = (
         "DELETE FROM `lists` "
