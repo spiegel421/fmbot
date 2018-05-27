@@ -35,7 +35,7 @@ class ListCog:
         description = ""
         if user_lists is not None:
             for user_list in user_lists:
-                description += user_list + "\n"
+                description += user_list[0] + "\n"
             description = description[:-1]
         embed = discord.Embed(description=description)
         if list_dict is not None:
