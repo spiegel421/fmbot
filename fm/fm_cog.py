@@ -1,8 +1,8 @@
 import discord
 from discord.ext import commands
-import fm_data, perms_data
+import fm.fm_data, fm.perms_data
 import time
-from fm_wrapper import LastFmWrapper
+import fm.fm_wrapper.LastFmWrapper
 
 class FmCog:
     def __init__(self, bot):
