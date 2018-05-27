@@ -52,7 +52,7 @@ def create_list(discord_id, list_name):
     insert = "INSERT INTO `lists` VALUE({}, {})".format(discord_id, list_name)
     cursor.execute(insert)
 
-    cnx.commit()
+#    cnx.commit()
     cursor.close()
     cnx.close()
 
