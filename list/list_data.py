@@ -40,7 +40,7 @@ def create_list(discord_id, list_name):
     
     name = discord_id + "_" + list_name
     ddl = (
-        "CREATE TABLE `{}` ("
+        "CREATE TABLE {} ("
         "   `index` INT NOT NULL,"
         "   `item` LONGTEXT NOT NULL,"
         "   `link` LONGTEXT,"
