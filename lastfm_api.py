@@ -73,7 +73,7 @@ class LastfmAPI:
         api_method = "user.getArtistTracks"
         num_scrobbles = 0
 
-        header_request = requests.get(get_page_endpoint(api_method,user_name,limit,1))
+        header_request = requests.get(get_page_endpoint(api_method,user_name,artist_name,limit,1))
 
         if header_request.status_code == 200:
             content = header_request.text
