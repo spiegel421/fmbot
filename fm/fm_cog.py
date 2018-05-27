@@ -8,7 +8,7 @@ class FmCog:
         self.bot = bot
         self.topartist_msgs = {}
         self.trendingartist_msgs = {}
-        self.lastfm = fm_wrapper.LastFmWrapper()
+        self.lastfm = fm.fm_wrapper.LastFmWrapper()
     
     @commands.group(pass_context=True)
     async def fm(self, ctx):
