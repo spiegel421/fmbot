@@ -53,6 +53,20 @@ class FmCog:
         }
         fm_data.add_scrobble_data(scrobble_data)
 
+    @fm.command(pass_context=True)
+    async def scrobbles(ctx, *args):
+        username = fm_data.get_username(ctx.message.author.id)
+        if username == None:
+            await self.bot.say("Set a username first. It's ok, bud, we all make mistakes sometimes.")
+            return
+
+        artist_name = ""
+        for index, value in args:
+            artist_name += value + " "
+        artist_name = artist_name[:-1]
+
+        play_count = self.lastfm.get_user_numscrobbles(username, artist_name)
+        await bot.say("User has scrobbled "+artist_name+" "+play_count+" times.")
 
     @fm.command(pass_context=True)
     async def trendingartists(self, ctx, num_days):
