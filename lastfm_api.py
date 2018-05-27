@@ -96,7 +96,7 @@ class LastfmAPI:
                 logging.error(parsed_json)
                 return None
             else:
-                artist_tracks= parsed_json['artisttracks']
+                artist_tracks= parsed_json['artisttracks']['artist']
                 num_scrobbles = len(artist_tracks)
 
             return num_scrobbles
