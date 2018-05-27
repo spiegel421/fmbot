@@ -11,6 +11,7 @@ class ListCog:
     @commands.group(pass_context=True)
     async def list(self, ctx, *args):
         if ctx.invoked_subcommand is not None:
+            print('test')
             return
 
         user_lists = list_dict = None
