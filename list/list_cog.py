@@ -8,11 +8,8 @@ class ListCog:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group(pass_context=True)
+    @commands.command(pass_context=True)
     async def list(self, ctx, *, args):
-        if ctx.invoked_subcommand is not None:
-            return
-
         user_lists = list_dict = None
         if len(ctx.message.mentions) == 1:
             discord_id = ctx.message.mentions[0].id
@@ -41,14 +38,9 @@ class ListCog:
                 embed.add_field(name=index+". ["+item+"]("+link+")", value=desc)
         await self.bot.say(embed=embed)
 
-    @list.command(pass_context=True)
-    async def create(self, ctx, *args):
-        list_name = ""
-        for arg in args:
-            list_name += arg + "_"
-        list_name = list_name[:-1]
-
-        list_data.create_list(ctx.message.author.id, list_name)
+    @commands.command(pass_context=True)
+    async def createlist(self, ctx, *, args):
+        list_data.create_list(ctx.message.author.id, args)
         await bot.say("List successfully created.")
 
 def setup(bot):
