@@ -49,7 +49,7 @@ def create_list(discord_id, list_name):
         )
     cursor.execute(create)
 
-    insert = "INSERT INTO `lists` VALUES ({}, {})".format(discord_id, list_name.replace(" ", "_"))
+    insert = "INSERT INTO `lists` (`discord_id`, `list_name`) VALUES ({}, {})".format(discord_id, list_name.replace(" ", "_"))
     cursor.execute(insert)
 
     cnx.commit()
