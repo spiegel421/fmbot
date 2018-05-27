@@ -111,6 +111,7 @@ class LastfmAPI:
         header_request = requests.get(get_page_endpoint(api_method,user_name,limit,1))
 
         if header_request.status_code == 200:
+            print('reached page')
             content = header_request.text
             parsed_json = json.loads(content)
 
