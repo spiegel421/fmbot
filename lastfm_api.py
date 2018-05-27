@@ -68,6 +68,33 @@ class LastfmAPI:
     def __init__(self):
         test = 0
 
+    def get_num_scrobbles(self, user_name, artist_name):
+        current_page = 1
+        api_method = "user.getArtistTracks"
+        num_scrobbles = 0
+
+        header_request = requests.get(get_page_endpoint(api_method,user_name,limit,1))
+
+        if header_request.status_code == 200:
+            content = header_request.text
+            parsed_json = json.loads(content)
+
+            error = None
+            try:
+                error = parsed_json['error']
+            except:
+                pass
+            if error is not None:
+                logging.error("Last.fm API error")
+                logging.error(parsed_json)
+                return None
+            else:
+                artist_tracks= parsed_json['artisttracks']
+                attr = artist_tracks['@attr']
+                num_scrobbles = int(attr['items'])
+
+            return num_scrobbles
+
     def get_user_artists(self, user_name, limit=None):
         if limit == None:
             limit = 1000
