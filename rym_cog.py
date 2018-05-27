@@ -40,9 +40,6 @@ class RYMCog:
     # (as case-insensitive redirects can be harmful to important queries later on).   
     @rym.command(pass_context=True)
     async def set(self, ctx, username):
-        if ctx.message.channel != self.bot.get_channel('245685218055290881'):
-            return
-
         if self.check_cooled_down():
             for x in self.bot.get_all_emojis():
                 if x.id == '449250117833457680':
@@ -76,9 +73,6 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def topratings(self, ctx, genre=''):
- #       if ctx.message.channel != self.bot.get_channel('245685218055290881') and ctx.message.channel != self.bot.get_channel('429979114531979284'):
- #           return
-        
         username = rym_data.get_username(ctx.message.author.id)
         if username is None:
             await self.bot.say("Looks like you don't have a username set!")
@@ -117,9 +111,6 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def aoty(self, ctx, year=''):
-        if ctx.message.channel != self.bot.get_channel('245685218055290881') and ctx.message.channel != self.bot.get_channel('405103364515430401'):
-            return
-        
         username = rym_data.get_username(ctx.message.author.id)
         if username is None:
             await self.bot.say("Looks like you don't have a username set!")
