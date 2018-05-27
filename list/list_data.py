@@ -49,7 +49,7 @@ def create_list(discord_id, list_name):
         )
     cursor.execute(create)
 
-    insert = "INSERT INTO `lists` VALUES ({}, {})".format(discord_id, list_name.replace(" ", "_"))
+    insert = "INSERT INTO `lists` VALUES ('{}', '{}')".format(discord_id, list_name.replace(" ", "_"))
     print(insert)
     cursor.execute(insert)
 
@@ -119,7 +119,7 @@ def add_to_list(discord_id, list_name, item, index=-1, link='', description=''):
     added_to_end = (index == -1)
     index = len(cursor) if index == -1 else index
     
-    insert = "INSERT INTO {} VALUE({}, {}, {}, {})".format(name, index, item, link, description)
+    insert = "INSERT INTO {} VALUE('{}', {}, '{}', '{}')".format(name, index, item, link, description)
     cursor.execute(insert)
 
     if not added_to_end:
@@ -160,7 +160,7 @@ def switch_current_list(discord_id, list_name):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
-    replace = "REPLACE INTO `current_lists` VALUE({}, {})".format(discord_id, list_name)
+    replace = "REPLACE INTO `current_lists` VALUE('{}', '{}')".format(discord_id, list_name)
     cursor.execute(replace)
 
     cnx.commit()
