@@ -13,7 +13,7 @@ from awol import awol_cog
 from perms import perms_cog
 from list import list_cog
 
-bot = commands.Bot(command_prefix='$')
+bot = commands.Bot(command_prefix='.')
 bot.remove_command('help')
 fm_cog.setup(bot)
 rym_cog.setup(bot)
