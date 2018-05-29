@@ -37,7 +37,7 @@ cnx.close()
 
 def create_list(discord_id, list_name):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
-    cursor = cnx.cursor()
+    cursor = cnx.cursor(buffered=True)
     
     name = discord_id + "_" + list_name
     create = (
