@@ -109,7 +109,7 @@ def get_list(discord_id, list_name):
 
 def add_to_list(discord_id, list_name, index, item, link):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
-    cursor = cnx.cursor()
+    cursor = cnx.cursor(buffered=True)
     
     name = discord_id + "_" + list_name
     select = "SELECT * FROM {}".format(name)
@@ -133,7 +133,7 @@ def add_to_list(discord_id, list_name, index, item, link):
 
 def remove_from_list(discord_id, list_name, index):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
-    cursor = cnx.cursor()
+    cursor = cnx.cursor(buffered=True)
     
     name = discord_id + "_" + list_name
     select = "SELECT * FROM `{}`".format(name)
@@ -142,7 +142,6 @@ def remove_from_list(discord_id, list_name, index):
     
     insert = "DELETE FROM {} WHERE `index` = {}".format(name, index)
     cursor.execute(insert)
-    cnx.commit()
 
     if not added_to_end:
         update = (
