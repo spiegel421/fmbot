@@ -163,7 +163,7 @@ def get_current_list(discord_id):
 
     result = None
     for (current_list) in cursor:
-        result = current_list
+        result = current_list[0]
     return result
 
 def switch_current_list(discord_id, list_name):
