@@ -83,10 +83,10 @@ class ListCog:
         try:
             if index == -1:
                 link = args[0]
-                item = args[1:]
+                item = ' '.join(args[1:])
             else:
                 link = args[1]
-                item = args[2]
+                item = ' '.join(args[2:])
         except:
             await self.bot.say("Please specify both an item and a link.")
             return
