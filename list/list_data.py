@@ -43,8 +43,7 @@ def create_list(discord_id, list_name):
         "CREATE TABLE `{}` ("
         "   `index` INT NOT NULL,"
         "   `item` LONGTEXT NOT NULL,"
-        "   `link` LONGTEXT,"
-        "   `description` LONGTEXT"
+        "   `link` LONGTEXT"
         ") ENGINE=InnoDB".format(name)
         )
     cursor.execute(create)
@@ -96,19 +95,19 @@ def get_list(discord_id, list_name):
     cursor = cnx.cursor()
     
     name = discord_id + "_" + list_name
-    select = "SELECT `index`, `item`, `link`, `description` FROM `{}`".format(name)
+    select = "SELECT `index`, `item`, `link` FROM `{}`".format(name)
     cursor.execute(select)
 
     list_dict = {}
-    for (index, item, link, description) in cursor:
-        list_dict[index] = (item, link, description)
+    for (index, item, link) in cursor:
+        list_dict[index] = (item, link)
 
     cursor.close()
     cnx.close()
 
     return list_dict
 
-def add_to_list(discord_id, list_name, item, index=-1, link='', description=''):
+def add_to_list(discord_id, list_name, index, item, link):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
     
@@ -118,7 +117,7 @@ def add_to_list(discord_id, list_name, item, index=-1, link='', description=''):
     added_to_end = (index == -1)
     index = len(cursor) if index == -1 else index
     
-    insert = "INSERT INTO {} VALUE('{}', {}, '{}', '{}')".format(name, index, item, link, description)
+    insert = "INSERT INTO {} VALUE('{}', {}, '{}')".format(name, index, item, link)
     cursor.execute(insert)
 
     if not added_to_end:
@@ -154,6 +153,18 @@ def remove_from_list(discord_id, list_name, index):
     cnx.commit()
     cursor.close()
     cnx.close()
+
+def get_current_list(discord_id):
+    cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
+    cursor = cnx.cursor()
+
+    select = "SELECT `current_list` FROM `current_lists` WHERE `discord_id` = '{}'".format(discord_id)
+    cursor.execute(select)
+
+    result = None
+    for (current_list) in cursor:
+        result = current_list
+    return result
 
 def switch_current_list(discord_id, list_name):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')

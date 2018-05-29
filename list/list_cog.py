@@ -72,6 +72,42 @@ class ListCog:
         except:
             await self.bot.say("List deletion failed.")
 
+    @commands.command(pass_context=True)
+    async def add(self, ctx, *args):
+        index = None
+        try:
+            index = int(args[0])
+        except:
+            index = -1
+
+        try:
+            if index == -1:
+                link = args[0]
+                item = args[1:]
+            else:
+                link = args[1]
+                item = args[2]
+        except:
+            await self.bot.say("Please specify both an item and a link.")
+            return
+
+        try:
+            current_list = list_data.get_current_list(ctx.message.author.id)
+        except:
+            await self.bot.say("You are not currently editing a list.")
+            return
+        
+        list_data.add_to_list(ctx.message.author.id, current_list, index, item, link)
+        await self.bot.say("List successfully updated.")
+
+    @commands.command(pass_context=True)
+    async def edit(self, ctx, list_name):
+        try:
+            list_data.switch_current_list(ctx.message.author.id, list_name)
+            await self.bot.say("You are now editing list "+list_name+".")
+        except:
+            await self.bot.say("That is not a list.")
+
 def setup(bot):
     bot.add_cog(ListCog(bot))
         
