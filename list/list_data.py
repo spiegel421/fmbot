@@ -7,7 +7,8 @@ TABLES = {}
 TABLES['lists'] = (
     "CREATE TABLE `lists` ("
     "   `discord_id` char(18) NOT NULL,"
-    "   `list_name` LONGTEXT NOT NULL"
+    "   `list_name` LONGTEXT NOT NULL,"
+    "   `editors` LONGTEXT NOT NULL"
     ") ENGINE=InnoDB")
 TABLES['current_lists'] = (
     "CREATE TABLE `current_lists` ("
@@ -48,7 +49,7 @@ def create_list(discord_id, list_name):
         )
     cursor.execute(create)
 
-    insert = "INSERT INTO `lists` VALUES ('{}', '{}')".format(discord_id, list_name)
+    insert = "INSERT INTO `lists` VALUES ('{}', '{}', '')".format(discord_id, list_name)
     cursor.execute(insert)
 
     cnx.commit()
@@ -116,6 +117,58 @@ def get_list(discord_id, list_name):
 
     return list_dict
 
+def get_editors(discord_id, list_name):
+    cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
+    cursor = cnx.cursor(buffered=True)
+
+    find = (
+        "SELECT `editors` FROM `lists` "
+        "WHERE `discord_id` = '{}' "
+        "AND `list_name` = '{}'".format(discord_id, list_name)
+        )
+    cursor.execute(find)
+    if cursor.rowcount == 0:
+        raise Exception("That is not a list.")
+
+    result = None
+    for (editors) in cursor:
+        result = editors[0]
+    result = result.split(" ")
+
+    cursor.close()
+    cnx.close()
+    
+    return result
+
+def add_editor(discord_id, list_name, editor_id):
+    cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
+    cursor = cnx.cursor(buffered=True)
+
+    find = (
+        "SELECT `editors` FROM `lists` "
+        "WHERE `discord_id` = '{}' "
+        "AND `list_name` = '{}'".format(discord_id, list_name)
+        )
+    cursor.execute(find)
+    if cursor.rowcount == 0:
+        raise Exception("That is not a list.")
+
+    result = None
+    for (editors) in cursor:
+        result = editors[0]
+
+    update = (
+        "UPDATE `lists` "
+        "SET `editors` = '{}' "
+        "WHERE `discord_id` = '{}' "
+        "AND `list_name` = '{}'".format(result+" "+editor_id, discord_id, list_name)
+        )
+    cursor.execute(update)
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+
 def add_to_list(discord_id, list_name, index, item, link):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor(buffered=True)
@@ -174,6 +227,10 @@ def get_current_list(discord_id):
     result = None
     for (current_list) in cursor:
         result = current_list[0]
+
+    cursor.close()
+    cnx.close()
+    
     return result
 
 def switch_current_list(discord_id, list_name):

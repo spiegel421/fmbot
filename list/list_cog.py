@@ -19,7 +19,7 @@ class ListCog:
                 list_name = ""
                 for arg in args[1:]:
                     list_name += arg + "_"
-                list_name = list_name[:-1].r
+                list_name = list_name[:-1]
                 list_dict = list_data.get_list(discord_id, list_name)
         elif len(ctx.message.mentions) == 0:
             discord_id = ctx.message.author.id
@@ -117,15 +117,46 @@ class ListCog:
         await self.bot.say("List successfully updated.")
 
     @commands.command(pass_context=True)
-    async def editlist(self, ctx, *args):
+    async def addeditor(self, ctx, *args):
+        if len(ctx.message.mentions) == 0:
+            await self.bot.say("Please specify an editor.")
+            return
+
+        editor_id = ctx.message.mentions[0].id
         list_name = ""
-        for arg in args:
+        for arg in args[1:]:
             list_name += arg + "_"
         list_name = list_name[:-1]
-        
+
         try:
-            list_data.switch_current_list(ctx.message.author.id, list_name)
-            await self.bot.say("You are now editing list "+list_name.replace("_", " ")+".")
+            list_data.add_editor(ctx.message.author.id, list_name, editor_id)
+            await self.bot.say(ctx.message.mentions[0].name+" can now edit your list.")
+        except:
+            await self.bot.say("That command failed.")
+
+    @commands.command(pass_context=True)
+    async def editlist(self, ctx, *args):
+        if len(ctx.message.mentions) == 1:
+            discord_id = ctx.message.mentions[0].id
+            editor_id = ctx.message.author.id
+            list_name = ""
+            for arg in args[1:]:
+                list_name += arg + "_"
+            list_name = list_name[:-1]
+        elif len(ctx.message.mentions) == 0:
+            discord_id = ctx.message.author.id
+            editor_id = ''
+            list_name = ""
+            for arg in args:
+                list_name += arg + "_"
+
+        if editor_id not in list_data.get_editors(discord_id, list_name):
+            await self.bot.say("You do not have permission to edit that list.")
+            return
+            
+        try:
+            list_data.switch_current_list(discord_id, list_name)
+            await self.bot.say("You are now editing list "+list_name.replace("_", " ")+", by user "+discord_id.name+".")
         except:
             await self.bot.say("That is not a list.")
 
