@@ -92,9 +92,8 @@ def get_user_lists(discord_id):
 
 def get_list(discord_id, list_name):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
-    cursor = cnx.cursor()
-    
-    name = discord_id + "_" + list_name
+    cursor = cnx.cursor(buffered=True)
+
     find = (
         "SELECT * FROM `lists` "
         "WHERE `discord_id` = '{}' "
@@ -103,7 +102,8 @@ def get_list(discord_id, list_name):
     cursor.execute(find)
     if cursor.rowcount == 0:
         raise Exception("That is not a list.")
-    
+
+    name = discord_id + "_" + list_name
     select = "SELECT `index`, `item`, `link` FROM `{}`".format(name)
     cursor.execute(select)
 
