@@ -18,8 +18,8 @@ class ListCog:
             else:
                 list_name = ""
                 for arg in args[1:]:
-                    list_name += arg + " "
-                list_name = list_name[:-1]
+                    list_name += arg + "_"
+                list_name = list_name[:-1].r
                 list_dict = list_data.get_list(discord_id, list_name)
         elif len(ctx.message.mentions) == 0:
             discord_id = ctx.message.author.id
@@ -27,8 +27,8 @@ class ListCog:
                 user_lists = list_data.get_user_lists(discord_id)
             else:
                 list_name = ""
-                for arg in args[1:]:
-                    list_name += arg + " "
+                for arg in args:
+                    list_name += arg + "_"
                 list_name = list_name[:-1]
                 list_dict = list_data.get_list(discord_id, list_name)
 
@@ -39,11 +39,12 @@ class ListCog:
             description = description[:-1]
             await self.bot.say(description)
         if list_dict is not None:
+            embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+ctx.message.author.name)
             for index in list_dict:
                 item = list_dict[index][0]
                 link = list_dict[index][1]
-                desc = list_dict[index][2]
-                embed.add_field(name=index+". ["+item+"]("+link+")", value=desc)
+                description += str(index+1)+". ["+item+"]("+link+")\n"
+            embed.description = description
             await self.bot.say(embed=embed)
 
     @commands.command(pass_context=True)
@@ -71,6 +72,62 @@ class ListCog:
             await self.bot.say("List successfully deleted.")
         except:
             await self.bot.say("List deletion failed.")
+
+    @commands.command(pass_context=True)
+    async def additem(self, ctx, *args):
+        try:
+            index = int(args[0]) - 1
+        except:
+            index = -1
+
+        try:
+            if index == -1:
+                link = args[0]
+                item = ' '.join(args[1:])
+            else:
+                link = args[1]
+                item = ' '.join(args[2:])
+        except:
+            await self.bot.say("Please specify both an item and a link.")
+            return
+
+        try:
+            current_list = list_data.get_current_list(ctx.message.author.id)
+        except:
+            await self.bot.say("You are not currently editing a list.")
+            return
+        
+        list_data.add_to_list(ctx.message.author.id, current_list, index, item, link)
+        await self.bot.say("List successfully updated.")
+
+    @commands.command(pass_context=True)
+    async def remitem(self, ctx, index):
+        try:
+            index = int(index) - 1
+        except:
+            index = -1
+
+        try:
+            current_list = list_data.get_current_list(ctx.message.author.id)
+        except:
+            await self.bot.say("You are not currently editing a list.")
+            return
+
+        list_data.remove_from_list(ctx.message.author.id, current_list, index)
+        await self.bot.say("List successfully updated.")
+
+    @commands.command(pass_context=True)
+    async def editlist(self, ctx, *args):
+        list_name = ""
+        for arg in args:
+            list_name += arg + "_"
+        list_name = list_name[:-1]
+        
+        try:
+            list_data.switch_current_list(ctx.message.author.id, list_name)
+            await self.bot.say("You are now editing list "+list_name.replace("_", " ")+".")
+        except:
+            await self.bot.say("That is not a list.")
 
 def setup(bot):
     bot.add_cog(ListCog(bot))
