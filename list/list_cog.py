@@ -18,8 +18,8 @@ class ListCog:
             else:
                 list_name = ""
                 for arg in args[1:]:
-                    list_name += arg + " "
-                list_name = list_name[:-1]
+                    list_name += arg + "_"
+                list_name = list_name[:-1].r
                 list_dict = list_data.get_list(discord_id, list_name)
         elif len(ctx.message.mentions) == 0:
             discord_id = ctx.message.author.id
@@ -28,7 +28,7 @@ class ListCog:
             else:
                 list_name = ""
                 for arg in args:
-                    list_name += arg + " "
+                    list_name += arg + "_"
                 list_name = list_name[:-1]
                 list_dict = list_data.get_list(discord_id, list_name)
 
