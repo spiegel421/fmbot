@@ -103,7 +103,7 @@ class ListCog:
     @commands.command(pass_context=True)
     async def remitem(self, ctx, index):
         try:
-            index = int(args[0]) - 1
+            index = int(index) - 1
         except:
             index = -1
 
