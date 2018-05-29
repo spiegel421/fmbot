@@ -103,6 +103,11 @@ class ListCog:
 
     @commands.command(pass_context=True)
     async def edit(self, ctx, list_name):
+        list_name = ""
+        for arg in args:
+            list_name += arg + "_"
+        list_name = list_name[:-1]
+        
         try:
             list_data.switch_current_list(ctx.message.author.id, list_name)
             await self.bot.say("You are now editing list "+list_name+".")

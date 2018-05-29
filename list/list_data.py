@@ -38,7 +38,7 @@ def create_list(discord_id, list_name):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
     
-    name = discord_id + "_" + list_name.replace(" ", "_")
+    name = discord_id + "_" + list_name
     create = (
         "CREATE TABLE `{}` ("
         "   `index` INT NOT NULL,"
@@ -48,7 +48,7 @@ def create_list(discord_id, list_name):
         )
     cursor.execute(create)
 
-    insert = "INSERT INTO `lists` VALUES ('{}', '{}')".format(discord_id, list_name.replace(" ", "_"))
+    insert = "INSERT INTO `lists` VALUES ('{}', '{}')".format(discord_id, list_name)
     cursor.execute(insert)
 
     cnx.commit()
@@ -57,7 +57,7 @@ def create_list(discord_id, list_name):
 
 def delete_list(discord_id, list_name):    
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
-    cursor = cnx.cursor(buffered=True)
+    cursor = cnx.cursor()
     
     name = discord_id + "_" + list_name
     drop = "DROP TABLE `{}`".format(name)
@@ -167,6 +167,9 @@ def get_current_list(discord_id):
     return result
 
 def switch_current_list(discord_id, list_name):
+    if get_list(discord_id, list_name) == {}:
+        raise Exception("That is not a list.")
+    
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
