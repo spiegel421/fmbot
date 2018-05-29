@@ -43,7 +43,8 @@ class ListCog:
             for index in list_dict:
                 item = list_dict[index][0]
                 link = list_dict[index][1]
-                embed.add_field(name=str(index)+". ["+item+"]("+link+")", value='\u200b')
+                description += str(index+1)+". ["+item+"]("+link+")"
+            embed.description = description
             await self.bot.say(embed=embed)
 
     @commands.command(pass_context=True)
