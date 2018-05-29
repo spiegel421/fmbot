@@ -43,7 +43,7 @@ class ListCog:
             for index in list_dict:
                 item = list_dict[index][0]
                 link = list_dict[index][1]
-                description += str(index+1)+". ["+item+"]("+link+")"
+                description += str(index+1)+". ["+item+"]("+link+")\n"
             embed.description = description
             await self.bot.say(embed=embed)
 
