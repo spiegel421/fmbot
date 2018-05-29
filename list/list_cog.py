@@ -102,7 +102,7 @@ class ListCog:
         await self.bot.say("List successfully updated.")
 
     @commands.command(pass_context=True)
-    async def edit(self, ctx, list_name):
+    async def edit(self, ctx, *args):
         list_name = ""
         for arg in args:
             list_name += arg + "_"
@@ -110,7 +110,7 @@ class ListCog:
         
         try:
             list_data.switch_current_list(ctx.message.author.id, list_name)
-            await self.bot.say("You are now editing list "+list_name+".")
+            await self.bot.say("You are now editing list "+list_name.replace("_", " ")+".")
         except:
             await self.bot.say("That is not a list.")
 
