@@ -117,7 +117,7 @@ def add_to_list(discord_id, list_name, index, item, link):
     added_to_end = (index == -1)
     index = cursor.rowcount if index == -1 else index
     
-    insert = "INSERT INTO {} VALUE('{}', {}, '{}')".format(name, index, item, link)
+    insert = "INSERT INTO `{}` VALUE('{}', '{}', '{}')".format(name, index, item, link)
     cursor.execute(insert)
 
     if not added_to_end:
@@ -140,12 +140,12 @@ def remove_from_list(discord_id, list_name, index):
     cursor.execute(select)
     removed_from_end = (index == cursor.rowcount - 1)
     
-    insert = "DELETE FROM {} WHERE `index` = {}".format(name, index)
+    insert = "DELETE FROM `{}` WHERE `index` = {}".format(name, index)
     cursor.execute(insert)
 
     if not added_to_end:
         update = (
-            "UPDATE {} SET `index` = {} "
+            "UPDATE `{}` SET `index` = {} "
             "WHERE `index` > {}".format(name, "`index` - 1", index)
             )
         cursor.execute(update)
