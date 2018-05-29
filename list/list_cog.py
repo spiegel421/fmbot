@@ -39,6 +39,7 @@ class ListCog:
             description = description[:-1]
             await self.bot.say(description)
         if list_dict is not None:
+            embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+ctx.message.author.name)
             for index in list_dict:
                 item = list_dict[index][0]
                 link = list_dict[index][1]
