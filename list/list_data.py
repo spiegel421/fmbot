@@ -142,6 +142,7 @@ def remove_from_list(discord_id, list_name, index):
     
     insert = "DELETE FROM {} WHERE `index` = {}".format(name, index)
     cursor.execute(insert)
+    cnx.commit()
 
     if not added_to_end:
         update = (
