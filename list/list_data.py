@@ -95,6 +95,15 @@ def get_list(discord_id, list_name):
     cursor = cnx.cursor()
     
     name = discord_id + "_" + list_name
+    find = (
+        "SELECT * FROM `lists` "
+        "WHERE `discord_id` = '{}' "
+        "AND `list_name` = '{}'".format(discord_id, list_name)
+        )
+    cursor.execute(find)
+    if cursor.rowcount == 0:
+        raise Exception("That is not a list.")
+    
     select = "SELECT `index`, `item`, `link` FROM `{}`".format(name)
     cursor.execute(select)
 
@@ -167,9 +176,6 @@ def get_current_list(discord_id):
     return result
 
 def switch_current_list(discord_id, list_name):
-    if get_list(discord_id, list_name) == {}:
-        raise Exception("That is not a list.")
-    
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 

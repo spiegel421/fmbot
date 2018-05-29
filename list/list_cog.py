@@ -102,7 +102,7 @@ class ListCog:
         await self.bot.say("List successfully updated.")
 
     @commands.command(pass_context=True)
-    async def edit(self, ctx, *args):
+    async def editlist(self, ctx, *args):
         list_name = ""
         for arg in args:
             list_name += arg + "_"
