@@ -124,10 +124,7 @@ def add_to_list(discord_id, list_name, index, item, link):
     select = "SELECT * FROM {}".format(name)
     cursor.execute(select)
     added_to_end = (index == -1)
-    index = cursor.rowcount if index == -1 else index
-    
-    insert = "INSERT INTO `{}` VALUE('{}', '{}', '{}')".format(name, index, item, link)
-    cursor.execute(insert)
+    index = cursor.rowcount if (index == -1 or index > cursor.rowcount) else index
 
     if not added_to_end:
         update = (
@@ -135,6 +132,9 @@ def add_to_list(discord_id, list_name, index, item, link):
             "WHERE `index` >= {}".format(name, "`index` + 1", index)
             )
         cursor.execute(update)
+        
+    insert = "INSERT INTO `{}` VALUE('{}', '{}', '{}')".format(name, index, item, link)
+    cursor.execute(insert)
 
     cnx.commit()
     cursor.close()

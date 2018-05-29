@@ -77,7 +77,7 @@ class ListCog:
     async def add(self, ctx, *args):
         index = None
         try:
-            index = int(args[0])
+            index = int(args[0]) - 1
         except:
             index = -1
 
