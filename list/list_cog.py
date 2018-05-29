@@ -74,8 +74,7 @@ class ListCog:
             await self.bot.say("List deletion failed.")
 
     @commands.command(pass_context=True)
-    async def add(self, ctx, *args):
-        index = None
+    async def additem(self, ctx, *args):
         try:
             index = int(args[0]) - 1
         except:
@@ -99,6 +98,22 @@ class ListCog:
             return
         
         list_data.add_to_list(ctx.message.author.id, current_list, index, item, link)
+        await self.bot.say("List successfully updated.")
+
+    @commands.command(pass_context=True)
+    async def remitem(self, ctx, index):
+        try:
+            index = int(args[0]) - 1
+        except:
+            index = -1
+
+        try:
+            current_list = list_data.get_current_list(ctx.message.author.id)
+        except:
+            await self.bot.say("You are not currently editing a list.")
+            return
+
+        list_data.remove_from_list(ctx.message.author.id, current_list, index)
         await self.bot.say("List successfully updated.")
 
     @commands.command(pass_context=True)
