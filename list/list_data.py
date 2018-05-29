@@ -115,7 +115,7 @@ def add_to_list(discord_id, list_name, index, item, link):
     select = "SELECT * FROM {}".format(name)
     cursor.execute(select)
     added_to_end = (index == -1)
-    index = len(cursor) if index == -1 else index
+    index = cursor.rowcount if index == -1 else index
     
     insert = "INSERT INTO {} VALUE('{}', {}, '{}')".format(name, index, item, link)
     cursor.execute(insert)
@@ -138,7 +138,7 @@ def remove_from_list(discord_id, list_name, index):
     name = discord_id + "_" + list_name
     select = "SELECT * FROM `{}`".format(name)
     cursor.execute(select)
-    removed_from_end = (index == len(cursor) - 1)
+    removed_from_end = (index == cursor.rowcount - 1)
     
     insert = "DELETE FROM {} WHERE `index` = {}".format(name, index)
     cursor.execute(insert)
