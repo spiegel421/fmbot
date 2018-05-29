@@ -233,11 +233,12 @@ def get_current_list(discord_id):
     
     return result
 
-def switch_current_list(discord_id, list_name):
+def switch_current_list(discord_id, list_name, editor_id):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor()
 
-    replace = "REPLACE INTO `current_lists` VALUE('{}', '{}')".format(discord_id, list_name)
+    name = discord_id + "_" + list_name
+    replace = "REPLACE INTO `current_lists` VALUE ('{}', '{}')".format(editor_id, name)
     cursor.execute(replace)
 
     cnx.commit()

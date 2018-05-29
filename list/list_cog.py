@@ -145,17 +145,18 @@ class ListCog:
             list_name = list_name[:-1]
         elif len(ctx.message.mentions) == 0:
             discord_id = ctx.message.author.id
-            editor_id = ''
+            editor_id = ""
             list_name = ""
             for arg in args:
                 list_name += arg + "_"
+            list_name = list_name[:-1]
 
         if editor_id not in list_data.get_editors(discord_id, list_name):
             await self.bot.say("You do not have permission to edit that list.")
             return
             
         try:
-            list_data.switch_current_list(discord_id, list_name)
+            list_data.switch_current_list(discord_id, list_name, editor_id)
             await self.bot.say("You are now editing list "+list_name.replace("_", " ")+", by user "+discord_id.name+".")
         except:
             await self.bot.say("That is not a list.")
