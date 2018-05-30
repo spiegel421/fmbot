@@ -49,7 +49,7 @@ class ListCog:
             embed.description = description
             msg = await self.bot.say(embed=embed)
 
-            self.list_msgs[msg.id] = (list_dict, 0)
+            self.list_msgs[msg.id] = (list_name, list_dict, 0)
             await self.bot.add_reaction(msg, '⬅')
             await self.bot.add_reaction(msg, '➡')
 
@@ -186,8 +186,9 @@ class ListCog:
             await self.flip_page(reaction, reaction.message, reaction.message.id)
 
     async def flip_page(self, reaction, msg, msg_id):
-        list_dict = self.list_msgs[msg_id][0]
-        page = self.list_msgs[msg_id][1]
+        list_name = self.list_msgs[msg_id][0]
+        list_dict = self.list_msgs[msg_id][1]
+        page = self.list_msgs[msg_id][2]
 
         if reaction.emoji == '➡':
             page += 1
@@ -214,7 +215,7 @@ class ListCog:
         else:
             return
 
-        self.list_msgs[msg_id] = (list_dict, page)
+        self.list_msgs[msg_id] = (list_name, list_dict, page)
         await self.bot.edit_message(msg, embed=embed)
 
 def setup(bot):
