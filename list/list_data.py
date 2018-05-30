@@ -239,5 +239,6 @@ def switch_current_list(discord_id, list_name, editor_id):
     replace = "REPLACE INTO `current_lists` VALUE ('{}', '{}')".format(editor_id, name)
     cursor.execute(replace)
 
+    cnx.commit()
     cursor.close()
     cnx.close()
