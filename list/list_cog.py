@@ -40,9 +40,10 @@ class ListCog:
             await self.bot.say(description)
         if list_dict is not None:
             embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+ctx.message.author.name)
-            for index in list_dict[0:5]:
-                item = list_dict[index][0]
-                link = list_dict[index][1]
+            for index in list_dict:
+                if index >= 0 and index < 5:
+                    item = list_dict[index][0]
+                    link = list_dict[index][1]
                 description += str(index+1)+". ["+item+"]("+link+")\n"
             embed.description = description
             await self.bot.say(embed=embed)
@@ -190,9 +191,10 @@ class ListCog:
         if reaction.emoji == '➡':
             page += 1
             embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+ctx.message.author.name)
-            for index in list_dict[page * 5: (page + 1) * 5]:
-                item = list_dict[index][0]
-                link = list_dict[index][1]
+            for index in list_dict:
+                if index >= page * 5 and index < (page + 1) * 5:
+                    item = list_dict[index][0]
+                    link = list_dict[index][1]
                 description += str(index+1)+". ["+item+"]("+link+")\n"
             embed.description = description
             await self.bot.say(embed=embed)
@@ -200,9 +202,10 @@ class ListCog:
         elif reaction.emoji == '⬅' and page > 0:
             page -= 1
             embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+ctx.message.author.name)
-            for index in list_dict[page * 5: (page + 1) * 5]:
-                item = list_dict[index][0]
-                link = list_dict[index][1]
+            for index in list_dict:
+                if index >= page * 5 and index < (page + 1) * 5:
+                    item = list_dict[index][0]
+                    link = list_dict[index][1]
                 description += str(index+1)+". ["+item+"]("+link+")\n"
             embed.description = description
             await self.bot.say(embed=embed)
