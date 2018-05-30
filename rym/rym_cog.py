@@ -47,12 +47,10 @@ class RYMCog:
     # (as case-insensitive redirects can be harmful to important queries later on).   
     @rym.command(pass_context=True)
     async def set(self, ctx, username):
-<<<<<<< HEAD:rym/rym_cog.py
-=======
         self.current_server = (self.current_server + 1) % 1
         if self.current_server != SERVER_INDEX:
             return
->>>>>>> rym:rym_cog.py
+        
         if self.check_cooled_down():
             for x in self.bot.get_all_emojis():
                 if x.id == '449250117833457680':
@@ -86,13 +84,10 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def topratings(self, ctx, genre=''):
-<<<<<<< HEAD:rym/rym_cog.py
-=======
         self.current_server = (self.current_server + 1) % 1
         if self.current_server != SERVER_INDEX:
             return
-        
->>>>>>> rym:rym_cog.py
+
         username = rym_data.get_username(ctx.message.author.id)
         if username is None:
             await self.bot.say("Looks like you don't have a username set!")
@@ -130,13 +125,10 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def aoty(self, ctx, year=''):
-<<<<<<< HEAD:rym/rym_cog.py
-=======
         self.current_server = (self.current_server + 1) % 1
         if self.current_server != SERVER_INDEX:
             return
-        
->>>>>>> rym:rym_cog.py
+
         username = rym_data.get_username(ctx.message.author.id)
         if username is None:
             await self.bot.say("Looks like you don't have a username set!")
