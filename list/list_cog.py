@@ -155,11 +155,11 @@ class ListCog:
             await self.bot.say("You do not have permission to edit that list.")
             return
             
-        try:
-            list_data.switch_current_list(discord_id, list_name, editor_id)
-            await self.bot.say("You are now editing list "+list_name.replace("_", " ")+", by user "+discord_id.name+".")
-        except:
-            await self.bot.say("That is not a list.")
+#        try:
+        list_data.switch_current_list(discord_id, list_name, editor_id)
+        await self.bot.say("You are now editing list "+list_name.replace("_", " ")+", by user "+discord_id.name+".")
+#        except:
+#            await self.bot.say("That is not a list.")
 
 def setup(bot):
     bot.add_cog(ListCog(bot))
