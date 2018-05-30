@@ -5,12 +5,8 @@ The RYM cog; controls all RYM-related commands. Uses scrapy webcrawler to fetch 
 import discord
 from discord.ext import commands
 from webcrawler import retrievers
-<<<<<<< HEAD:rym/rym_cog.py
 from rym import rym_data
 from perms import perms_data
-=======
-import rym_data, perms_data
->>>>>>> rym:rym_cog.py
 import time
 
 with open("server_index.txt", 'r') as reader:
