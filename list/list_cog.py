@@ -191,6 +191,7 @@ class ListCog:
         list_dict = self.list_msgs[msg_id][2]
         page = self.list_msgs[msg_id][3]
 
+        description = ""
         if reaction.emoji == '➡':
             page += 1
             embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+author.name)
