@@ -192,27 +192,24 @@ class ListCog:
         page = self.list_msgs[msg_id][3]
 
         description = ""
+        embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+author.name)
         if reaction.emoji == '➡':
             page += 1
-            embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+author.name)
             for index in list_dict:
                 if index >= page * 5 and index < (page + 1) * 5:
                     item = list_dict[index][0]
                     link = list_dict[index][1]
                     description += str(index+1)+". ["+item+"]("+link+")\n"
             embed.description = description
-            await self.bot.say(embed=embed)
             embed.set_footer(text="Page " + str(page+1))
         elif reaction.emoji == '⬅' and page > 0:
             page -= 1
-            embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+author.name)
             for index in list_dict:
                 if index >= page * 5 and index < (page + 1) * 5:
                     item = list_dict[index][0]
                     link = list_dict[index][1]
                     description += str(index+1)+". ["+item+"]("+link+")\n"
             embed.description = description
-            await self.bot.say(embed=embed)
             embed.set_footer(text="Page " + str(page+1))
         else:
             return
