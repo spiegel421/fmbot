@@ -48,7 +48,7 @@ class ListCog:
             embed.description = description
             await self.bot.say(embed=embed)
 
-            self.list_msgs[msg.id] = (list_dict, page)
+            self.list_msgs[msg.id] = (list_dict, 0)
             await self.bot.add_reaction(msg, '⬅')
             await self.bot.add_reaction(msg, '➡')
 
