@@ -49,7 +49,7 @@ class ListCog:
             embed.description = description
             msg = await self.bot.say(embed=embed)
 
-            self.list_msgs[msg.id] = (list_name, list_dict, 0)
+            self.list_msgs[msg.id] = (ctx.message.author, list_name, list_dict, 0)
             await self.bot.add_reaction(msg, '⬅')
             await self.bot.add_reaction(msg, '➡')
 
@@ -186,13 +186,14 @@ class ListCog:
             await self.flip_page(reaction, reaction.message, reaction.message.id)
 
     async def flip_page(self, reaction, msg, msg_id):
-        list_name = self.list_msgs[msg_id][0]
-        list_dict = self.list_msgs[msg_id][1]
-        page = self.list_msgs[msg_id][2]
+        author = self.list_msgs[msg_id][0]
+        list_name = self.list_msgs[msg_id][1]
+        list_dict = self.list_msgs[msg_id][2]
+        page = self.list_msgs[msg_id][3]
 
         if reaction.emoji == '➡':
             page += 1
-            embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+ctx.message.author.name)
+            embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+author.name)
             for index in list_dict:
                 if index >= page * 5 and index < (page + 1) * 5:
                     item = list_dict[index][0]
@@ -203,7 +204,7 @@ class ListCog:
             embed.set_footer(text="Page " + str(page+1))
         elif reaction.emoji == '⬅' and page > 0:
             page -= 1
-            embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+ctx.message.author.name)
+            embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+author.name)
             for index in list_dict:
                 if index >= page * 5 and index < (page + 1) * 5:
                     item = list_dict[index][0]
@@ -215,7 +216,7 @@ class ListCog:
         else:
             return
 
-        self.list_msgs[msg_id] = (list_name, list_dict, page)
+        self.list_msgs[msg_id] = (author, list_name, list_dict, page)
         await self.bot.edit_message(msg, embed=embed)
 
 def setup(bot):
