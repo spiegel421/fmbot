@@ -1,8 +1,15 @@
+"""
+The RYM cog; controls all RYM-related commands. Uses scrapy webcrawler to fetch data from RYM, and displays it in embeds.
+
+"""
 import discord
 from discord.ext import commands
 from webcrawler import retrievers
-import rym_data
+import rym_data, perms_data
 import time
+
+with open("server_index.txt", 'r') as reader:
+    SERVER_INDEX = int(reader.read())
 
 class RYMCog:
     def __init__(self, bot):
@@ -12,13 +19,18 @@ class RYMCog:
         self.recent_msgs = {}
         self.time_last_crawled = 0
         self.cooldown_time = 30
+        self.current_server = 0
 
+    # Check function for a hard 30-second throttle on all RYM commands that crawl the site.
     def check_cooled_down(self):
         return time.time() - self.time_last_crawled < self.cooldown_time
 
+    # If no subcommand was invoked, retrieves RYM username from database and displays it.
     @commands.group(pass_context=True)
     async def rym(self, ctx):
         if ctx.invoked_subcommand is not None:
+            return
+        elif perms_data.get_disallowed(ctx.message.channel.id, "rym"):
             return
 
         username = rym_data.get_username(ctx.message.author.id)
@@ -28,11 +40,13 @@ class RYMCog:
         
         await self.bot.say("https://www.rateyourmusic.com/~"+username)
 
+    # Sets RYM username, first checking if the username is valid and case-sensitive
+    # (as case-insensitive redirects can be harmful to important queries later on).   
     @rym.command(pass_context=True)
     async def set(self, ctx, username):
-        if ctx.message.channel != self.bot.get_channel('245685218055290881'):
+        self.current_server = (self.current_server + 1) % 1
+        if self.current_server != SERVER_INDEX:
             return
-
         if self.check_cooled_down():
             for x in self.bot.get_all_emojis():
                 if x.id == '449250117833457680':
@@ -48,6 +62,7 @@ class RYMCog:
         rym_data.add_username(ctx.message.author.id, username)
         await self.bot.say("I love you.")
 
+    # Gets the RYM username of another user, either by mention or by search.
     @rym.command(pass_context=True)
     async def get(self, ctx):
         member = discord.utils.find(lambda m: m.name.lower() == ctx.message.content[9:].lower()
@@ -65,7 +80,8 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def topratings(self, ctx, genre=''):
-        if ctx.message.channel != self.bot.get_channel('245685218055290881') and ctx.message.channel != self.bot.get_channel('429979114531979284'):
+        self.current_server = (self.current_server + 1) % 1
+        if self.current_server != SERVER_INDEX:
             return
         
         username = rym_data.get_username(ctx.message.author.id)
@@ -75,7 +91,7 @@ class RYMCog:
 
         if self.check_cooled_down():
             for emoji in self.bot.get_all_emojis():
-                if x.id == '449250117833457680':
+                if emoji.id == '449250117833457680':
                     await self.bot.add_reaction(ctx.message, str(x))
             return
         self.time_last_crawled = time.time()
@@ -86,7 +102,6 @@ class RYMCog:
     @commands.command(pass_context=True)
     async def embed_top_ratings(self, ctx):
         username = rym_data.get_username(ctx.message.author.id)
-        
         page = 0
         description = ""
         data = retrievers.get_top_ratings(username, ctx.genre, page)
@@ -106,7 +121,8 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def aoty(self, ctx, year=''):
-        if ctx.message.channel != self.bot.get_channel('245685218055290881') and ctx.message.channel != self.bot.get_channel('405103364515430401'):
+        self.current_server = (self.current_server + 1) % 1
+        if self.current_server != SERVER_INDEX:
             return
         
         username = rym_data.get_username(ctx.message.author.id)
@@ -144,6 +160,10 @@ class RYMCog:
 
     @rym.command(pass_context=True)
     async def recent(self, ctx):
+        self.current_server = (self.current_server + 1) % 1
+        if self.current_server != SERVER_INDEX:
+            return
+        
         username = rym_data.get_username(ctx.message.author.id)
         if username is None:
             await self.bot.say("Looks like you don't have a username set!")
@@ -212,6 +232,9 @@ class RYMCog:
             page += 1
             n = page % 5
             if n == 0:
+                self.current_server = (self.current_server + 1) % 1
+                if self.current_server != SERVER_INDEX:
+                    return
                 if self.check_cooled_down():
                     return
                 self.time_last_crawled = time.time()
@@ -225,6 +248,9 @@ class RYMCog:
             page -= 1
             n = page % 5
             if n == 4:
+                self.current_server = (self.current_server + 1) % 1
+                if self.current_server != SERVER_INDEX:
+                    return
                 if self.check_cooled_down():
                     return
                 self.time_last_crawled = time.time()
@@ -250,6 +276,9 @@ class RYMCog:
             page += 1
             n = page % 5
             if n == 0:
+                self.current_server = (self.current_server + 1) % 1
+                if self.current_server != SERVER_INDEX:
+                    return
                 if self.check_cooled_down():
                     return
                 self.time_last_crawled = time.time()
@@ -263,6 +292,9 @@ class RYMCog:
             page -= 1
             n = page % 5
             if n == 4:
+                self.current_server = (self.current_server + 1) % 1
+                if self.current_server != SERVER_INDEX:
+                    return
                 if self.check_cooled_down():
                     return
                 self.time_last_crawled = time.time()
@@ -287,6 +319,9 @@ class RYMCog:
             page += 1
             n = page % 5
             if n == 0:
+                self.current_server = (self.current_server + 1) % 1
+                if self.current_server != SERVER_INDEX:
+                    return
                 if self.check_cooled_down():
                     return
                 self.time_last_crawled = time.time()
@@ -300,6 +335,9 @@ class RYMCog:
             page -= 1
             n = page % 5
             if n == 4:
+                self.current_server = (self.current_server + 1) % 1
+                if self.current_server != SERVER_INDEX:
+                    return
                 if self.check_cooled_down():
                     return
                 self.time_last_crawled = time.time()
