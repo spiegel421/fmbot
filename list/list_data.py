@@ -173,11 +173,7 @@ def add_to_list(list_name, index, item, link):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor(buffered=True)
     
-<<<<<<< HEAD
-    select = "SELECT * FROM {}".format(list_name)
-=======
     select = "SELECT * FROM `{}`".format(list_name)
->>>>>>> rym
     cursor.execute(select)
     added_to_end = (index == -1)
     index = cursor.rowcount if (index > cursor.rowcount or index < 0) else index
