@@ -45,7 +45,7 @@ class ListCog:
                 if index >= 0 and index < 5:
                     item = list_dict[index][0]
                     link = list_dict[index][1]
-                description += str(index+1)+". ["+item+"]("+link+")\n"
+                    description += str(index+1)+". ["+item+"]("+link+")\n"
             embed.description = description
             msg = await self.bot.say(embed=embed)
 
@@ -199,7 +199,7 @@ class ListCog:
                 if index >= page * 5 and index < (page + 1) * 5:
                     item = list_dict[index][0]
                     link = list_dict[index][1]
-                description += str(index+1)+". ["+item+"]("+link+")\n"
+                    description += str(index+1)+". ["+item+"]("+link+")\n"
             embed.description = description
             await self.bot.say(embed=embed)
             embed.set_footer(text="Page " + str(page+1))
@@ -210,7 +210,7 @@ class ListCog:
                 if index >= page * 5 and index < (page + 1) * 5:
                     item = list_dict[index][0]
                     link = list_dict[index][1]
-                description += str(index+1)+". ["+item+"]("+link+")\n"
+                    description += str(index+1)+". ["+item+"]("+link+")\n"
             embed.description = description
             await self.bot.say(embed=embed)
             embed.set_footer(text="Page " + str(page+1))
