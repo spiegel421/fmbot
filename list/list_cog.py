@@ -145,7 +145,7 @@ class ListCog:
             list_name = list_name[:-1]
         elif len(ctx.message.mentions) == 0:
             discord_id = ctx.message.author.id
-            editor_id = ""
+            editor_id = ctx.message.author.id
             list_name = ""
             for arg in args:
                 list_name += arg + "_"
