@@ -7,6 +7,7 @@ import time
 class ListCog:
     def __init__(self, bot):
         self.bot = bot
+        self.list_msgs = {}
 
     @commands.command(pass_context=True)
     async def list(self, ctx, *args):
