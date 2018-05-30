@@ -40,12 +40,16 @@ class ListCog:
             await self.bot.say(description)
         if list_dict is not None:
             embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+ctx.message.author.name)
-            for index in list_dict:
+            for index in list_dict[0:5]:
                 item = list_dict[index][0]
                 link = list_dict[index][1]
                 description += str(index+1)+". ["+item+"]("+link+")\n"
             embed.description = description
             await self.bot.say(embed=embed)
+
+            self.list_msgs[msg.id] = (list_dict, page)
+            await self.bot.add_reaction(msg, '⬅')
+            await self.bot.add_reaction(msg, '➡')
 
     @commands.command(pass_context=True)
     async def createlist(self, ctx, *args):
@@ -155,11 +159,59 @@ class ListCog:
             await self.bot.say("You do not have permission to edit that list.")
             return
             
-#        try:
-        list_data.switch_current_list(discord_id, list_name, editor_id)
-        await self.bot.say("You are now editing list "+list_name.replace("_", " ")+".")
-#        except:
-#            await self.bot.say("That is not a list.")
+        try:
+            list_data.switch_current_list(discord_id, list_name, editor_id)
+            await self.bot.say("You are now editing list "+list_name.replace("_", " ")+".")
+        except:
+            await self.bot.say("That is not a list.")
+
+    async def on_reaction_add(self, reaction, user):
+        if reaction.message.id not in self.list_msgs:
+            return
+        elif user is reaction.message.author:
+            return
+
+        if reaction.message.id in self.list_msgs:
+            await self.flip_page(reaction, reaction.message, reaction.message.id)
+
+    async def on_reaction_remove(self, reaction, user):
+        if reaction.message.id not in self.list_msgs:
+            return
+        elif user is reaction.message.author:
+            return
+
+        if reaction.message.id in self.list_msgs:
+            await self.flip_page(reaction, reaction.message, reaction.message.id)
+
+    async def flip_page(self, reaction, msg, msg_id):
+        list_dict = self.list_msgs[msg_id][0]
+        page = self.list_msgs[msg_id][1]
+
+        if reaction.emoji == '➡':
+            page += 1
+            embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+ctx.message.author.name)
+            for index in list_dict[page * 5: (page + 1) * 5]:
+                item = list_dict[index][0]
+                link = list_dict[index][1]
+                description += str(index+1)+". ["+item+"]("+link+")\n"
+            embed.description = description
+            await self.bot.say(embed=embed)
+            embed.set_footer(text="Page " + str(page+1))
+        elif reaction.emoji == '⬅' and page > 0:
+            page -= 1
+            embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+ctx.message.author.name)
+            for index in list_dict[page * 5: (page + 1) * 5]:
+                item = list_dict[index][0]
+                link = list_dict[index][1]
+                description += str(index+1)+". ["+item+"]("+link+")\n"
+            embed.description = description
+            await self.bot.say(embed=embed)
+            embed.set_footer(text="Page " + str(page+1))
+        else:
+            return
+
+        self.list_msgs[msg_id] = (list_dict, page)
+        await self.bot.edit_message(msg, embed=embed)
 
 def setup(bot):
     bot.add_cog(ListCog(bot))
