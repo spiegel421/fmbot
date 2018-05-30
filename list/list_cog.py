@@ -157,7 +157,7 @@ class ListCog:
             
 #        try:
         list_data.switch_current_list(discord_id, list_name, editor_id)
-        await self.bot.say("You are now editing list "+list_name.replace("_", " ")+", by user "+discord_id.name+".")
+        await self.bot.say("You are now editing list "+list_name.replace("_", " ")+".")
 #        except:
 #            await self.bot.say("That is not a list.")
 
