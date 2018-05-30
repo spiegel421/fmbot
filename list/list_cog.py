@@ -47,7 +47,7 @@ class ListCog:
                     link = list_dict[index][1]
                 description += str(index+1)+". ["+item+"]("+link+")\n"
             embed.description = description
-            await self.bot.say(embed=embed)
+            msg = await self.bot.say(embed=embed)
 
             self.list_msgs[msg.id] = (list_dict, 0)
             await self.bot.add_reaction(msg, '⬅')
