@@ -97,7 +97,7 @@ class ListCog:
             await self.bot.say("You are not currently editing a list.")
             return
         
-        list_data.add_to_list(ctx.message.author.id, current_list, index, item, link)
+        list_data.add_to_list(current_list, index, item, link)
         await self.bot.say("List successfully updated.")
 
     @commands.command(pass_context=True)
@@ -113,7 +113,7 @@ class ListCog:
             await self.bot.say("You are not currently editing a list.")
             return
 
-        list_data.remove_from_list(ctx.message.author.id, current_list, index)
+        list_data.remove_from_list(current_list, index)
         await self.bot.say("List successfully updated.")
 
     @commands.command(pass_context=True)

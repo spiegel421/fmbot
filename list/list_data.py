@@ -169,12 +169,11 @@ def add_editor(discord_id, list_name, editor_id):
     cursor.close()
     cnx.close()
 
-def add_to_list(discord_id, list_name, index, item, link):
+def add_to_list(list_name, index, item, link):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor(buffered=True)
     
-    name = discord_id + "_" + list_name
-    select = "SELECT * FROM {}".format(name)
+    select = "SELECT * FROM {}".format(list_name)
     cursor.execute(select)
     added_to_end = (index == -1)
     index = cursor.rowcount if (index > cursor.rowcount or index < 0) else index
@@ -182,34 +181,33 @@ def add_to_list(discord_id, list_name, index, item, link):
     if not added_to_end:
         update = (
             "UPDATE `{}` SET `index` = {} "
-            "WHERE `index` >= {}".format(name, "`index` + 1", index)
+            "WHERE `index` >= {}".format(list_name, "`index` + 1", index)
             )
         cursor.execute(update)
         
-    insert = "INSERT INTO `{}` VALUE('{}', '{}', '{}')".format(name, index, item, link)
+    insert = "INSERT INTO `{}` VALUE('{}', '{}', '{}')".format(list_name, index, item, link)
     cursor.execute(insert)
 
     cnx.commit()
     cursor.close()
     cnx.close()
 
-def remove_from_list(discord_id, list_name, index):
+def remove_from_list(list_name, index):
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor(buffered=True)
     
-    name = discord_id + "_" + list_name
-    select = "SELECT * FROM `{}`".format(name)
+    select = "SELECT * FROM `{}`".format(list_name)
     cursor.execute(select)
     removed_from_end = (index == cursor.rowcount - 1)
     index = cursor.rowcount - 1 if (index > cursor.rowcount or index < 0) else index
     
-    insert = "DELETE FROM `{}` WHERE `index` = {}".format(name, index)
+    insert = "DELETE FROM `{}` WHERE `index` = {}".format(list_name, index)
     cursor.execute(insert)
 
     if not removed_from_end:
         update = (
             "UPDATE `{}` SET `index` = {} "
-            "WHERE `index` > {}".format(name, "`index` - 1", index)
+            "WHERE `index` > {}".format(list_name, "`index` - 1", index)
             )
         cursor.execute(update)
     
