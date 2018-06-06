@@ -36,13 +36,17 @@ class ListCog:
         description = ""
         if user_lists is not None:
             for user_list in user_lists:
-                description += user_list[0] + " "
+                description += user_list[0].replace("_", " ") + ", "
             description = description[:-1]
             await self.bot.say(description)
         if list_dict is not None:
             embed = discord.Embed(title=list_name.replace("_", " ")+", a list by "+ctx.message.author.name)
             for index in list_dict:
+<<<<<<< HEAD
                 if index >= 0 and index < 5:
+=======
+                if index >= 0 and index < 10:
+>>>>>>> list
                     item = list_dict[index][0]
                     link = list_dict[index][1]
                     description += str(index+1)+". ["+item+"]("+link+")\n"
@@ -134,6 +138,7 @@ class ListCog:
             list_name += arg + "_"
         list_name = list_name[:-1]
 
+<<<<<<< HEAD
         try:
             list_data.add_editor(ctx.message.author.id, list_name, editor_id)
             await self.bot.say(ctx.message.mentions[0].name+" can now edit your list.")
@@ -162,11 +167,55 @@ class ListCog:
             return
             
         try:
+=======
+        try:
+            list_data.add_editor(ctx.message.author.id, list_name, editor_id)
+            await self.bot.say(ctx.message.mentions[0].name+" can now edit your list.")
+        except:
+            await self.bot.say("That command failed.")
+
+    @commands.command(pass_context=True)
+    async def editlist(self, ctx, *args):
+        if len(ctx.message.mentions) == 1:
+            discord_id = ctx.message.mentions[0].id
+            editor_id = ctx.message.author.id
+            list_name = ""
+            for arg in args[1:]:
+                list_name += arg + "_"
+            list_name = list_name[:-1]
+        elif len(ctx.message.mentions) == 0:
+            discord_id = ctx.message.author.id
+            editor_id = ctx.message.author.id
+            list_name = ""
+            for arg in args:
+                list_name += arg + "_"
+            list_name = list_name[:-1]
+
+        if editor_id not in list_data.get_editors(discord_id, list_name):
+            await self.bot.say("You do not have permission to edit that list.")
+            return
+            
+        try:
+>>>>>>> list
             list_data.switch_current_list(discord_id, list_name, editor_id)
             await self.bot.say("You are now editing list "+list_name.replace("_", " ")+".")
         except:
             await self.bot.say("That is not a list.")
 
+<<<<<<< HEAD
+=======
+    @commands.command(pass_context=True)
+    async def curlist(self, ctx):
+        discord_id = ctx.message.author.id
+
+        try:
+            current_list = list_data.get_current_list(discord_id)
+            current_list_name = current_list[19:].replace("_", " ")
+            await self.bot.say("Now editing list "+current_list_name+".")
+        except:
+            await self.bot.say("You are not editing a list.")
+
+>>>>>>> list
     async def on_reaction_add(self, reaction, user):
         if reaction.message.id not in self.list_msgs:
             return
@@ -196,7 +245,11 @@ class ListCog:
         if reaction.emoji == '➡':
             page += 1
             for index in list_dict:
+<<<<<<< HEAD
                 if index >= page * 5 and index < (page + 1) * 5:
+=======
+                if index >= page * 10 and index < (page + 1) * 10:
+>>>>>>> list
                     item = list_dict[index][0]
                     link = list_dict[index][1]
                     description += str(index+1)+". ["+item+"]("+link+")\n"
@@ -205,7 +258,11 @@ class ListCog:
         elif reaction.emoji == '⬅' and page > 0:
             page -= 1
             for index in list_dict:
+<<<<<<< HEAD
                 if index >= page * 5 and index < (page + 1) * 5:
+=======
+                if index >= page * 10 and index < (page + 1) * 10:
+>>>>>>> list
                     item = list_dict[index][0]
                     link = list_dict[index][1]
                     description += str(index+1)+". ["+item+"]("+link+")\n"
