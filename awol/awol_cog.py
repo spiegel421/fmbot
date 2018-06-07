@@ -28,6 +28,8 @@ class AWOLCog:
             member = discord.utils.get(self.bot.get_all_members(), id=member_id)
             awol = discord.utils.get(member.server.roles, name="AWOL")
             await self.bot.add_roles(member, awol)
+            regular = discord.utils.get(member.server.roles, name="Regular")
+            await self.bot.remove_roles(member, regular)
 
     @awol.command(pass_context=True)
     @commands.check(is_owner)
