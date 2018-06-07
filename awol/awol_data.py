@@ -52,7 +52,7 @@ def get_awol_users():
     cnx = mysql.connector.connect(user='root', database=DB_NAME, password='Reverie42!')
     cursor = cnx.cursor(buffered=True)
 
-    time = datetime.now() - timedelta(weeks=2)
+    time = datetime.now() - timedelta(weeks=1)
     get_awol_users = ("SELECT discord_id FROM timestamps "
                     "WHERE timestamp < '" + str(time) + "'")
     
