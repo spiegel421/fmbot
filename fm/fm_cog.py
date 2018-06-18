@@ -241,7 +241,7 @@ class FmCog:
     async def embed_error(self, error, ctx):
         if isinstance(error, commands.CommandOnCooldown):
             if ctx.message.author.id == '387046431262769153':
-                await self.bot.say('Frawg, more like, mug lite')
+                await self.bot.say('My disappointment in you is immeasurable, frawg. I would rather put apple juice in my milk than serve your pathetic whims. I hope you get eaten by a snake.')
             else:
                 await self.bot.say("Wait {}m, {}s for the cooldown, love.".format(int(error.retry_after / 60), int(error.retry_after) % 60))
         else:
