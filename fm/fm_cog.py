@@ -235,9 +235,9 @@ class FmCog:
         self.trendingartist_msgs[msg_id] = (trending_artists, page)
         await self.bot.edit_message(msg, embed=embed)
         
-    @embed_now_playing.error
-    @embed_top_artists.error
-    @embed_trending_artists.error
+#    @embed_now_playing.error
+#    @embed_top_artists.error
+#    @embed_trending_artists.error
     async def embed_error(self, error, ctx):
         if isinstance(error, commands.CommandOnCooldown):
             if ctx.message.author.id == '387046431262769153':
