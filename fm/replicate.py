@@ -11,4 +11,4 @@ writer = open("usernames.txt", "w")
 
 cursor.execute(select)
 for item in cursor:
-    writer.write(cursor)
+    writer.write(item)
