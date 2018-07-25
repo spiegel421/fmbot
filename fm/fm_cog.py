@@ -1,8 +1,8 @@
 import discord
+import time
 from discord.ext import commands
 from fm import fm_data, fm_wrapper
 from perms import perms_data
-import time
 
 class FmCog:
     def __init__(self, bot):
@@ -13,23 +13,27 @@ class FmCog:
     
     @commands.group(pass_context=True)
     async def fm(self, ctx):
+        """ Display now playing and related subcommands
+        
+        
+        """
         if ctx.invoked_subcommand is not None:
             return
         elif perms_data.get_disallowed(ctx.message.channel.id, "fm"):
             return
         
         username = fm_data.get_username(ctx.message.author.id)
-        if username == None:
+        if username is None:
             await self.bot.say("Set a username first. It's ok, bud, we all make mistakes sometimes.")
             return
         
         last_played = self.lastfm.get_last_played(username)
-        if last_played == None:
+        if last_played is None:
             await self.bot.say(username + " has never played any songs.")
             return
-
+        
         await commands.Command.invoke(self.embed_now_playing, ctx)
-
+    
     @commands.command(pass_context=True)
     @commands.cooldown(1, 420, commands.BucketType.user)
     async def embed_now_playing(self, ctx):
@@ -43,7 +47,7 @@ class FmCog:
         embed.set_thumbnail(url=now_playing.image)
         
         await self.bot.say(embed=embed)
-
+        
         scrobble_data = {
             'discord_id': ctx.message.author.id,
             'lastfm_username': username,
@@ -52,22 +56,22 @@ class FmCog:
             'timestamp': time.time(),
         }
         fm_data.add_scrobble_data(scrobble_data)
-
+    
     @fm.command(pass_context=True)
     async def scrobbles(self, ctx, *args):
         username = fm_data.get_username(ctx.message.author.id)
         if username == None:
             await self.bot.say("Set a username first. It's ok, bud, we all make mistakes sometimes.")
             return
-
+        
         artist_name = ""
         for value in args:
             artist_name += value + " "
         artist_name = artist_name[:-1]
-
+        
         play_count = str(self.lastfm.get_user_numscrobbles(username, artist_name))
         await self.bot.say(ctx.message.author.name+" has scrobbled "+artist_name+" "+play_count+" times.")
-
+    
     @fm.command(pass_context=True)
     async def trendingartists(self, ctx, num_days):
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
@@ -75,10 +79,10 @@ class FmCog:
         
         trending_artist_dict = fm_data.find_trending_artists(int(num_days))
         sorted_dict = sorted(trending_artist_dict.items(), key=lambda x: x[1], reverse=True)
-
+        
         ctx.trending_artists = sorted_dict
         await commands.Command.invoke(self.embed_trending_artists, ctx)
-
+    
     @commands.command(pass_context=True)
     @commands.cooldown(1, 420, commands.BucketType.channel)
     async def embed_trending_artists(self, ctx):
@@ -91,12 +95,12 @@ class FmCog:
             description += artist_search_url + "\n"
         embed = discord.Embed(colour=0x000080, title="Server's trending artists", description=description)
         embed.set_footer(text="Page " + str(page+1))
-
+        
         msg = await self.bot.say(embed=embed)
         self.trendingartist_msgs[msg.id] = (ctx.trending_artists, page)
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
-
+    
     @fm.command(pass_context=True)
     async def set(self, ctx, username):
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
@@ -105,10 +109,10 @@ class FmCog:
         if self.lastfm.get_user(username) is None:
             await self.bot.say("User not found. I'm sure you'll get it right eventually. <3")
             return
-
+        
         fm_data.add_username(ctx.message.author.id, username)
         await self.bot.say("I love you.")
-
+    
     @fm.command(pass_context=True)
     async def topartists(self, ctx):
         if ctx.message.channel != self.bot.get_channel('245685218055290881'):
@@ -118,14 +122,14 @@ class FmCog:
         if username is None:
             await self.bot.say("Set a username first. It's ok, bud, we all make mistakes sometimes.")
             return
-
+        
         wrapper = self.lastfm.get_user_artists(username)
         if wrapper.total_artists == 0:
             await self.bot.say(username + " has not played any artists.")
             return
-
+        
         await commands.Command.invoke(self.embed_top_artists, ctx)
-
+    
     @commands.command(pass_context=True)
     @commands.cooldown(1, 420, commands.BucketType.user)
     async def embed_top_artists(self, ctx):
@@ -134,7 +138,7 @@ class FmCog:
         top_artists = wrapper.artists
         if wrapper.total_artists > 10:
             top_artists = top_artists[:10]
-            
+        
         page = 0
         description = ""
         for i in range(page * 10, (page + 1) * 10):
@@ -147,29 +151,29 @@ class FmCog:
         self.topartist_msgs[msg.id] = (ctx.message.author, page)
         await self.bot.add_reaction(msg, '⬅')
         await self.bot.add_reaction(msg, '➡')
-
+    
     async def on_reaction_add(self, reaction, user):
         if (reaction.message.id not in self.topartist_msgs and reaction.message.id not in self.trendingartist_msgs):
             return
         elif user is reaction.message.author:
             return
-
+        
         if reaction.message.id in self.topartist_msgs:
             await self.flip_page_top(reaction, reaction.message, reaction.message.id)
         elif reaction.message.id in self.trendingartist_msgs:
             await self.flip_page_trending(reaction, reaction.message, reaction.message.id)
-
+    
     async def on_reaction_remove(self, reaction, user):
         if (reaction.message.id not in self.topartist_msgs and reaction.message.id not in self.trendingartist_msgs):
             return
         elif user is reaction.message.author:
             return
-
+        
         if reaction.message.id in self.topartist_msgs:
             await self.flip_page_top(reaction, reaction.message, reaction.message.id)
         elif reaction.message.id in self.trendingartist_msgs:
             await self.flip_page_trending(reaction, reaction.message, reaction.message.id)
-
+    
     async def flip_page_top(self, reaction, msg, msg_id):
         author = self.topartist_msgs[msg_id][0]
         page = self.topartist_msgs[msg_id][1]
@@ -177,7 +181,7 @@ class FmCog:
         wrapper = self.lastfm.get_user_artists(username)
         top_artists = wrapper.artists
         max_pages = wrapper.total_artists / 10 + 1
-
+        
         if reaction.emoji == '➡' and page < max_pages - 1:
             page += 1
             description = ""
@@ -200,15 +204,15 @@ class FmCog:
             embed.set_footer(text="Page " + str(page+1))
         else:
             return
-
+        
         self.topartist_msgs[msg_id] = (author, page)
         await self.bot.edit_message(msg, embed=embed)
-
+    
     async def flip_page_trending(self, reaction, msg, msg_id):
         trending_artists = self.trendingartist_msgs[msg_id][0]
         page = self.trendingartist_msgs[msg_id][1]
         max_pages = int(len(trending_artists) / 10 + 1)
-
+        
         if reaction.emoji == '➡' and page < max_pages - 1:
             page += 1
             description = ""
@@ -231,10 +235,10 @@ class FmCog:
             embed.set_footer(text="Page " + str(page+1))
         else:
             return
-
+        
         self.trendingartist_msgs[msg_id] = (trending_artists, page)
         await self.bot.edit_message(msg, embed=embed)
-        
+    
     @embed_now_playing.error
     @embed_top_artists.error
     @embed_trending_artists.error
